@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
-import { Search, Plus, Target, CheckCircle, AlertCircle, Clock, BarChart3 } from "lucide-react"
+import { Search, Plus, Target, CheckCircle, AlertCircle, Clock, BarChart3, TrendingDown, Pencil } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
 
 type TargetStatus = 'on_track' | 'at_risk' | 'achieved' | 'not_started'

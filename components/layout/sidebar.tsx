@@ -124,26 +124,26 @@ const menuItems = [
   },
   {
     titleKey: "energy.title",
-    title: "에너지/탄소관리",
+    title: "에너지관리",
     icon: Bolt,
     href: "/energy",
     children: [
       { titleKey: "energy.dashboard", title: "에너지 대시보드", href: "/energy" },
       { titleKey: "energy.monitoring", title: "에너지 모니터링", href: "/energy/monitoring" },
       { titleKey: "energy.usage_analysis", title: "에너지 사용 분석", href: "/energy/analysis" },
-      { titleKey: "energy.ai_prediction", title: "AI 예측 분석", href: "/energy/prediction" },
-      { 
-        titleKey: "carbon.management", 
-        title: "탄소 관리", 
-        icon: Leaf,
-        href: "/carbon",
-        children: [
-          { titleKey: "carbon.tracking", title: "탄소 배출 현황", href: "/carbon" },
-          { titleKey: "carbon.emission_factors", title: "배출계수 관리", href: "/carbon/emission-factors" },
-          { titleKey: "carbon.reduction_targets", title: "감축 목표 관리", href: "/carbon/reduction-targets" },
-          { titleKey: "carbon.esg_report", title: "ESG 보고서", href: "/carbon/esg-report" },
-        ]
-      },
+    ],
+  },
+  {
+    titleKey: "carbon.title",
+    title: "탄소관리",
+    icon: Leaf,
+    href: "/carbon",
+    children: [
+      { titleKey: "carbon.tracking", title: "탄소 배출 현황", href: "/carbon/tracking" },
+      { titleKey: "carbon.emission_factors", title: "배출계수 관리", href: "/carbon/emission-factors" },
+      { titleKey: "carbon.reduction_targets", title: "감축 목표 관리", href: "/carbon/targets" },
+      { titleKey: "carbon.esg_report", title: "ESG 보고서", href: "/carbon/esg-report" },
+      { titleKey: "carbon.ai_prediction", title: "AI 탄소배출예측", href: "/carbon/prediction" },
     ],
   },
   {
