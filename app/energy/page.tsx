@@ -27,17 +27,17 @@ export default function EnergyManagementPage() {
       color: "bg-yellow-100 dark:bg-yellow-900/30"
     },
     {
-      title: "탄소 배출",
+      title: "탄소 관리",
       description: "탄소 배출량을 추적하고 관리하세요.",
       icon: <Leaf className="h-6 w-6 text-emerald-500" />,
-      href: "/energy/carbon",
+      href: "/carbon",
       color: "bg-emerald-100 dark:bg-emerald-900/30"
     },
     {
       title: "배출계수 관리",
       description: "탄소 배출 계산을 위한 배출계수를 관리하세요.",
       icon: <FileText className="h-6 w-6 text-purple-500" />,
-      href: "/energy/emission-factors",
+      href: "/carbon/emission-factors",
       color: "bg-purple-100 dark:bg-purple-900/30"
     }
   ];
