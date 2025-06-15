@@ -1,0 +1,498 @@
+"use client"
+
+import { useMemo, useState, useEffect } from "react"
+import { StandardForm, type FormField, type FormGroup } from "@/components/common/standard-form"
+import type { Equipment, EquipmentFormData } from "@/types/equipment"
+import type { EquipmentCategory } from "@/types/equipment-master"
+import { mockEquipmentTypes, mockEquipmentCategories, mockEquipmentCodeRules } from "@/lib/mock-data/equipment-master"
+import { useTranslation } from "@/lib/language-context"
+import { Button } from "@/components/ui/button"
+import { RefreshCw } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+
+interface EquipmentFormProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onSubmit: (data: EquipmentFormData) => Promise<void>
+  initialData?: Equipment
+  mode: "create" | "edit" | "view"
+}
+
+export function EquipmentForm({ open, onOpenChange, onSubmit, initialData, mode }: EquipmentFormProps) {
+  const { t } = useTranslation("equipment")
+  const { t: tCommon } = useTranslation("common")
+  const { toast } = useToast()
+
+  const [selectedTypeId, setSelectedTypeId] = useState<string>(initialData?.typeId || "")
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>(initialData?.categoryId || "")
+  const [generatedCode, setGeneratedCode] = useState<string>(initialData?.code || "")
+  const [customProperties, setCustomProperties] = useState<Record<string, any>>(initialData?.customProperties || {})
+
+  // 마스터 데이터 조회
+  const equipmentTypes = mockEquipmentTypes
+  const equipmentCategories = mockEquipmentCategories
+  const codeRules = mockEquipmentCodeRules
+
+  // 선택된 설비 유형 정보
+  const selectedType = equipmentTypes.find((type) => type.id === selectedTypeId)
+
+  // 설비 유형 옵션
+  const typeOptions = equipmentTypes
+    .filter((type) => type.isActive)
+    .map((type) => ({
+      label: type.name,
+      value: type.id,
+      description: type.description,
+    }))
+
+  // 설비 분류 옵션 (플랫 구조로 변환)
+  const categoryOptions = useMemo(() => {
+    const flattenCategories = (categories: EquipmentCategory[], level = 0): any[] => {
+      return categories.reduce((acc, category) => {
+        acc.push({
+          label: `${"  ".repeat(level)}${category.name}`,
+          value: category.id,
+          description: category.description,
+        })
+        if (category.children) {
+          acc.push(...flattenCategories(category.children, level + 1))
+        }
+        return acc
+      }, [] as any[])
+    }
+    return flattenCategories(equipmentCategories.filter((cat) => cat.isActive))
+  }, [equipmentCategories])
+
+  // 상태 옵션
+  const statusOptions = [
+    { label: t("status_running"), value: "running" },
+    { label: t("status_stopped"), value: "stopped" },
+    { label: t("status_maintenance"), value: "maintenance" },
+    { label: t("status_failure"), value: "failure" },
+  ]
+
+  const priorityOptions = [
+    { label: t("priority_critical"), value: "critical" },
+    { label: t("priority_high"), value: "high" },
+    { label: t("priority_normal"), value: "normal" },
+    { label: t("priority_low"), value: "low" },
+  ]
+
+  const locationOptions = [
+    { label: "A동 1층", value: "LOC-A1" },
+    { label: "A동 2층", value: "LOC-A2" },
+    { label: "B동 지하1층", value: "LOC-B1" },
+    { label: "C동 1층", value: "LOC-C1" },
+    { label: "D동 전체", value: "LOC-D" },
+  ]
+
+  const departmentOptions = [
+    { label: "생산1팀", value: "3" },
+    { label: "생산2팀", value: "4" },
+    { label: "설비관리팀", value: "5" },
+    { label: "정보시스템팀", value: "6" },
+  ]
+
+  // 설비 코드 자동 생성
+  const generateEquipmentCode = () => {
+    if (!selectedTypeId || !selectedCategoryId) return ""
+
+    const selectedCategory = equipmentCategories
+      .flatMap((cat) => [cat, ...(cat.children || [])])
+      .find((cat) => cat.id === selectedCategoryId)
+
+    const applicableRule = codeRules.find((rule) => rule.isActive && rule.appliedTo.includes(selectedTypeId))
+
+    if (!applicableRule || !selectedCategory) return ""
+
+    let code = ""
+    applicableRule.segments.forEach((segment, index) => {
+      if (index > 0) code += applicableRule.separator
+
+      switch (segment.type) {
+        case "fixed":
+          code += segment.value
+          break
+        case "category":
+          code += selectedCategory.code
+          break
+        case "sequence":
+          // 실제로는 DB에서 다음 시퀀스를 조회해야 함
+          const nextSeq = "001"
+          code += nextSeq.padStart(segment.length, segment.padChar || "0")
+          break
+        case "location":
+          // 선택된 위치 코드 사용
+          code += "A1" // 임시값
+          break
+        case "year":
+          code += new Date().getFullYear().toString().slice(-2)
+          break
+        case "month":
+          code += (new Date().getMonth() + 1).toString().padStart(2, "0")
+          break
+        case "custom":
+          code += segment.value || "XXX"
+          break
+      }
+    })
+
+    return code
+  }
+
+  // 설비 유형 변경 시 코드 자동 생성
+  useEffect(() => {
+    if (selectedTypeId && selectedCategoryId && mode === "create") {
+      const newCode = generateEquipmentCode()
+      setGeneratedCode(newCode)
+    }
+  }, [selectedTypeId, selectedCategoryId, mode])
+
+  // 코드 재생성 버튼 핸들러
+  const handleRegenerateCode = () => {
+    const newCode = generateEquipmentCode()
+    setGeneratedCode(newCode)
+    toast({
+      title: "코드 생성 완료",
+      description: `새로운 설비 코드가 생성되었습니다: ${newCode}`,
+    })
+  }
+
+  // 기본 폼 필드 정의
+  const baseFormFields: FormField[] = [
+    // 설비 유형 선택
+    {
+      name: "typeId",
+      label: "설비 유형",
+      type: "select",
+      required: true,
+      options: typeOptions,
+      group: "basic",
+      gridColumn: "md:col-span-1",
+      onChange: (value: string) => {
+        setSelectedTypeId(value)
+        setCustomProperties({}) // 유형 변경 시 커스텀 속성 초기화
+      },
+    },
+    // 설비 분류 선택
+    {
+      name: "categoryId",
+      label: "설비 분류",
+      type: "select",
+      required: true,
+      options: categoryOptions,
+      group: "basic",
+      gridColumn: "md:col-span-1",
+      onChange: (value: string) => {
+        setSelectedCategoryId(value)
+      },
+    },
+    // 설비 코드 (자동 생성)
+    {
+      name: "code",
+      label: t("equipment_code"),
+      type: "text",
+      required: true,
+      disabled: mode === "edit",
+      value: generatedCode,
+      group: "basic",
+      gridColumn: "md:col-span-1",
+      suffix:
+        mode === "create" ? (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleRegenerateCode}
+            disabled={!selectedTypeId || !selectedCategoryId}
+          >
+            <RefreshCw className="h-4 w-4" />
+          </Button>
+        ) : undefined,
+      description: mode === "create" ? "유형과 분류 선택 후 자동 생성됩니다" : undefined,
+    },
+    // 설비명
+    {
+      name: "name",
+      label: t("equipment_name"),
+      type: "text",
+      required: true,
+      placeholder: selectedType ? `${selectedType.name} #1` : "설비명을 입력하세요",
+      group: "basic",
+      gridColumn: "md:col-span-1",
+    },
+    // 기본 정보
+    {
+      name: "model",
+      label: t("model"),
+      type: "text",
+      required: true,
+      placeholder: "AC-500",
+      group: "technical",
+      gridColumn: "md:col-span-1",
+    },
+    {
+      name: "manufacturer",
+      label: t("manufacturer"),
+      type: "text",
+      required: true,
+      placeholder: "삼성전기",
+      group: "technical",
+      gridColumn: "md:col-span-1",
+    },
+    {
+      name: "serialNumber",
+      label: t("serial_number"),
+      type: "text",
+      required: true,
+      placeholder: "SC2024001",
+      group: "technical",
+      gridColumn: "md:col-span-1",
+    },
+    {
+      name: "locationId",
+      label: t("location"),
+      type: "select",
+      required: true,
+      options: locationOptions,
+      group: "technical",
+      gridColumn: "md:col-span-1",
+    },
+    {
+      name: "departmentId",
+      label: t("department"),
+      type: "select",
+      required: true,
+      options: departmentOptions,
+      group: "technical",
+      gridColumn: "md:col-span-1",
+    },
+    // 상태 정보
+    {
+      name: "status",
+      label: tCommon("status"),
+      type: "select",
+      required: true,
+      options: statusOptions,
+      group: "status",
+      gridColumn: "md:col-span-1",
+    },
+    {
+      name: "priority",
+      label: t("priority"),
+      type: "select",
+      required: true,
+      options: priorityOptions,
+      group: "status",
+      gridColumn: "md:col-span-1",
+    },
+    {
+      name: "installDate",
+      label: t("install_date"),
+      type: "date",
+      required: true,
+      group: "status",
+      gridColumn: "md:col-span-1",
+    },
+    {
+      name: "warrantyEndDate",
+      label: t("warranty_end"),
+      type: "date",
+      group: "status",
+      gridColumn: "md:col-span-1",
+    },
+    // 추가 정보
+    {
+      name: "description",
+      label: tCommon("description"),
+      type: "textarea",
+      placeholder: "설비에 대한 설명을 입력하세요",
+      group: "additional",
+      gridColumn: "md:col-span-2",
+    },
+    {
+      name: "isActive",
+      label: tCommon("active"),
+      type: "switch",
+      defaultValue: true,
+      description: "비활성화 시 시스템에서 사용할 수 없습니다",
+      group: "additional",
+      gridColumn: "md:col-span-2",
+    },
+  ]
+
+  // 선택된 유형의 커스텀 속성 필드 생성
+  const customPropertyFields: FormField[] = useMemo(() => {
+    if (!selectedType) return []
+
+    return selectedType.properties
+      .filter((prop) => prop.isActive)
+      .sort((a, b) => a.order - b.order)
+      .map((prop) => {
+        const field: FormField = {
+          name: `customProperty_${prop.code}`,
+          label: prop.name,
+          type:
+            prop.dataType === "select"
+              ? "select"
+              : prop.dataType === "multiselect"
+                ? "multiselect"
+                : prop.dataType === "boolean"
+                  ? "switch"
+                  : prop.dataType === "date"
+                    ? "date"
+                    : prop.dataType === "number"
+                      ? "number"
+                      : "text",
+          required: prop.required,
+          description: prop.description,
+          group: "properties",
+          gridColumn: "md:col-span-1",
+          value: customProperties[prop.code],
+          onChange: (value: any) => {
+            setCustomProperties((prev) => ({
+              ...prev,
+              [prop.code]: value,
+            }))
+          },
+        }
+
+        // 타입별 추가 설정
+        if (prop.dataType === "number") {
+          field.min = prop.min
+          field.max = prop.max
+          field.suffix = prop.unit ? <span className="text-sm text-muted-foreground">{prop.unit}</span> : undefined
+        }
+
+        if (prop.dataType === "select" || prop.dataType === "multiselect") {
+          field.options = prop.options || []
+        }
+
+        if (prop.dataType === "string" && prop.regex) {
+          field.validation = {
+            pattern: {
+              value: new RegExp(prop.regex),
+              message: `${prop.name} 형식이 올바르지 않습니다`,
+            },
+          }
+        }
+
+        return field
+      })
+  }, [selectedType, customProperties])
+
+  // 전체 폼 필드 결합
+  const formFields = [...baseFormFields, ...customPropertyFields]
+
+  // 폼 그룹 정의
+  const formGroups: FormGroup[] = [
+    {
+      name: "basic",
+      title: "기본 정보",
+      description: "설비의 기본 정보를 입력하세요",
+    },
+    {
+      name: "technical",
+      title: "기술 정보",
+      description: "설비의 기술적 정보를 입력하세요",
+    },
+    {
+      name: "properties",
+      title: selectedType ? `${selectedType.name} 전용 속성` : "설비 속성",
+      description: selectedType
+        ? `${selectedType.name}에 특화된 속성을 설정하세요`
+        : "설비 유형을 선택하면 전용 속성이 표시됩니다",
+      hidden: !selectedType || customPropertyFields.length === 0,
+    },
+    {
+      name: "status",
+      title: "상태 정보",
+      description: "설비의 현재 상태와 일정을 설정하세요",
+    },
+    {
+      name: "additional",
+      title: "추가 정보",
+      description: "추가적인 정보를 입력하세요",
+    },
+  ]
+
+  const getInitialData = () => {
+    if (!initialData) return { code: generatedCode }
+
+    const data: any = {
+      typeId: initialData.typeId,
+      categoryId: initialData.categoryId,
+      code: initialData.code,
+      name: initialData.name,
+      model: initialData.model,
+      manufacturer: initialData.manufacturer,
+      serialNumber: initialData.serialNumber,
+      locationId: initialData.locationId,
+      departmentId: initialData.departmentId,
+      status: initialData.status,
+      priority: initialData.priority,
+      installDate: initialData.installDate,
+      warrantyEndDate: initialData.warrantyEndDate,
+      description: initialData.description,
+      isActive: initialData.isActive,
+    }
+
+    // 커스텀 속성값 추가
+    if (initialData.customProperties) {
+      Object.entries(initialData.customProperties).forEach(([key, value]) => {
+        data[`customProperty_${key}`] = value
+      })
+    }
+
+    return data
+  }
+
+  const handleSubmit = async (data: any) => {
+    // 커스텀 속성 분리
+    const customProps: Record<string, any> = {}
+    const formData: any = { ...data }
+
+    Object.keys(data).forEach((key) => {
+      if (key.startsWith("customProperty_")) {
+        const propKey = key.replace("customProperty_", "")
+        customProps[propKey] = data[key]
+        delete formData[key]
+      }
+    })
+
+    // 최종 데이터 구성
+    const finalData: EquipmentFormData = {
+      ...formData,
+      customProperties: customProps,
+      autoGeneratedCode: mode === "create",
+    }
+
+    await onSubmit(finalData)
+  }
+
+  return (
+    <StandardForm
+      fields={formFields}
+      groups={formGroups}
+      initialData={getInitialData()}
+      onSubmit={handleSubmit}
+      onCancel={() => onOpenChange(false)}
+      mode={mode}
+      title={mode === "create" ? "설비 등록" : mode === "edit" ? "설비 수정" : "설비 정보"}
+      description={
+        mode === "create"
+          ? "마스터 템플릿을 기반으로 새로운 설비를 등록합니다."
+          : mode === "edit"
+            ? "설비 정보를 수정합니다."
+            : "설비 정보를 확인합니다."
+      }
+      submitText={mode === "create" ? "설비 등록" : mode === "edit" ? "수정 완료" : tCommon("confirm")}
+      open={open}
+      onOpenChange={onOpenChange}
+      showInDialog={true}
+      layout="tabs"
+      maxWidth="1000px"
+      showValidationSummary={true}
+    />
+  )
+}
