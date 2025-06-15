@@ -1,30 +1,92 @@
-# FMS
+# FMS (에너지/탄소 관리 시스템)
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/youhyuksoos-projects/v0-fms)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/Di0VhJAYe0l)
+## 개요
 
-## Overview
+FMS(에너지/탄소 관리 시스템)는 기업의 에너지 사용과 탄소 배출을 모니터링하고 관리하기 위한 차세대 웹 애플리케이션입니다. 실시간 모니터링, 데이터 분석, 보고서 생성 기능을 통해 지속 가능한 비즈니스 운영을 지원합니다.
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## 주요 기능
 
-## Deployment
+### 에너지 관리
+- 실시간 에너지 사용 모니터링
+- 에너지 사용 분석 및 시각화
+- 에너지 효율 개선 제안
+- 에너지 절감 목표 설정 및 추적
 
-Your project is live at:
+### 탄소 관리
+- 탄소 배출 현황 모니터링
+- 감축 목표 설정 및 관리
+- AI 기반 탄소배출 예측
+- ESG 보고서 생성
 
-**[https://vercel.com/youhyuksoos-projects/v0-fms](https://vercel.com/youhyuksoos-projects/v0-fms)**
+### TPM 활동 관리
+- TPM 활동 추적 및 관리
+- 유지보수 일정 관리
+- 장비 효율성 모니터링
 
-## Build your app
+## 기술 스택
 
-Continue building your app on:
+- **프론트엔드**: Next.js 13+, React 18+, TypeScript
+- **스타일링**: Tailwind CSS, shadcn/ui
+- **차트 라이브러리**: Recharts
+- **아이콘**: Lucide React
+- **상태 관리**: React Context API
 
-**[https://v0.dev/chat/projects/Di0VhJAYe0l](https://v0.dev/chat/projects/Di0VhJAYe0l)**
+## 시작하기
 
-## How It Works
+### 전제 조건
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+- Node.js 18.0.0 이상
+- npm 또는 yarn 패키지 매니저
+
+### 설치
+
+1. 저장소 클론
+   ```bash
+   git clone [저장소 URL]
+   cd FMS
+   ```
+
+2. 의존성 설치
+   ```bash
+   npm install
+   # 또는
+   yarn install
+   ```
+
+3. 개발 서버 실행
+   ```bash
+   npm run dev
+   # 또는
+   yarn dev
+   ```
+
+4. 브라우저에서 확인
+   ```
+   http://localhost:3000
+   ```
+
+## 프로젝트 구조
+
+```
+FMS/
+├── app/                    # 앱 라우트
+│   ├── api/                # API 라우트
+│   ├── carbon/             # 탄소 관리 관련 페이지
+│   ├── energy/             # 에너지 관리 관련 페이지
+│   └── tpm/                # TPM 활동 관리 관련 페이지
+├── components/             # 재사용 가능한 컴포넌트
+│   ├── layout/             # 레이아웃 컴포넌트
+│   └── ui/                 # UI 컴포넌트
+├── lib/                    # 유틸리티 함수 및 상수
+├── public/                 # 정적 파일
+└── styles/                 # 전역 스타일
+```
+
+## 라이선스
+
+이 프로젝트는 [MIT 라이선스](LICENSE)를 따릅니다.
