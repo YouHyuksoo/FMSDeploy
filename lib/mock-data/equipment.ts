@@ -1,31 +1,31 @@
 export interface Equipment {
-  id: string
-  code: string
-  name: string
-  type: string
-  typeCode: string
-  model: string
-  manufacturer: string
-  serialNumber: string
-  location: string
-  locationId: string
-  department: string
-  departmentId: string
-  status: string
-  priority: string
-  installDate: string
-  warrantyEndDate: string
-  lastMaintenanceDate: string
-  nextMaintenanceDate: string
-  specifications: { [key: string]: string }
-  description: string
-  isActive: boolean
-  createdAt: string
-  updatedAt: string
-  createdBy: string
-  updatedBy: string
-  typeId: string
-  customProperties: { [key: string]: string }
+  id: string;
+  code: string;
+  name: string;
+  type: string;
+  typeCode: string;
+  model: string;
+  manufacturer: string;
+  serialNumber: string;
+  location: string;
+  locationId: string;
+  department: string;
+  departmentId: string;
+  status: "running" | "stopped" | "maintenance" | "failure";
+  priority: "critical" | "high" | "normal" | "low";
+  installDate: string;
+  warrantyEndDate: string;
+  lastMaintenanceDate: string;
+  nextMaintenanceDate: string;
+  specifications: { [key: string]: string };
+  description: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: string;
+  updatedBy: string;
+  typeId: string;
+  customProperties: { [key: string]: string };
 }
 
 export const mockEquipment: Equipment[] = [
@@ -82,7 +82,7 @@ export const mockEquipment: Equipment[] = [
     department: "생산2팀",
     departmentId: "2",
     status: "stopped",
-    priority: "minor",
+    priority: "low",
     installDate: "2023-02-20",
     warrantyEndDate: "2025-02-19",
     lastMaintenanceDate: "2024-01-05",
@@ -121,7 +121,7 @@ export const mockEquipment: Equipment[] = [
     department: "설비보전팀",
     departmentId: "3",
     status: "running",
-    priority: "major",
+    priority: "high",
     installDate: "2023-03-25",
     warrantyEndDate: "2025-03-24",
     lastMaintenanceDate: "2024-02-10",
@@ -146,7 +146,7 @@ export const mockEquipment: Equipment[] = [
       윤활방식: "오일윤활",
     },
   },
-]
+];
 
 // 기존 mockEquipment를 mockEquipments로도 export
-export const mockEquipments = mockEquipment
+export const mockEquipments = mockEquipment;
