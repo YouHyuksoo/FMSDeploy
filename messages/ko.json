@@ -1,0 +1,11 @@
+{
+  "menu": {
+    "dashboard": "대시보드",
+    "energy": "에너지",
+    "materials": "자재",
+    "equipment": "설비",
+    "sensor": "센서",
+    "carbon": "탄소",
+    "kpi": "KPI"
+  }
+}

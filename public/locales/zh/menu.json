@@ -1,0 +1,205 @@
+{
+  "equipment": {
+    "title": "设备信息管理",
+    "management": "设备管理",
+    "group": "设备组管理",
+    "code": "设备代码管理",
+    "status": "设备状态管理",
+    "type": "设备类型管理",
+    "category": "设备分类管理",
+    "location": "设备位置管理",
+    "history": "设备历史管理",
+    "document": "设备文档管理",
+    "image": "设备图像管理",
+    "specification": "设备规格管理",
+    "manual": "设备手册管理",
+    "drawing": "设备图纸管理",
+    "certificate": "设备证书管理",
+    "warranty": "设备保修管理",
+    "maintenance": "设备维护管理",
+    "inspection": "设备检查管理",
+    "repair": "设备维修管理",
+    "replacement": "设备更换管理",
+    "calibration": "设备校准管理",
+    "monitoring": "设备监控",
+    "status_monitoring": "设备状态监控",
+    "performance_monitoring": "设备性能监控",
+    "alarm_monitoring": "设备报警监控",
+    "trend_monitoring": "设备趋势监控",
+    "report": "设备报告",
+    "status_report": "设备状态报告",
+    "performance_report": "设备性能报告",
+    "maintenance_report": "设备维护报告",
+    "cost_report": "设备成本报告"
+  },
+  "sensor": {
+    "title": "传感器管理",
+    "management": "传感器管理",
+    "registration": "传感器注册管理",
+    "master": "传感器主数据管理",
+    "type": "传感器类型管理",
+    "location": "传感器位置管理",
+    "calibration": "传感器校准管理",
+    "data": "传感器数据管理",
+    "real_time": "实时数据管理",
+    "history": "历史数据管理",
+    "analysis": "数据分析管理",
+    "monitoring": "传感器监控",
+    "status": "传感器状态监控",
+    "performance": "传感器性能监控",
+    "alarm": "传感器报警监控",
+    "trend": "传感器趋势监控",
+    "report": "传感器报告",
+    "status_report": "传感器状态报告",
+    "performance_report": "传感器性能报告",
+    "calibration_report": "传感器校准报告",
+    "data_report": "传感器数据报告"
+  },
+  "materials": {
+    "title": "维护材料管理",
+    "registration_management": "材料注册管理",
+    "master_management": "材料主数据管理",
+    "inventory_management": "库存主数据管理",
+    "inbound": "材料入库管理",
+    "outbound": "材料出库管理",
+    "issuance_request": "材料出库申请"
+  },
+  "maintenance": {
+    "title": "维护管理",
+    "work_order": "工作指令管理",
+    "plan": "维护计划管理",
+    "execution": "维护执行管理",
+    "completion": "维护完成管理",
+    "approval": "维护审批管理",
+    "history": "维护历史管理",
+    "analysis": "维护分析管理",
+    "report": "维护报告管理"
+  },
+  "inspection": {
+    "title": "检查管理",
+    "plan": "检查计划管理",
+    "execution": "检查执行管理",
+    "completion": "检查完成管理",
+    "approval": "检查审批管理",
+    "history": "检查历史管理",
+    "analysis": "检查分析管理",
+    "report": "检查报告管理"
+  },
+  "failure": {
+    "title": "故障管理",
+    "registration": "故障注册管理",
+    "analysis": "故障分析管理",
+    "history": "故障历史管理",
+    "report": "故障报告管理"
+  },
+  "prediction": {
+    "title": "预测性维护(AI)",
+    "result_management": "预测结果管理",
+    "sensor_management": "传感器数据管理"
+  },
+  "energy": {
+    "title": "能源管理",
+    "monitoring": "能源监控",
+    "analysis": "能源分析",
+    "report": "能源报告",
+    "optimization": "能源优化",
+    "efficiency": "能源效率管理",
+    "consumption": "能源消耗管理",
+    "cost": "能源成本管理",
+    "saving": "能源节约管理",
+    "target": "能源目标管理",
+    "performance": "能源绩效管理"
+  },
+  "carbon": {
+    "title": "碳管理",
+    "emission": "碳排放管理",
+    "reduction": "碳减排管理",
+    "report": "碳报告",
+    "monitoring": "碳监控",
+    "analysis": "碳分析",
+    "target": "碳目标管理",
+    "performance": "碳绩效管理"
+  },
+  "kpi": {
+    "title": "KPI管理",
+    "dashboard": "KPI仪表板",
+    "management": "KPI管理",
+    "target": "KPI目标管理",
+    "performance": "KPI绩效管理",
+    "analysis": "KPI分析管理",
+    "report": "KPI报告管理"
+  },
+  "integration": {
+    "title": "集成管理",
+    "dashboard": "集成仪表板",
+    "monitoring": "集成监控",
+    "analysis": "集成分析",
+    "report": "集成报告"
+  },
+  "mobile": {
+    "title": "移动管理",
+    "work_order": "工作指令管理",
+    "maintenance": "维护管理",
+    "inspection": "检查管理",
+    "failure": "故障管理",
+    "material": "材料管理",
+    "report": "报告管理"
+  },
+  "location": {
+    "title": "位置管理",
+    "management": "位置管理",
+    "registration": "位置注册管理",
+    "master": "位置主数据管理",
+    "type": "位置类型管理",
+    "hierarchy": "位置层级管理",
+    "map": "位置地图管理",
+    "history": "位置历史管理",
+    "report": "位置报告管理"
+  },
+  "maintenanceTemplate": {
+    "title": "维护模板",
+    "master": "模板主数据管理",
+    "standard": "模板项目管理"
+  },
+  "preventive": {
+    "title": "预防性维护",
+    "plan": "预防性维护计划",
+    "execution": "预防性维护执行",
+    "completion": "预防性维护完成",
+    "approval": "预防性维护审批",
+    "history": "预防性维护历史",
+    "analysis": "预防性维护分析",
+    "report": "预防性维护报告"
+  },
+  "metering": {
+    "title": "计量/校准",
+    "reading_management": "计量管理",
+    "calibration_management": "设备校准",
+    "analytics_management": "计量分析",
+    "calendar_management": "校准计划日历"
+  },
+  "tpm": {
+    "title": "TPM管理",
+    "plan": "TPM计划管理",
+    "execution": "TPM执行管理",
+    "completion": "TPM完成管理",
+    "approval": "TPM审批管理",
+    "history": "TPM历史管理",
+    "analysis": "TPM分析管理",
+    "report": "TPM报告管理"
+  },
+  "system": {
+    "title": "系统管理",
+    "user": "用户管理",
+    "role": "权限管理",
+    "code": "代码管理",
+    "menu": "菜单管理",
+    "log": "日志管理",
+    "backup": "备份管理",
+    "setting": "系统设置"
+  },
+  "budget_management": {
+    "title": "预算管理",
+    "cost_analysis": "成本分析"
+  }
+}

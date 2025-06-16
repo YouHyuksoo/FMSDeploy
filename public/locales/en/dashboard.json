@@ -1,0 +1,34 @@
+{
+  "title": "Dashboard",
+  "overview": "Overview",
+  "equipment": {
+    "status": "Equipment Status",
+    "health": "Equipment Health",
+    "maintenance": "Maintenance Status"
+  },
+  "sensor": {
+    "status": "Sensor Status",
+    "alerts": "Sensor Alerts",
+    "monitoring": "Sensor Monitoring"
+  },
+  "maintenance": {
+    "pending": "Pending Tasks",
+    "in_progress": "In Progress Tasks",
+    "completed": "Completed Tasks"
+  },
+  "energy": {
+    "consumption": "Energy Consumption",
+    "efficiency": "Energy Efficiency",
+    "savings": "Energy Savings"
+  },
+  "carbon": {
+    "emissions": "Carbon Emissions",
+    "reduction": "Carbon Reduction",
+    "target": "Reduction Target"
+  },
+  "kpi": {
+    "overall": "Overall KPI",
+    "equipment": "Equipment KPI",
+    "maintenance": "Maintenance KPI"
+  }
+}

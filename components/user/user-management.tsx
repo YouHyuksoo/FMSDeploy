@@ -1,11 +1,15 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { DataTable, type Column, type DataTableAction } from "@/components/common/data-table"
-import { UserForm } from "./user-form"
-import { ImportExportDialog } from "@/components/common/import-export-dialog"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { useState, useEffect } from "react";
+import {
+  DataTable,
+  type Column,
+  type DataTableAction,
+} from "@/components/common/data-table";
+import { UserForm } from "./user-form";
+import { ImportExportDialog } from "@/components/common/import-export-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,72 +19,89 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { useToast } from "@/hooks/use-toast"
-import type { User, UserFormData } from "@/types/user"
-import { mockUsers } from "@/lib/mock-data/users"
-import { mockOrganizations } from "@/lib/mock-data/organizations"
-import type { ExportColumn, ImportColumn } from "@/lib/utils/export-utils"
-import { Edit, Trash2, Eye, UserCheck, UserX, Key, Mail, Shield, ShieldCheck, Crown, Users } from "lucide-react"
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+import type { User, UserFormData } from "@/types/user";
+import { mockUsers } from "@/lib/mock-data/users";
+import { mockOrganizations } from "@/lib/mock-data/organizations";
+import type { ExportColumn } from "@/lib/utils/export-utils";
+import type { ImportColumn } from "@/lib/utils/import-utils";
+import {
+  Edit,
+  Trash2,
+  Eye,
+  UserCheck,
+  UserX,
+  Key,
+  Mail,
+  Shield,
+  ShieldCheck,
+  Crown,
+  Users,
+} from "lucide-react";
+import { useTranslation } from "@/lib/language-context";
 
 export function UserManagement() {
-  const [users, setUsers] = useState<User[]>([])
-  const [loading, setLoading] = useState(true)
-  const [formOpen, setFormOpen] = useState(false)
-  const [formMode, setFormMode] = useState<"create" | "edit" | "view">("create")
-  const [selectedUser, setSelectedUser] = useState<User | undefined>()
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [userToDelete, setUserToDelete] = useState<User | undefined>()
-  const [importExportOpen, setImportExportOpen] = useState(false)
-  const [selectedRows, setSelectedRows] = useState<User[]>([])
-  const { toast } = useToast()
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [formOpen, setFormOpen] = useState(false);
+  const [formMode, setFormMode] = useState<"create" | "edit" | "view">(
+    "create"
+  );
+  const [selectedUser, setSelectedUser] = useState<User | undefined>();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState<User | undefined>();
+  const [importExportOpen, setImportExportOpen] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<User[]>([]);
+  const { toast } = useToast();
+  const { t } = useTranslation("common");
 
   useEffect(() => {
-    loadUsers()
-  }, [])
+    loadUsers();
+  }, []);
 
   const loadUsers = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      setUsers(mockUsers)
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setUsers(mockUsers);
     } catch (error) {
       toast({
         title: "오류",
         description: "사용자 목록을 불러오는데 실패했습니다.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleAdd = () => {
-    setSelectedUser(undefined)
-    setFormMode("create")
-    setFormOpen(true)
-  }
+    setSelectedUser(undefined);
+    setFormMode("create");
+    setFormOpen(true);
+  };
 
   const handleEdit = (user: User) => {
-    setSelectedUser(user)
-    setFormMode("edit")
-    setFormOpen(true)
-  }
+    setSelectedUser(user);
+    setFormMode("edit");
+    setFormOpen(true);
+  };
 
   const handleView = (user: User) => {
-    setSelectedUser(user)
-    setFormMode("view")
-    setFormOpen(true)
-  }
+    setSelectedUser(user);
+    setFormMode("view");
+    setFormOpen(true);
+  };
 
   const handleDelete = (user: User) => {
-    setUserToDelete(user)
-    setDeleteDialogOpen(true)
-  }
+    setUserToDelete(user);
+    setDeleteDialogOpen(true);
+  };
 
   const handleToggleActive = async (user: User) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       setUsers((prev) =>
         prev.map((u) =>
@@ -91,102 +112,108 @@ export function UserManagement() {
                 updatedAt: new Date().toISOString(),
                 updatedBy: "current-user",
               }
-            : u,
-        ),
-      )
+            : u
+        )
+      );
 
       toast({
         title: "성공",
-        description: `사용자가 ${user.isActive ? "비활성화" : "활성화"}되었습니다.`,
-      })
+        description: `사용자가 ${
+          user.isActive ? "비활성화" : "활성화"
+        }되었습니다.`,
+      });
     } catch (error) {
       toast({
         title: "오류",
         description: "사용자 상태 변경에 실패했습니다.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const handleResetPassword = async (user: User) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       toast({
         title: "성공",
         description: `${user.name}님의 비밀번호가 초기화되었습니다.`,
-      })
+      });
     } catch (error) {
       toast({
         title: "오류",
         description: "비밀번호 초기화에 실패했습니다.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const handleSendEmail = async (user: User) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       toast({
         title: "성공",
         description: `${user.email}로 이메일이 발송되었습니다.`,
-      })
+      });
     } catch (error) {
       toast({
         title: "오류",
         description: "이메일 발송에 실패했습니다.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const confirmDelete = async () => {
-    if (!userToDelete) return
+    if (!userToDelete) return;
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500))
-      setUsers((prev) => prev.filter((user) => user.id !== userToDelete.id))
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      setUsers((prev) => prev.filter((user) => user.id !== userToDelete.id));
       toast({
         title: "성공",
         description: "사용자가 삭제되었습니다.",
-      })
+      });
     } catch (error) {
       toast({
         title: "오류",
         description: "사용자 삭제에 실패했습니다.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setDeleteDialogOpen(false)
-      setUserToDelete(undefined)
+      setDeleteDialogOpen(false);
+      setUserToDelete(undefined);
     }
-  }
+  };
 
   const handleFormSubmit = async (data: UserFormData) => {
     try {
       if (formMode === "create") {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         const newUser: User = {
           id: Date.now().toString(),
           ...data,
-          company: mockOrganizations.find((org) => org.id === data.companyId)?.name || "",
-          department: mockOrganizations.find((org) => org.id === data.departmentId)?.name || "",
+          company:
+            mockOrganizations.find((org) => org.id === data.companyId)?.name ||
+            "",
+          department:
+            mockOrganizations.find((org) => org.id === data.departmentId)
+              ?.name || "",
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           createdBy: "current-user",
           updatedBy: "current-user",
-        }
+        };
 
-        setUsers((prev) => [...prev, newUser])
+        setUsers((prev) => [...prev, newUser]);
         toast({
           title: "성공",
           description: "사용자가 추가되었습니다.",
-        })
+        });
       } else if (formMode === "edit") {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setUsers((prev) =>
           prev.map((user) =>
@@ -194,33 +221,40 @@ export function UserManagement() {
               ? {
                   ...user,
                   ...data,
-                  company: mockOrganizations.find((org) => org.id === data.companyId)?.name || "",
-                  department: mockOrganizations.find((org) => org.id === data.departmentId)?.name || "",
+                  company:
+                    mockOrganizations.find((org) => org.id === data.companyId)
+                      ?.name || "",
+                  department:
+                    mockOrganizations.find(
+                      (org) => org.id === data.departmentId
+                    )?.name || "",
                   updatedAt: new Date().toISOString(),
                   updatedBy: "current-user",
                 }
-              : user,
-          ),
-        )
+              : user
+          )
+        );
 
         toast({
           title: "성공",
           description: "사용자 정보가 수정되었습니다.",
-        })
+        });
       }
     } catch (error) {
       toast({
         title: "오류",
-        description: `사용자 ${formMode === "create" ? "추가" : "수정"}에 실패했습니다.`,
+        description: `사용자 ${
+          formMode === "create" ? "추가" : "수정"
+        }에 실패했습니다.`,
         variant: "destructive",
-      })
-      throw error
+      });
+      throw error;
     }
-  }
+  };
 
   const handleImportComplete = async (importedData: User[]) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // 실제로는 서버에서 ID 생성 및 추가 정보 설정
       const processedUsers = importedData.map((userData, index) => ({
@@ -230,67 +264,67 @@ export function UserManagement() {
         updatedAt: new Date().toISOString(),
         createdBy: "current-user",
         updatedBy: "current-user",
-      }))
+      }));
 
-      setUsers((prev) => [...prev, ...processedUsers])
+      setUsers((prev) => [...prev, ...processedUsers]);
       toast({
         title: "성공",
         description: `${importedData.length}명의 사용자가 가져오기 되었습니다.`,
-      })
+      });
     } catch (error) {
       toast({
         title: "오류",
         description: "사용자 데이터 가져오기에 실패했습니다.",
         variant: "destructive",
-      })
-      throw error
+      });
+      throw error;
     }
-  }
+  };
 
   const getLevelIcon = (level: string) => {
     switch (level) {
       case "admin":
-        return <Crown className="h-4 w-4" />
+        return <Crown className="h-4 w-4" />;
       case "manager":
-        return <ShieldCheck className="h-4 w-4" />
+        return <ShieldCheck className="h-4 w-4" />;
       case "user":
-        return <Shield className="h-4 w-4" />
+        return <Shield className="h-4 w-4" />;
       case "viewer":
-        return <Users className="h-4 w-4" />
+        return <Users className="h-4 w-4" />;
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   const getLevelLabel = (level: string) => {
     switch (level) {
       case "admin":
-        return "관리자"
+        return t("user.level.admin");
       case "manager":
-        return "매니저"
+        return t("user.level.manager");
       case "user":
-        return "사용자"
+        return t("user.level.user");
       case "viewer":
-        return "조회자"
+        return t("user.level.viewer");
       default:
-        return level
+        return level;
     }
-  }
+  };
 
   const getLevelColor = (level: string) => {
     switch (level) {
       case "admin":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
       case "manager":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
       case "user":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
       case "viewer":
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
     }
-  }
+  };
 
   const columns: Column<User>[] = [
     {
@@ -305,7 +339,9 @@ export function UserManagement() {
           </Avatar>
           <div>
             <div className="font-medium">{value}</div>
-            <div className="text-sm text-muted-foreground">{record.username}</div>
+            <div className="text-sm text-muted-foreground">
+              {record.username}
+            </div>
           </div>
         </div>
       ),
@@ -391,50 +427,51 @@ export function UserManagement() {
       title: "최근 로그인",
       width: "w-40",
       sortable: true,
-      render: (value) => (value ? new Date(value).toLocaleString("ko-KR") : "로그인 기록 없음"),
+      render: (value) =>
+        value ? new Date(value).toLocaleString("ko-KR") : "로그인 기록 없음",
     },
-  ]
+  ];
 
   const actions: DataTableAction<User>[] = [
     {
       key: "view",
-      label: "보기",
+      label: t("common.view"),
       icon: Eye,
       onClick: handleView,
     },
     {
       key: "edit",
-      label: "수정",
+      label: t("common.edit"),
       icon: Edit,
       onClick: handleEdit,
     },
     {
       key: "toggle-active",
-      label: (user) => (user.isActive ? "비활성화" : "활성화"),
-      icon: (user) => (user.isActive ? UserX : UserCheck),
+      label: t("user.is_active"),
+      icon: UserX,
       onClick: handleToggleActive,
     },
     {
       key: "reset-password",
-      label: "비밀번호 초기화",
+      label: t("user.password"),
       icon: Key,
       onClick: handleResetPassword,
     },
     {
       key: "send-email",
-      label: "이메일 발송",
+      label: t("user.email"),
       icon: Mail,
       onClick: handleSendEmail,
     },
     {
       key: "delete",
-      label: "삭제",
+      label: t("common.delete"),
       icon: Trash2,
       onClick: handleDelete,
       variant: "destructive",
-      disabled: (user) => user.level === "admin", // 관리자는 삭제 불가
+      disabled: (user: User) => user.level === "admin", // 관리자는 삭제 불가
     },
-  ]
+  ];
 
   // Export/Import 설정
   const exportColumns: ExportColumn[] = [
@@ -442,11 +479,21 @@ export function UserManagement() {
     { key: "name", title: "이름", width: 15 },
     { key: "email", title: "이메일", width: 25 },
     { key: "phone", title: "전화번호", width: 15 },
-    { key: "level", title: "레벨", width: 10, format: (value) => getLevelLabel(value) },
+    {
+      key: "level",
+      title: "레벨",
+      width: 10,
+      format: (value) => getLevelLabel(value),
+    },
     { key: "company", title: "회사", width: 20 },
     { key: "department", title: "부서", width: 20 },
     { key: "position", title: "직책", width: 15 },
-    { key: "isActive", title: "활성상태", width: 10, format: (value) => (value ? "Y" : "N") },
+    {
+      key: "isActive",
+      title: "활성상태",
+      width: 10,
+      format: (value) => (value ? "Y" : "N"),
+    },
     {
       key: "permissions",
       title: "권한",
@@ -459,8 +506,13 @@ export function UserManagement() {
       width: 20,
       format: (value) => (value ? new Date(value).toLocaleString("ko-KR") : ""),
     },
-    { key: "createdAt", title: "생성일시", width: 20, format: (value) => new Date(value).toLocaleString("ko-KR") },
-  ]
+    {
+      key: "createdAt",
+      title: "생성일시",
+      width: 20,
+      format: (value) => new Date(value).toLocaleString("ko-KR"),
+    },
+  ];
 
   const importColumns: ImportColumn[] = [
     {
@@ -468,14 +520,14 @@ export function UserManagement() {
       title: "사용자ID",
       required: true,
       type: "string",
-      validate: (value) => {
+      validate: (value: string) => {
         if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-          return "사용자 ID는 영문, 숫자, _만 사용 가능합니다."
+          return "사용자 ID는 영문, 숫자, _만 사용 가능합니다.";
         }
         if (value.length < 3) {
-          return "사용자 ID는 3자 이상이어야 합니다."
+          return "사용자 ID는 3자 이상이어야 합니다.";
         }
-        return null
+        return null;
       },
     },
     { key: "name", title: "이름", required: true, type: "string" },
@@ -486,7 +538,7 @@ export function UserManagement() {
       title: "레벨",
       required: true,
       type: "string",
-      validate: (value) =>
+      validate: (value: string) =>
         !["admin", "manager", "user", "viewer"].includes(value)
           ? "레벨은 admin, manager, user, viewer 중 하나여야 합니다."
           : null,
@@ -499,24 +551,25 @@ export function UserManagement() {
       key: "permissions",
       title: "권한",
       type: "string",
-      transform: (value) => (typeof value === "string" ? value.split(",").map((p) => p.trim()) : []),
+      transform: (value: string) =>
+        typeof value === "string" ? value.split(",").map((p) => p.trim()) : [],
     },
-  ]
+  ];
 
-  const sampleData = [
+  const sampleData: Partial<User>[] = [
     {
       username: "sample_user",
       name: "샘플사용자",
       email: "sample@company.com",
       phone: "010-1234-5678",
-      level: "user",
+      level: "user" as const,
       company: "ABC 제조",
       department: "생산1팀",
       position: "기사",
       isActive: true,
-      permissions: "equipment.read, maintenance.write",
+      permissions: ["equipment.read", "maintenance.write"],
     },
-  ]
+  ];
 
   return (
     <div className="space-y-6">
@@ -568,17 +621,21 @@ export function UserManagement() {
             <AlertDialogTitle>사용자 삭제</AlertDialogTitle>
             <AlertDialogDescription>
               "{userToDelete?.name}" 사용자를 삭제하시겠습니까?
-              <br />이 작업은 되돌릴 수 없으며, 모든 관련 데이터가 함께 삭제됩니다.
+              <br />이 작업은 되돌릴 수 없으며, 모든 관련 데이터가 함께
+              삭제됩니다.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>취소</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-red-600 hover:bg-red-700"
+            >
               삭제
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </div>
-  )
+  );
 }

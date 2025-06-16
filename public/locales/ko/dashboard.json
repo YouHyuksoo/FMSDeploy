@@ -1,0 +1,34 @@
+{
+  "title": "대시보드",
+  "overview": "개요",
+  "equipment": {
+    "status": "설비 상태",
+    "health": "설비 건강도",
+    "maintenance": "보전 현황"
+  },
+  "sensor": {
+    "status": "센서 상태",
+    "alerts": "센서 알림",
+    "monitoring": "센서 모니터링"
+  },
+  "maintenance": {
+    "pending": "대기 중인 작업",
+    "in_progress": "진행 중인 작업",
+    "completed": "완료된 작업"
+  },
+  "energy": {
+    "consumption": "에너지 소비량",
+    "efficiency": "에너지 효율",
+    "savings": "에너지 절감"
+  },
+  "carbon": {
+    "emissions": "탄소 배출량",
+    "reduction": "탄소 감축",
+    "target": "감축 목표"
+  },
+  "kpi": {
+    "overall": "종합 KPI",
+    "equipment": "설비 KPI",
+    "maintenance": "보전 KPI"
+  }
+}

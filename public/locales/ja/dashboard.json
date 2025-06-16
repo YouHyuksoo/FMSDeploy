@@ -1,0 +1,34 @@
+{
+  "title": "ダッシュボード",
+  "overview": "概要",
+  "equipment": {
+    "status": "設備状態",
+    "health": "設備健全性",
+    "maintenance": "保全状況"
+  },
+  "sensor": {
+    "status": "センサー状態",
+    "alerts": "センサーアラート",
+    "monitoring": "センサーモニタリング"
+  },
+  "maintenance": {
+    "pending": "保留中のタスク",
+    "in_progress": "進行中のタスク",
+    "completed": "完了したタスク"
+  },
+  "energy": {
+    "consumption": "エネルギー消費量",
+    "efficiency": "エネルギー効率",
+    "savings": "エネルギー節約"
+  },
+  "carbon": {
+    "emissions": "炭素排出量",
+    "reduction": "炭素削減",
+    "target": "削減目標"
+  },
+  "kpi": {
+    "overall": "総合KPI",
+    "equipment": "設備KPI",
+    "maintenance": "保全KPI"
+  }
+}

@@ -1,14 +1,32 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useMemo, useCallback } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
+import { useState, useMemo, useCallback } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   MoreHorizontal,
   Search,
@@ -20,63 +38,85 @@ import {
   ChevronUp,
   RotateCcw,
   Settings,
-} from "lucide-react"
+} from "lucide-react";
 
 export interface Column<T> {
-  key: keyof T | string
-  title: string
-  width?: string
-  render?: (value: any, record: T, index: number) => React.ReactNode
-  sortable?: boolean
-  searchable?: boolean
-  filterable?: boolean
-  filterOptions?: Array<{ label: string; value: any }>
-  hidden?: boolean
-  align?: "left" | "center" | "right"
-  fixed?: "left" | "right"
+  key: keyof T | string;
+  title: string;
+  width?: string;
+  render?: (value: any, record: T, index: number) => React.ReactNode;
+  sortable?: boolean;
+  searchable?: boolean;
+  filterable?: boolean;
+  filterOptions?: Array<{ label: string; value: any }>;
+  hidden?: boolean;
+  align?: "left" | "center" | "right";
+  fixed?: "left" | "right";
 }
 
 export interface DataTableAction<T> {
-  key: string
-  label: string
-  icon: React.ComponentType<{ className?: string }>
-  onClick: (record: T) => void
-  variant?: "default" | "destructive"
-  disabled?: (record: T) => boolean
-  hidden?: (record: T) => boolean
+  key: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  onClick: (record: T) => void;
+  variant?: "default" | "destructive";
+  disabled?: (record: T) => boolean;
+  hidden?: (record: T) => boolean;
 }
 
 export interface DataTableProps<T> {
-  data: T[]
-  columns: Column<T>[]
-  actions?: DataTableAction<T>[]
-  onAdd?: () => void
-  loading?: boolean
-  searchPlaceholder?: string
-  title?: string
-  subtitle?: string
-  addButtonText?: string
-  showSearch?: boolean
-  showFilter?: boolean
-  showExport?: boolean
-  showImport?: boolean
-  showColumnSettings?: boolean
-  selectable?: boolean
-  onSelectedRowsChange?: (selectedRows: T[]) => void
-  selectedRows?: T[]
+  data: T[];
+  columns: Column<T>[];
+  actions?: DataTableAction<T>[];
+  onAdd?: () => void;
+  loading?: boolean;
+  searchPlaceholder?: string;
+  title?: string;
+  subtitle?: string;
+  addButtonText?: string;
+  showSearch?: boolean;
+  showFilter?: boolean;
+  showExport?: boolean;
+  showImport?: boolean;
+  showColumnSettings?: boolean;
+  selectable?: boolean;
+  onSelectedRowsChange?: (selectedRows: T[]) => void;
+  selectedRows?: T[];
   pagination?: {
-    page: number
-    pageSize: number
-    total: number
-    onPageChange: (page: number) => void
-    onPageSizeChange: (pageSize: number) => void
-  }
-  onExport?: () => void
-  onImport?: () => void
-  emptyMessage?: string
-  stickyHeader?: boolean
-  maxHeight?: string
+    page: number;
+    pageSize: number;
+    total: number;
+    onPageChange: (page: number) => void;
+    onPageSizeChange: (pageSize: number) => void;
+  };
+  onExport?: () => void;
+  onImport?: () => void;
+  emptyMessage?: string;
+  stickyHeader?: boolean;
+  maxHeight?: string;
 }
+
+const formatValue = (value: any): string => {
+  if (value == null) return "";
+  if (
+    value instanceof Date ||
+    (typeof value === "string" && !isNaN(Date.parse(value)))
+  ) {
+    const date = new Date(value);
+    return date.toLocaleString("ko-KR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+      timeZone: "UTC",
+    });
+  }
+  if (typeof value === "boolean") return value ? "Y" : "N";
+  return String(value);
+};
 
 export function DataTable<T extends Record<string, any>>({
   data,
@@ -103,37 +143,49 @@ export function DataTable<T extends Record<string, any>>({
   stickyHeader = false,
   maxHeight = "calc(100vh - 200px)",
 }: DataTableProps<T>) {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [sortColumn, setSortColumn] = useState<string>("")
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
-  const [columnFilters, setColumnFilters] = useState<Record<string, any>>({})
-  const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(new Set())
-  const [showFilters, setShowFilters] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortColumn, setSortColumn] = useState<string>("");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [columnFilters, setColumnFilters] = useState<Record<string, any>>({});
+  const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(new Set());
+  const [showFilters, setShowFilters] = useState(false);
 
   const getValue = useCallback((record: T, key: string): any => {
-    if (!record || !key) return ""
+    if (!record || !key) return "";
     try {
       if (Object.prototype.hasOwnProperty.call(record, key)) {
-        return record[key as keyof T] ?? ""
+        return record[key as keyof T] ?? "";
       }
       if (key.includes(".")) {
         const nestedValue = key
           .split(".")
-          .reduce((obj, k) => (obj && typeof obj === "object" ? (obj as Record<string, any>)[k] : undefined), record)
-        return nestedValue ?? ""
+          .reduce(
+            (obj, k) =>
+              obj && typeof obj === "object"
+                ? (obj as Record<string, any>)[k]
+                : undefined,
+            record
+          );
+        return nestedValue ?? "";
       }
-      return record[key as keyof T] ?? ""
+      return record[key as keyof T] ?? "";
     } catch (error) {
       if (process.env.NODE_ENV === "development") {
-        console.warn(`DataTable: Error accessing value for key "${key}" in record:`, record, error)
+        console.warn(
+          `DataTable: Error accessing value for key "${key}" in record:`,
+          record,
+          error
+        );
       }
-      return ""
+      return "";
     }
-  }, [])
+  }, []);
 
   const visibleColumns = useMemo(() => {
-    return initialColumns.filter((col) => !hiddenColumns.has(String(col.key)) && !col.hidden)
-  }, [initialColumns, hiddenColumns])
+    return initialColumns.filter(
+      (col) => !hiddenColumns.has(String(col.key)) && !col.hidden
+    );
+  }, [initialColumns, hiddenColumns]);
 
   // 검색 및 필터링
   const filteredData = useMemo(() => {
@@ -141,131 +193,140 @@ export function DataTable<T extends Record<string, any>>({
       // 검색 필터
       if (searchTerm && showSearch) {
         const searchMatch = visibleColumns.some((column) => {
-          if (!column.searchable) return false
-          const columnKey = (column as any).accessorKey || column.key
-          const value = getValue(item, String(columnKey))
-          return value ? String(value).toLowerCase().includes(searchTerm.toLowerCase()) : false
-        })
-        if (!searchMatch) return false
+          if (!column.searchable) return false;
+          const columnKey = (column as any).accessorKey || column.key;
+          const value = getValue(item, String(columnKey));
+          return value
+            ? String(value).toLowerCase().includes(searchTerm.toLowerCase())
+            : false;
+        });
+        if (!searchMatch) return false;
       }
 
       // 컬럼 필터
       for (const [columnKey, filterValue] of Object.entries(columnFilters)) {
         if (filterValue !== undefined && filterValue !== "") {
-          const itemValue = getValue(item, columnKey)
+          const itemValue = getValue(item, columnKey);
           if (Array.isArray(filterValue)) {
-            if (!filterValue.includes(itemValue)) return false
+            if (!filterValue.includes(itemValue)) return false;
           } else {
-            if (itemValue !== filterValue) return false
+            if (itemValue !== filterValue) return false;
           }
         }
       }
 
-      return true
-    })
-  }, [data, searchTerm, columnFilters, visibleColumns, showSearch, getValue])
+      return true;
+    });
+  }, [data, searchTerm, columnFilters, visibleColumns, showSearch, getValue]);
 
   // 정렬
   const sortedData = useMemo(() => {
-    if (!sortColumn) return filteredData
+    if (!sortColumn) return filteredData;
 
     return [...filteredData].sort((a, b) => {
-      const aValue = getValue(a, sortColumn)
-      const bValue = getValue(b, sortColumn)
+      const aValue = getValue(a, sortColumn);
+      const bValue = getValue(b, sortColumn);
 
       // null/undefined 처리
-      if (aValue == null && bValue == null) return 0
-      if (aValue == null) return 1
-      if (bValue == null) return -1
+      if (aValue == null && bValue == null) return 0;
+      if (aValue == null) return 1;
+      if (bValue == null) return -1;
 
       // 숫자 비교
       if (typeof aValue === "number" && typeof bValue === "number") {
-        return sortDirection === "asc" ? aValue - bValue : bValue - aValue
+        return sortDirection === "asc" ? aValue - bValue : bValue - aValue;
       }
 
       // 문자열 비교
-      const aStr = aValue ? String(aValue).toLowerCase() : ""
-      const bStr = bValue ? String(bValue).toLowerCase() : ""
+      const aStr = aValue ? String(aValue).toLowerCase() : "";
+      const bStr = bValue ? String(bValue).toLowerCase() : "";
 
-      if (aStr < bStr) return sortDirection === "asc" ? -1 : 1
-      if (aStr > bStr) return sortDirection === "asc" ? 1 : -1
-      return 0
-    })
-  }, [filteredData, sortColumn, sortDirection, getValue])
+      if (aStr < bStr) return sortDirection === "asc" ? -1 : 1;
+      if (aStr > bStr) return sortDirection === "asc" ? 1 : -1;
+      return 0;
+    });
+  }, [filteredData, sortColumn, sortDirection, getValue]);
 
   // 페이지네이션
   const paginatedData = useMemo(() => {
-    if (!pagination) return sortedData
+    if (!pagination) return sortedData;
 
-    const startIndex = (pagination.page - 1) * pagination.pageSize
-    const endIndex = startIndex + pagination.pageSize
-    return sortedData.slice(startIndex, endIndex)
-  }, [sortedData, pagination])
+    const startIndex = (pagination.page - 1) * pagination.pageSize;
+    const endIndex = startIndex + pagination.pageSize;
+    return sortedData.slice(startIndex, endIndex);
+  }, [sortedData, pagination]);
 
   const handleSort = (columnKey: string) => {
     if (sortColumn === columnKey) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
-      setSortColumn(columnKey)
-      setSortDirection("asc")
+      setSortColumn(columnKey);
+      setSortDirection("asc");
     }
-  }
+  };
 
   const handleColumnFilter = (columnKey: string, value: any) => {
     setColumnFilters((prev) => ({
       ...prev,
       [columnKey]: value,
-    }))
-  }
+    }));
+  };
 
   const clearFilters = () => {
-    setSearchTerm("")
-    setColumnFilters({})
-    setSortColumn("")
-    setSortDirection("asc")
-  }
+    setSearchTerm("");
+    setColumnFilters({});
+    setSortColumn("");
+    setSortDirection("asc");
+  };
 
   const toggleColumn = (columnKey: string) => {
     setHiddenColumns((prev) => {
-      const newSet = new Set(prev)
+      const newSet = new Set(prev);
       if (newSet.has(columnKey)) {
-        newSet.delete(columnKey)
+        newSet.delete(columnKey);
       } else {
-        newSet.add(columnKey)
+        newSet.add(columnKey);
       }
-      return newSet
-    })
-  }
+      return newSet;
+    });
+  };
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      onSelectedRowsChange?.(paginatedData)
+      onSelectedRowsChange?.(paginatedData);
     } else {
-      onSelectedRowsChange?.([])
+      onSelectedRowsChange?.([]);
     }
-  }
+  };
 
   const handleSelectRow = (record: T, checked: boolean) => {
     if (checked) {
-      onSelectedRowsChange?.([...selectedRows, record])
+      onSelectedRowsChange?.([...selectedRows, record]);
     } else {
-      onSelectedRowsChange?.(selectedRows.filter((row) => row.id !== record.id))
+      onSelectedRowsChange?.(
+        selectedRows.filter((row) => row.id !== record.id)
+      );
     }
-  }
+  };
 
   const isRowSelected = (record: T) => {
-    return selectedRows.some((row) => row.id === record.id)
-  }
+    return selectedRows.some((row) => row.id === record.id);
+  };
 
-  const isAllSelected = paginatedData.length > 0 && paginatedData.every((record) => isRowSelected(record))
-  const isIndeterminate = paginatedData.some((record) => isRowSelected(record)) && !isAllSelected
+  const isAllSelected =
+    paginatedData.length > 0 &&
+    paginatedData.every((record) => isRowSelected(record));
+  const isIndeterminate =
+    paginatedData.some((record) => isRowSelected(record)) && !isAllSelected;
 
   return (
     <div className="space-y-4">
       {/* 헤더 */}
       <div className="flex items-start justify-between">
         <div>
-          {title && <h2 className="text-2xl font-bold tracking-tight">{title}</h2>}
+          {title && (
+            <h2 className="text-2xl font-bold tracking-tight">{title}</h2>
+          )}
           {subtitle && <p className="text-muted-foreground">{subtitle}</p>}
         </div>
         <div className="flex items-center gap-2">
@@ -284,13 +345,22 @@ export function DataTable<T extends Record<string, any>>({
 
           {/* 필터 토글 */}
           {showFilter && (
-            <Button variant="outline" size="icon" onClick={() => setShowFilters(!showFilters)}>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setShowFilters(!showFilters)}
+            >
               <Filter className="h-4 w-4" />
             </Button>
           )}
 
           {/* 필터 초기화 */}
-          <Button variant="outline" size="icon" onClick={clearFilters} title="필터 초기화">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={clearFilters}
+            title="필터 초기화"
+          >
             <RotateCcw className="h-4 w-4" />
           </Button>
 
@@ -304,8 +374,16 @@ export function DataTable<T extends Record<string, any>>({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 {initialColumns.map((column) => (
-                  <DropdownMenuItem key={String(column.key)} onClick={() => toggleColumn(String(column.key))}>
-                    <Checkbox checked={!hiddenColumns.has(String(column.key)) && !column.hidden} className="mr-2" />
+                  <DropdownMenuItem
+                    key={String(column.key)}
+                    onClick={() => toggleColumn(String(column.key))}
+                  >
+                    <Checkbox
+                      checked={
+                        !hiddenColumns.has(String(column.key)) && !column.hidden
+                      }
+                      className="mr-2"
+                    />
                     {column.title}
                   </DropdownMenuItem>
                 ))}
@@ -344,14 +422,21 @@ export function DataTable<T extends Record<string, any>>({
             {visibleColumns
               .filter((column) => column.filterable)
               .map((column) => {
-                const columnKey = (column as any).accessorKey || column.key
+                const columnKey = (column as any).accessorKey || column.key;
                 return (
                   <div key={String(columnKey)} className="space-y-2">
-                    <label className="text-sm font-medium">{column.title}</label>
+                    <label className="text-sm font-medium">
+                      {column.title}
+                    </label>
                     {column.filterOptions ? (
                       <Select
                         value={columnFilters[String(columnKey)] || ""}
-                        onValueChange={(value) => handleColumnFilter(String(columnKey), value === "all" ? "" : value)}
+                        onValueChange={(value) =>
+                          handleColumnFilter(
+                            String(columnKey),
+                            value === "all" ? "" : value
+                          )
+                        }
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="전체" />
@@ -369,11 +454,13 @@ export function DataTable<T extends Record<string, any>>({
                       <Input
                         placeholder={`${column.title} 필터`}
                         value={columnFilters[String(columnKey)] || ""}
-                        onChange={(e) => handleColumnFilter(String(columnKey), e.target.value)}
+                        onChange={(e) =>
+                          handleColumnFilter(String(columnKey), e.target.value)
+                        }
                       />
                     )}
                   </div>
-                )
+                );
               })}
           </div>
         </div>
@@ -386,7 +473,11 @@ export function DataTable<T extends Record<string, any>>({
             <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
               {selectedRows.length}개 항목이 선택됨
             </span>
-            <Button variant="outline" size="sm" onClick={() => onSelectedRowsChange?.([])}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onSelectedRowsChange?.([])}
+            >
               선택 해제
             </Button>
           </div>
@@ -398,19 +489,25 @@ export function DataTable<T extends Record<string, any>>({
         {/* 디버깅 정보 - 개발 모드에서만 표시 */}
         {process.env.NODE_ENV === "development" && (
           <div className="p-2 bg-gray-50 text-xs text-gray-600 border-b">
-            데이터: {data.length}개 | 컬럼: {visibleColumns.length}개 | 표시: {paginatedData.length}개
+            데이터: {data.length}개 | 컬럼: {visibleColumns.length}개 | 표시:{" "}
+            {paginatedData.length}개
           </div>
         )}
-        <div className="overflow-auto" style={{ maxHeight: stickyHeader ? maxHeight : "none" }}>
+        <div
+          className="overflow-auto"
+          style={{ maxHeight: stickyHeader ? maxHeight : "none" }}
+        >
           <Table>
-            <TableHeader className={stickyHeader ? "sticky top-0 bg-background z-10" : ""}>
+            <TableHeader
+              className={stickyHeader ? "sticky top-0 bg-background z-10" : ""}
+            >
               <TableRow>
                 {selectable && (
                   <TableHead className="w-12">
                     <Checkbox
                       checked={isAllSelected}
                       ref={(ref) => {
-                        if (ref) ref.indeterminate = isIndeterminate
+                        if (ref) ref.indeterminate = isIndeterminate;
                       }}
                       onCheckedChange={handleSelectAll}
                     />
@@ -419,10 +516,18 @@ export function DataTable<T extends Record<string, any>>({
                 {visibleColumns.map((column) => (
                   <TableHead
                     key={String(column.key)}
-                    className={`${column.width || ""} ${column.sortable ? "cursor-pointer hover:bg-muted" : ""} ${
-                      column.align === "center" ? "text-center" : column.align === "right" ? "text-right" : ""
+                    className={`${column.width || ""} ${
+                      column.sortable ? "cursor-pointer hover:bg-muted" : ""
+                    } ${
+                      column.align === "center"
+                        ? "text-center"
+                        : column.align === "right"
+                        ? "text-right"
+                        : ""
                     }`}
-                    onClick={() => column.sortable && handleSort(String(column.key))}
+                    onClick={() =>
+                      column.sortable && handleSort(String(column.key))
+                    }
                   >
                     <div className="flex items-center gap-2">
                       {column.title}
@@ -430,14 +535,16 @@ export function DataTable<T extends Record<string, any>>({
                         <div className="flex flex-col">
                           <ChevronUp
                             className={`h-3 w-3 ${
-                              sortColumn === String(column.key) && sortDirection === "asc"
+                              sortColumn === String(column.key) &&
+                              sortDirection === "asc"
                                 ? "text-primary"
                                 : "text-muted-foreground"
                             }`}
                           />
                           <ChevronDown
                             className={`h-3 w-3 -mt-1 ${
-                              sortColumn === String(column.key) && sortDirection === "desc"
+                              sortColumn === String(column.key) &&
+                              sortDirection === "desc"
                                 ? "text-primary"
                                 : "text-muted-foreground"
                             }`}
@@ -447,14 +554,20 @@ export function DataTable<T extends Record<string, any>>({
                     </div>
                   </TableHead>
                 ))}
-                {actions.length > 0 && <TableHead className="w-[100px]">작업</TableHead>}
+                {actions.length > 0 && (
+                  <TableHead className="w-[100px]">작업</TableHead>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
                 <TableRow>
                   <TableCell
-                    colSpan={visibleColumns.length + (selectable ? 1 : 0) + (actions.length > 0 ? 1 : 0)}
+                    colSpan={
+                      visibleColumns.length +
+                      (selectable ? 1 : 0) +
+                      (actions.length > 0 ? 1 : 0)
+                    }
                     className="text-center py-8"
                   >
                     <div className="flex items-center justify-center">
@@ -466,7 +579,11 @@ export function DataTable<T extends Record<string, any>>({
               ) : paginatedData.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={visibleColumns.length + (selectable ? 1 : 0) + (actions.length > 0 ? 1 : 0)}
+                    colSpan={
+                      visibleColumns.length +
+                      (selectable ? 1 : 0) +
+                      (actions.length > 0 ? 1 : 0)
+                    }
                     className="text-center py-8 text-muted-foreground"
                   >
                     {emptyMessage}
@@ -474,12 +591,17 @@ export function DataTable<T extends Record<string, any>>({
                 </TableRow>
               ) : (
                 paginatedData.map((record, index) => (
-                  <TableRow key={record.id || index} className={isRowSelected(record) ? "bg-muted/50" : ""}>
+                  <TableRow
+                    key={record.id || index}
+                    className={isRowSelected(record) ? "bg-muted/50" : ""}
+                  >
                     {selectable && (
                       <TableCell>
                         <Checkbox
                           checked={isRowSelected(record)}
-                          onCheckedChange={(checked) => handleSelectRow(record, checked as boolean)}
+                          onCheckedChange={(checked) =>
+                            handleSelectRow(record, checked as boolean)
+                          }
                         />
                       </TableCell>
                     )}
@@ -487,12 +609,20 @@ export function DataTable<T extends Record<string, any>>({
                       <TableCell
                         key={String(column.key)}
                         className={
-                          column.align === "center" ? "text-center" : column.align === "right" ? "text-right" : ""
+                          column.align === "center"
+                            ? "text-center"
+                            : column.align === "right"
+                            ? "text-right"
+                            : ""
                         }
                       >
                         {column.render
-                          ? column.render(getValue(record, String(column.key)), record, index)
-                          : String(getValue(record, String(column.key)) || "")}
+                          ? column.render(
+                              getValue(record, String(column.key)),
+                              record,
+                              index
+                            )
+                          : formatValue(getValue(record, String(column.key)))}
                       </TableCell>
                     ))}
                     {actions.length > 0 && (
@@ -507,18 +637,22 @@ export function DataTable<T extends Record<string, any>>({
                             {actions
                               .filter((action) => !action.hidden?.(record))
                               .map((action) => {
-                                const Icon = action.icon
+                                const Icon = action.icon;
                                 return (
                                   <DropdownMenuItem
                                     key={action.key}
                                     onClick={() => action.onClick(record)}
                                     disabled={action.disabled?.(record)}
-                                    className={action.variant === "destructive" ? "text-red-600" : ""}
+                                    className={
+                                      action.variant === "destructive"
+                                        ? "text-red-600"
+                                        : ""
+                                    }
                                   >
                                     <Icon className="mr-2 h-4 w-4" />
                                     {action.label}
                                   </DropdownMenuItem>
-                                )
+                                );
                               })}
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -536,15 +670,19 @@ export function DataTable<T extends Record<string, any>>({
       {pagination && (
         <div className="flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
-            총 {pagination.total}개 항목 중 {(pagination.page - 1) * pagination.pageSize + 1}-
-            {Math.min(pagination.page * pagination.pageSize, pagination.total)}개 표시
+            총 {pagination.total}개 항목 중{" "}
+            {(pagination.page - 1) * pagination.pageSize + 1}-
+            {Math.min(pagination.page * pagination.pageSize, pagination.total)}
+            개 표시
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-2">
               <span className="text-sm">페이지당 항목:</span>
               <Select
                 value={pagination.pageSize.toString()}
-                onValueChange={(value) => pagination.onPageSizeChange(Number.parseInt(value))}
+                onValueChange={(value) =>
+                  pagination.onPageSizeChange(Number.parseInt(value))
+                }
               >
                 <SelectTrigger className="w-20">
                   <SelectValue />
@@ -575,21 +713,32 @@ export function DataTable<T extends Record<string, any>>({
                 이전
               </Button>
               <span className="px-3 py-1 text-sm">
-                {pagination.page} / {Math.ceil(pagination.total / pagination.pageSize)}
+                {pagination.page} /{" "}
+                {Math.ceil(pagination.total / pagination.pageSize)}
               </span>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => pagination.onPageChange(pagination.page + 1)}
-                disabled={pagination.page >= Math.ceil(pagination.total / pagination.pageSize)}
+                disabled={
+                  pagination.page >=
+                  Math.ceil(pagination.total / pagination.pageSize)
+                }
               >
                 다음
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => pagination.onPageChange(Math.ceil(pagination.total / pagination.pageSize))}
-                disabled={pagination.page >= Math.ceil(pagination.total / pagination.pageSize)}
+                onClick={() =>
+                  pagination.onPageChange(
+                    Math.ceil(pagination.total / pagination.pageSize)
+                  )
+                }
+                disabled={
+                  pagination.page >=
+                  Math.ceil(pagination.total / pagination.pageSize)
+                }
               >
                 마지막
               </Button>
@@ -608,5 +757,5 @@ export function DataTable<T extends Record<string, any>>({
         {selectedRows.length > 0 && <div>{selectedRows.length}개 선택됨</div>}
       </div>
     </div>
-  )
+  );
 }

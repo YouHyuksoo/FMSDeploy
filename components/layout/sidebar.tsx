@@ -29,8 +29,11 @@ import {
   LineChart,
   FileBarChart2,
   ChartBarIcon,
+  Menu,
 } from "lucide-react";
 import { useTranslation } from "@/lib/language-context";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import type { MainNavItem } from "@/types";
 
@@ -43,42 +46,41 @@ interface SidebarProps {
   onToggle: () => void;
 }
 
-const menuItems = [
-  {
-    titleKey: "sensor.title",
-    title: "센서 관리",
-    icon: Gauge,
-    href: "/sensor",
-    children: [
-      {
-        titleKey: "sensor.overview",
-        title: "센서 현황",
-        href: "/sensor/overview",
-      },
-      { title: "센서 대시보드", href: "/sensor/dashboard" },
-      {
-        titleKey: "sensor.registration",
-        title: "센서 등록",
-        href: "/sensor/register",
-      },
-      {
-        titleKey: "sensor.groups",
-        title: "센서 그룹 관리",
-        href: "/sensor/groups",
-      },
-      {
-        titleKey: "sensor.types",
-        title: "센서 유형 관리",
-        href: "/sensor/types",
-      },
-      {
-        titleKey: "sensor.analysis",
-        title: "센서 데이터 분석",
-        icon: BarChart3,
-        href: "/sensor/analysis",
-      },
-    ],
-  },
+function toMenuKey(...args: string[]): string {
+  return (
+    "menu." +
+    args
+      .map((s) =>
+        s
+          .toLowerCase()
+          .replace(/\s+/g, "_")
+          .replace(/[^a-z0-9_]/g, "")
+      )
+      .filter(Boolean)
+      .join(".")
+  );
+}
+
+function addExplicitTitleKeys(items: any[], parentKey = "menu"): any[] {
+  return items.map((item: any) => {
+    let key = item.titleKey;
+    if (!key && item.title) {
+      key =
+        (parentKey !== "menu" ? parentKey + "." : "") +
+        item.title
+          .toLowerCase()
+          .replace(/\s+/g, "_")
+          .replace(/[^a-z0-9_]/g, "");
+    }
+    const newItem = { ...item, titleKey: key };
+    if (item.children) {
+      newItem.children = addExplicitTitleKeys(item.children, key);
+    }
+    return newItem;
+  });
+}
+
+const menuItems = addExplicitTitleKeys([
   {
     titleKey: "equipment.title",
     title: "설비정보관리",
@@ -105,47 +107,138 @@ const menuItems = [
         title: "설비BOM관리",
         href: "/equipment/bom",
       },
-      { title: "설비사양관리", href: "/equipment/spec" },
-      { title: "설비자료관리", href: "/equipment/docs" },
+      {
+        titleKey: "equipment.spec",
+        title: "설비사양관리",
+        href: "/equipment/spec",
+      },
+      {
+        titleKey: "equipment.docs",
+        title: "설비자료관리",
+        href: "/equipment/docs",
+      },
     ],
   },
   {
-    titleKey: "materials",
+    titleKey: "sensor.title",
+    title: "센서 관리",
+    icon: Gauge,
+    href: "/sensor",
+    children: [
+      {
+        titleKey: "sensor.overview",
+        title: "센서 현황",
+        href: "/sensor/overview",
+      },
+      {
+        titleKey: "sensor.dashboard",
+        title: "센서 대시보드",
+        href: "/sensor/dashboard",
+      },
+      {
+        titleKey: "sensor.registration_management",
+        title: "센서 등록",
+        href: "/sensor/register",
+      },
+      {
+        titleKey: "sensor.groups",
+        title: "센서 그룹 관리",
+        href: "/sensor/groups",
+      },
+      {
+        titleKey: "sensor.types",
+        title: "센서 유형 관리",
+        href: "/sensor/types",
+      },
+      {
+        titleKey: "sensor.analysis",
+        title: "센서 데이터 분석",
+        icon: BarChart3,
+        href: "/sensor/analysis",
+      },
+    ],
+  },
+  {
+    titleKey: "materials.title",
     title: "보전자재관리",
     icon: Package,
     href: "/materials",
     children: [
-      { title: "자재등록관리", href: "/materials/register" },
-      { title: "자재마스터관리", href: "/materials/master" },
-      { title: "재고마스터관리", href: "/materials/stock" },
-      { title: "자재입고관리", href: "/materials/inbound" }, // Updated
-      { title: "자재출고관리", href: "/materials/outbound" }, // New
-      { title: "자재출고요청", href: "/materials/issuance-request" }, // Existing
+      {
+        titleKey: "materials.registration_management",
+        title: "자재등록관리",
+        href: "/materials/register",
+      },
+      {
+        titleKey: "materials.master_management",
+        title: "자재마스터관리",
+        href: "/materials/master",
+      },
+      {
+        titleKey: "materials.inventory_management",
+        title: "재고마스터관리",
+        href: "/materials/stock",
+      },
+      {
+        titleKey: "materials.inbound",
+        title: "자재입고관리",
+        href: "/materials/inbound",
+      },
+      {
+        titleKey: "materials.outbound",
+        title: "자재출고관리",
+        href: "/materials/outbound",
+      },
+      {
+        titleKey: "materials.issuance_request",
+        title: "자재출고요청",
+        href: "/materials/issuance-request",
+      },
     ],
   },
   {
-    titleKey: "maintenanceTemplate",
+    titleKey: "maintenanceTemplate.title",
     title: "보전템플릿",
     icon: FileText,
     href: "/maintenance-template",
     children: [
-      { title: "템플릿 마스터 관리", href: "/maintenance-template/master" },
-      { title: "템플릿 항목 관리", href: "/maintenance-template/standard" },
+      {
+        titleKey: "maintenanceTemplate.master",
+        title: "템플릿 마스터 관리",
+        href: "/maintenance-template/master",
+      },
+      {
+        titleKey: "maintenanceTemplate.standard",
+        title: "템플릿 항목 관리",
+        href: "/maintenance-template/standard",
+      },
     ],
   },
   {
-    titleKey: "inspection",
+    titleKey: "inspection.title",
     title: "점검관리",
     icon: ClipboardCheck,
     href: "/inspection",
     children: [
-      { title: "점검스케줄설정", href: "/inspection/schedule" },
-      { title: "점검결과입력", href: "/inspection/result" },
-      { title: "점검관리카렌더", href: "/inspection/calendar" },
+      {
+        titleKey: "inspection.schedule",
+        title: "점검스케줄설정",
+        href: "/inspection/schedule",
+      },
+      {
+        titleKey: "inspection.result",
+        title: "점검결과입력",
+        href: "/inspection/result",
+      },
+      {
+        titleKey: "inspection.calendar",
+        title: "점검관리카렌더",
+        href: "/inspection/calendar",
+      },
     ],
   },
   {
-    titleKey: "maintenance",
+    titleKey: "maintenance.title",
     title: "보전작업관리",
     icon: Wrench,
     href: "/maintenance",
@@ -221,73 +314,71 @@ const menuItems = [
         title: "AI 탄소배출예측",
         href: "/carbon/prediction",
       },
-      { title: "배출원 관리", href: "/carbon/sources" },
-      { title: "감축 활동 관리", href: "/carbon/reduction-activities" },
-      { title: "밸류체인(Scope 3) 관리", href: "/carbon/scope3" },
-      { title: "데이터 업로드/연동", href: "/carbon/data-import" },
-    ],
-  },
-  {
-    titleKey: "tpm",
-    title: "TPM활동관리",
-    icon: Users,
-    href: "/tpm",
-    children: [
       {
-        titleKey: "tpm.activity_management",
-        title: "TPM활동등록",
-        href: "/tpm/activity",
+        titleKey: "carbon.sources",
+        title: "배출원 관리",
+        href: "/carbon/sources",
       },
       {
-        titleKey: "tpm.team_management",
-        title: "분임조관리",
-        href: "/tpm/team",
+        titleKey: "carbon.reduction_activities",
+        title: "감축 활동 관리",
+        href: "/carbon/reduction-activities",
+      },
+      {
+        titleKey: "carbon.scope3",
+        title: "밸류체인(Scope 3) 관리",
+        href: "/carbon/scope3",
+      },
+      {
+        titleKey: "carbon.data_import",
+        title: "데이터 업로드/연동",
+        href: "/carbon/data-import",
       },
     ],
   },
   {
-    titleKey: "failure",
+    titleKey: "failure.title",
     title: "고장관리",
     icon: AlertTriangle,
     href: "/failure",
     children: [
       {
-        titleKey: "failure.register_management",
+        titleKey: "failure.registration",
         title: "고장등록",
         href: "/failure/desktop-register",
       },
       {
-        titleKey: "failure.history_management",
+        titleKey: "failure.history",
         title: "고장이력조회",
         href: "/failure/history",
       },
     ],
   },
   {
-    titleKey: "preventive",
+    titleKey: "preventive.title",
     title: "예방정비",
     icon: Calendar,
     href: "/preventive",
     children: [
       {
-        titleKey: "preventive.master_management",
+        titleKey: "preventive.master",
         title: "예방정비마스터",
         href: "/preventive/master",
       },
       {
-        titleKey: "preventive.order_management",
+        titleKey: "preventive.order",
         title: "정비오더생성",
         href: "/preventive/order",
       },
       {
-        titleKey: "preventive.calendar_management",
+        titleKey: "preventive.calendar",
         title: "예방정비카렌더",
         href: "/preventive/calendar",
       },
     ],
   },
   {
-    titleKey: "metering",
+    titleKey: "metering.title",
     title: "검침/검교정",
     icon: Gauge,
     href: "/metering",
@@ -312,20 +403,23 @@ const menuItems = [
         title: "교정일정캘린더",
         href: "/metering/calendar",
       },
+    ],
+  },
+  {
+    titleKey: "budget_management.title",
+    title: "예산 및 비용 관리",
+    icon: FileBarChart2,
+    href: "/metering/budget",
+    children: [
       {
-        titleKey: "metering.budget_management",
-        title: "예산관리",
-        href: "/metering/budget",
-      },
-      {
-        titleKey: "metering.cost_analysis",
-        title: "비용분석",
+        titleKey: "budget_management.cost_analysis",
+        title: "예산 비용 분석",
         href: "/metering/cost-analysis",
       },
     ],
   },
   {
-    titleKey: "prediction",
+    titleKey: "prediction.title",
     title: "예지보전(AI)",
     icon: Brain,
     href: "/prediction",
@@ -343,26 +437,47 @@ const menuItems = [
     ],
   },
   {
-    titleKey: "kpi",
+    titleKey: "tpm.title",
+    title: "TPM활동관리",
+    icon: Users,
+    href: "/tpm",
+    children: [
+      {
+        titleKey: "tpm.registration",
+        title: "TPM활동등록",
+        href: "/tpm/activity",
+      },
+      {
+        titleKey: "tpm.team",
+        title: "분임조관리",
+        href: "/tpm/team",
+      },
+    ],
+  },
+  {
+    titleKey: "kpi.title",
     title: "KPI",
     icon: BarChart3,
     children: [
       {
+        titleKey: "kpi.dashboard",
         title: "KPI 대시보드",
         href: "/kpi/dashboard",
       },
       {
+        titleKey: "kpi.mtbf",
         title: "MTBF 분석",
         href: "/kpi/mtbf",
       },
       {
+        titleKey: "kpi.health",
         title: "설비 건강지수",
         href: "/kpi/health",
       },
     ],
   },
   {
-    titleKey: "location",
+    titleKey: "location.title",
     title: "위치기반모니터링",
     icon: Map,
     href: "/location",
@@ -380,7 +495,7 @@ const menuItems = [
     ],
   },
   {
-    titleKey: "integration",
+    titleKey: "integration.title",
     title: "외부연동",
     icon: LinkIcon,
     href: "/integration",
@@ -398,7 +513,7 @@ const menuItems = [
     ],
   },
   {
-    titleKey: "mobile",
+    titleKey: "mobile.title",
     title: "모바일QR점검",
     icon: Smartphone,
     href: "/mobile",
@@ -421,7 +536,7 @@ const menuItems = [
     ],
   },
   {
-    titleKey: "system",
+    titleKey: "system.title",
     title: "시스템관리",
     icon: Settings,
     href: "/system",
@@ -468,7 +583,7 @@ const menuItems = [
       },
     ],
   },
-];
+]);
 
 export const dashboardConfig: DashboardConfig = {
   mainNav: [
@@ -494,10 +609,8 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
   // Helper function to get translated text with fallback
   const getTranslatedText = (item: { titleKey?: string; title: string }) => {
     if (!item.titleKey) return item.title;
-    // Try to get translation with 'menu' namespace first, then fallback to common
-    const translation =
-      tMenu(item.titleKey, item.title) || tCommon(item.titleKey, item.title);
-    return translation === item.titleKey ? item.title : translation;
+    const translation = tMenu(item.titleKey);
+    return translation || item.title;
   };
 
   const toggleExpanded = (title: string) => {
@@ -520,7 +633,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
     // Automatically expand parent of active child on initial load
     const activeParent = menuItems.find((item) =>
       item.children?.some(
-        (child) =>
+        (child: any) =>
           pathname === child.href || pathname.startsWith(child.href + "/")
       )
     );
@@ -580,7 +693,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
           const isParentActive =
             hasChildren &&
             item.children.some(
-              (child) =>
+              (child: any) =>
                 pathname === child.href || pathname.startsWith(child.href + "/")
             );
           const isDirectActive =
@@ -636,13 +749,13 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
 
               {hasChildren && isExpanded && isOpen && (
                 <div className="ml-6 mt-1 space-y-1">
-                  {item.children.map((child) => {
+                  {item.children.map((child: any) => {
                     const isChildActive =
                       pathname === child.href ||
                       pathname.startsWith(child.href + "/");
                     return (
                       <Link
-                        key={child.href}
+                        key={child.titleKey || child.href}
                         href={child.href}
                         className={cn(
                           "flex items-center w-full h-8 px-3 text-sm rounded-md transition-colors",
@@ -664,5 +777,22 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         })}
       </nav>
     </div>
+  );
+}
+
+export function MobileSidebar() {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="ghost" className="md:hidden">
+          <Menu className="h-6 w-6" />
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+        <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10">
+          <Sidebar isOpen={false} onToggle={() => {}} />
+        </ScrollArea>
+      </SheetContent>
+    </Sheet>
   );
 }

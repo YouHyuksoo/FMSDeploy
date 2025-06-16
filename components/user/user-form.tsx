@@ -1,16 +1,21 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useMemo } from "react"
-import { StandardForm, type FormField, type FormGroup } from "@/components/common/standard-form"
-import type { User, UserFormData } from "@/types/user"
-import { mockOrganizations } from "@/lib/mock-data/organizations"
+import { useState, useEffect, useMemo } from "react";
+import {
+  StandardForm,
+  type FormField,
+  type FormGroup,
+} from "@/components/common/standard-form";
+import type { User, UserFormData } from "@/types/user";
+import { mockOrganizations } from "@/lib/mock-data/organizations";
+import { useTranslation } from "@/lib/language-context";
 
 interface UserFormProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onSubmit: (data: UserFormData) => Promise<void>
-  initialData?: User
-  mode: "create" | "edit" | "view"
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSubmit: (data: UserFormData) => Promise<void>;
+  initialData?: User;
+  mode: "create" | "edit" | "view";
 }
 
 const levelOptions = [
@@ -18,7 +23,7 @@ const levelOptions = [
   { label: "매니저", value: "manager" },
   { label: "사용자", value: "user" },
   { label: "조회자", value: "viewer" },
-]
+];
 
 const permissionOptions = [
   { label: "설비 조회", value: "equipment.read" },
@@ -29,63 +34,77 @@ const permissionOptions = [
   { label: "점검 관리", value: "inspection.all" },
   { label: "시스템 관리", value: "system.all" },
   { label: "전체 권한", value: "all" },
-]
+];
 
-export function UserForm({ open, onOpenChange, onSubmit, initialData, mode }: UserFormProps) {
-  const [companyOptions, setCompanyOptions] = useState<Array<{ label: string; value: string }>>([])
-  const [departmentOptions, setDepartmentOptions] = useState<Array<{ label: string; value: string }>>([])
+export function UserForm({
+  open,
+  onOpenChange,
+  onSubmit,
+  initialData,
+  mode,
+}: UserFormProps) {
+  const { t } = useTranslation("common");
+  const [companyOptions, setCompanyOptions] = useState<
+    Array<{ label: string; value: string }>
+  >([]);
+  const [departmentOptions, setDepartmentOptions] = useState<
+    Array<{ label: string; value: string }>
+  >([]);
 
   useEffect(() => {
     // 회사 옵션 설정
     const companies = mockOrganizations
       .filter((org) => org.type === "company")
-      .map((org) => ({ label: org.name, value: org.id }))
-    setCompanyOptions(companies)
+      .map((org) => ({ label: org.name, value: org.id }));
+    setCompanyOptions(companies);
 
     // 부서 옵션 설정
     const departments = mockOrganizations
       .filter((org) => org.type === "department" || org.type === "team")
-      .map((org) => ({ label: org.name, value: org.id }))
-    setDepartmentOptions(departments)
-  }, [])
+      .map((org) => ({ label: org.name, value: org.id }));
+    setDepartmentOptions(departments);
+  }, []);
 
   const validatePassword = (value: any, formData: Record<string, any>) => {
     if (mode === "create" && !value) {
-      return "비밀번호는 필수입니다."
+      return t("user.password_required");
     }
     if (value && value.length < 6) {
-      return "비밀번호는 6자 이상이어야 합니다."
+      return t("user.password_min");
     }
-    return null
-  }
+    return null;
+  };
 
-  const validateConfirmPassword = (value: any, formData: Record<string, any>) => {
+  const validateConfirmPassword = (
+    value: any,
+    formData: Record<string, any>
+  ) => {
     if (formData.password && value !== formData.password) {
-      return "비밀번호가 일치하지 않습니다."
+      return t("user.confirm_password_not_match");
     }
-    return null
-  }
+    return null;
+  };
 
   const validateUsername = (value: any) => {
-    if (!value) return "사용자 ID는 필수입니다."
+    if (!value) return t("user.id_required");
     if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-      return "사용자 ID는 영문, 숫자, _만 사용 가능합니다."
+      return t("user.id_pattern");
     }
     if (value.length < 3) {
-      return "사용자 ID는 3자 이상이어야 합니다."
+      return t("user.id_min");
     }
-    return null
-  }
+    return null;
+  };
 
   const formFields: FormField[] = useMemo(
     () => [
       // 기본 정보 그룹
       {
         name: "username",
-        label: "사용자 ID",
+        label: t("user.id"),
         type: "text",
         required: true,
-        placeholder: "영문, 숫자, _ 사용 가능",
+        placeholder: t("user.id_pattern"),
         disabled: mode === "edit", // 수정 시 ID 변경 불가
         validation: { custom: validateUsername },
         group: "basic",
@@ -93,16 +112,16 @@ export function UserForm({ open, onOpenChange, onSubmit, initialData, mode }: Us
       },
       {
         name: "name",
-        label: "이름",
+        label: t("user.name"),
         type: "text",
         required: true,
-        placeholder: "사용자 이름을 입력하세요",
+        placeholder: t("user.name_required"),
         group: "basic",
         gridColumn: "md:col-span-1",
       },
       {
         name: "email",
-        label: "이메일",
+        label: t("user.email"),
         type: "email",
         required: true,
         placeholder: "user@example.com",
@@ -111,9 +130,9 @@ export function UserForm({ open, onOpenChange, onSubmit, initialData, mode }: Us
       },
       {
         name: "phone",
-        label: "전화번호",
+        label: t("user.phone"),
         type: "text",
-        placeholder: "010-1234-5678",
+        placeholder: t("user.phone_placeholder"),
         group: "basic",
         gridColumn: "md:col-span-1",
       },
@@ -203,8 +222,8 @@ export function UserForm({ open, onOpenChange, onSubmit, initialData, mode }: Us
         gridColumn: "md:col-span-2",
       },
     ],
-    [companyOptions, departmentOptions, mode],
-  )
+    [companyOptions, departmentOptions, mode, t]
+  );
 
   const formGroups: FormGroup[] = [
     {
@@ -232,27 +251,37 @@ export function UserForm({ open, onOpenChange, onSubmit, initialData, mode }: Us
       title: "상태 설정",
       description: "사용자 계정의 상태를 설정하세요",
     },
-  ]
+  ];
 
   const handleSubmit = async (data: Record<string, any>) => {
     // confirmPassword 제거
-    const { confirmPassword, ...submitData } = data
+    const { confirmPassword, ...submitData } = data;
 
     // 조직 정보 매핑
-    const company = mockOrganizations.find((org) => org.id === data.companyId)
-    const department = mockOrganizations.find((org) => org.id === data.departmentId)
+    const company = mockOrganizations.find((org) => org.id === data.companyId);
+    const department = mockOrganizations.find(
+      (org) => org.id === data.departmentId
+    );
 
     const userFormData: UserFormData = {
-      ...submitData,
-      company: company?.name || "",
-      department: department?.name || "",
-    }
+      username: data.username,
+      email: data.email,
+      name: data.name,
+      phone: data.phone,
+      level: data.level,
+      departmentId: data.departmentId,
+      position: data.position,
+      companyId: data.companyId,
+      isActive: data.isActive,
+      permissions: data.permissions,
+      password: data.password,
+    };
 
-    await onSubmit(userFormData)
-  }
+    await onSubmit(userFormData);
+  };
 
   const getInitialData = () => {
-    if (!initialData) return {}
+    if (!initialData) return {};
 
     return {
       username: initialData.username,
@@ -265,8 +294,8 @@ export function UserForm({ open, onOpenChange, onSubmit, initialData, mode }: Us
       level: initialData.level,
       permissions: initialData.permissions || [],
       isActive: initialData.isActive,
-    }
-  }
+    };
+  };
 
   return (
     <StandardForm
@@ -276,15 +305,27 @@ export function UserForm({ open, onOpenChange, onSubmit, initialData, mode }: Us
       onSubmit={handleSubmit}
       onCancel={() => onOpenChange(false)}
       mode={mode}
-      title={mode === "create" ? "사용자 추가" : mode === "edit" ? "사용자 수정" : "사용자 정보"}
+      title={
+        mode === "create"
+          ? "사용자 추가"
+          : mode === "edit"
+          ? "사용자 수정"
+          : "사용자 정보"
+      }
       description={
         mode === "create"
           ? "새로운 사용자를 추가합니다."
           : mode === "edit"
-            ? "사용자 정보를 수정합니다."
-            : "사용자 정보를 확인합니다."
+          ? "사용자 정보를 수정합니다."
+          : "사용자 정보를 확인합니다."
       }
-      submitText={mode === "create" ? "사용자 추가" : mode === "edit" ? "수정 완료" : "확인"}
+      submitText={
+        mode === "create"
+          ? "사용자 추가"
+          : mode === "edit"
+          ? "수정 완료"
+          : "확인"
+      }
       open={open}
       onOpenChange={onOpenChange}
       showInDialog={true}
@@ -292,5 +333,5 @@ export function UserForm({ open, onOpenChange, onSubmit, initialData, mode }: Us
       maxWidth="900px"
       showValidationSummary={true}
     />
-  )
+  );
 }

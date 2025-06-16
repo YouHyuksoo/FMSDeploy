@@ -1,0 +1,205 @@
+{
+  "equipment": {
+    "title": "設備情報管理",
+    "management": "設備管理",
+    "group": "設備グループ管理",
+    "code": "設備コード管理",
+    "status": "設備状態管理",
+    "type": "設備タイプ管理",
+    "category": "設備分類管理",
+    "location": "設備位置管理",
+    "history": "設備履歴管理",
+    "document": "設備文書管理",
+    "image": "設備画像管理",
+    "specification": "設備仕様管理",
+    "manual": "設備マニュアル管理",
+    "drawing": "設備図面管理",
+    "certificate": "設備証明書管理",
+    "warranty": "設備保証書管理",
+    "maintenance": "設備保全管理",
+    "inspection": "設備点検管理",
+    "repair": "設備修理管理",
+    "replacement": "設備交換管理",
+    "calibration": "設備校正管理",
+    "monitoring": "設備モニタリング",
+    "status_monitoring": "設備状態モニタリング",
+    "performance_monitoring": "設備性能モニタリング",
+    "alarm_monitoring": "設備アラームモニタリング",
+    "trend_monitoring": "設備トレンドモニタリング",
+    "report": "設備レポート",
+    "status_report": "設備状態レポート",
+    "performance_report": "設備性能レポート",
+    "maintenance_report": "設備保全レポート",
+    "cost_report": "設備コストレポート"
+  },
+  "sensor": {
+    "title": "センサー管理",
+    "management": "センサー管理",
+    "registration": "センサー登録管理",
+    "master": "センサーマスター管理",
+    "type": "センサータイプ管理",
+    "location": "センサー位置管理",
+    "calibration": "センサー校正管理",
+    "data": "センサーデータ管理",
+    "real_time": "リアルタイムデータ管理",
+    "history": "履歴データ管理",
+    "analysis": "データ分析管理",
+    "monitoring": "センサーモニタリング",
+    "status": "センサー状態モニタリング",
+    "performance": "センサー性能モニタリング",
+    "alarm": "センサーアラームモニタリング",
+    "trend": "センサートレンドモニタリング",
+    "report": "センサーレポート",
+    "status_report": "センサー状態レポート",
+    "performance_report": "センサー性能レポート",
+    "calibration_report": "センサー校正レポート",
+    "data_report": "センサーデータレポート"
+  },
+  "materials": {
+    "title": "保全資材管理",
+    "registration_management": "資材登録管理",
+    "master_management": "資材マスター管理",
+    "inventory_management": "在庫マスター管理",
+    "inbound": "資材入庫管理",
+    "outbound": "資材出庫管理",
+    "issuance_request": "資材出庫要求"
+  },
+  "maintenance": {
+    "title": "保全管理",
+    "work_order": "作業指示管理",
+    "plan": "保全計画管理",
+    "execution": "保全実行管理",
+    "completion": "保全完了管理",
+    "approval": "保全承認管理",
+    "history": "保全履歴管理",
+    "analysis": "保全分析管理",
+    "report": "保全レポート管理"
+  },
+  "inspection": {
+    "title": "点検管理",
+    "plan": "点検計画管理",
+    "execution": "点検実行管理",
+    "completion": "点検完了管理",
+    "approval": "点検承認管理",
+    "history": "点検履歴管理",
+    "analysis": "点検分析管理",
+    "report": "点検レポート管理"
+  },
+  "failure": {
+    "title": "故障管理",
+    "registration": "故障登録管理",
+    "analysis": "故障分析管理",
+    "history": "故障履歴管理",
+    "report": "故障レポート管理"
+  },
+  "prediction": {
+    "title": "予知保全(AI)",
+    "result_management": "予測結果管理",
+    "sensor_management": "センサーデータ管理"
+  },
+  "energy": {
+    "title": "エネルギー管理",
+    "monitoring": "エネルギーモニタリング",
+    "analysis": "エネルギー分析",
+    "report": "エネルギーレポート",
+    "optimization": "エネルギー最適化",
+    "efficiency": "エネルギー効率管理",
+    "consumption": "エネルギー消費管理",
+    "cost": "エネルギーコスト管理",
+    "saving": "エネルギー節約管理",
+    "target": "エネルギー目標管理",
+    "performance": "エネルギー実績管理"
+  },
+  "carbon": {
+    "title": "カーボン管理",
+    "emission": "カーボン排出管理",
+    "reduction": "カーボン削減管理",
+    "report": "カーボンレポート",
+    "monitoring": "カーボンモニタリング",
+    "analysis": "カーボン分析",
+    "target": "カーボン目標管理",
+    "performance": "カーボン実績管理"
+  },
+  "kpi": {
+    "title": "KPI管理",
+    "dashboard": "KPIダッシュボード",
+    "management": "KPI管理",
+    "target": "KPI目標管理",
+    "performance": "KPI実績管理",
+    "analysis": "KPI分析管理",
+    "report": "KPIレポート管理"
+  },
+  "integration": {
+    "title": "統合管理",
+    "dashboard": "統合ダッシュボード",
+    "monitoring": "統合モニタリング",
+    "analysis": "統合分析",
+    "report": "統合レポート"
+  },
+  "mobile": {
+    "title": "モバイル管理",
+    "work_order": "作業指示管理",
+    "maintenance": "保全管理",
+    "inspection": "点検管理",
+    "failure": "故障管理",
+    "material": "資材管理",
+    "report": "レポート管理"
+  },
+  "location": {
+    "title": "位置管理",
+    "management": "位置管理",
+    "registration": "位置登録管理",
+    "master": "位置マスター管理",
+    "type": "位置タイプ管理",
+    "hierarchy": "位置階層管理",
+    "map": "位置地図管理",
+    "history": "位置履歴管理",
+    "report": "位置レポート管理"
+  },
+  "maintenanceTemplate": {
+    "title": "保全テンプレート",
+    "master": "テンプレートマスター管理",
+    "standard": "テンプレート項目管理"
+  },
+  "preventive": {
+    "title": "予防保全",
+    "plan": "予防保全計画",
+    "execution": "予防保全実行",
+    "completion": "予防保全完了",
+    "approval": "予防保全承認",
+    "history": "予防保全履歴",
+    "analysis": "予防保全分析",
+    "report": "予防保全レポート"
+  },
+  "metering": {
+    "title": "検針/校正",
+    "reading_management": "検針管理",
+    "calibration_management": "計測器校正",
+    "analytics_management": "検針分析",
+    "calendar_management": "校正スケジュールカレンダー"
+  },
+  "tpm": {
+    "title": "TPM管理",
+    "plan": "TPM計画管理",
+    "execution": "TPM実行管理",
+    "completion": "TPM完了管理",
+    "approval": "TPM承認管理",
+    "history": "TPM履歴管理",
+    "analysis": "TPM分析管理",
+    "report": "TPMレポート管理"
+  },
+  "system": {
+    "title": "システム管理",
+    "user": "ユーザー管理",
+    "role": "権限管理",
+    "code": "コード管理",
+    "menu": "メニュー管理",
+    "log": "ログ管理",
+    "backup": "バックアップ管理",
+    "setting": "システム設定"
+  },
+  "budget_management": {
+    "title": "予算管理",
+    "cost_analysis": "コスト分析"
+  }
+}

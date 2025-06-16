@@ -1,0 +1,34 @@
+{
+  "title": "仪表板",
+  "overview": "概览",
+  "equipment": {
+    "status": "设备状态",
+    "health": "设备健康度",
+    "maintenance": "维护状态"
+  },
+  "sensor": {
+    "status": "传感器状态",
+    "alerts": "传感器警报",
+    "monitoring": "传感器监控"
+  },
+  "maintenance": {
+    "pending": "待处理任务",
+    "in_progress": "进行中任务",
+    "completed": "已完成任务"
+  },
+  "energy": {
+    "consumption": "能源消耗",
+    "efficiency": "能源效率",
+    "savings": "能源节约"
+  },
+  "carbon": {
+    "emissions": "碳排放量",
+    "reduction": "碳减排",
+    "target": "减排目标"
+  },
+  "kpi": {
+    "overall": "综合KPI",
+    "equipment": "设备KPI",
+    "maintenance": "维护KPI"
+  }
+}
