@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback } from "react";
 import {
   Table,
   TableBody,
@@ -164,6 +164,10 @@ export function DataTable<T extends Record<string, any>>({
   const [columnFilters, setColumnFilters] = useState<Record<string, any>>({});
   const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(new Set());
   const [showFilters, setShowFilters] = useState(false);
+  const { t } = useTranslation("common");
+  const searchPlaceholderText = searchPlaceholder ?? `${t("common.search")}...`;
+  const addButtonTextText = addButtonText ?? t("common.add");
+  const emptyMessageText = emptyMessage ?? t("common.noData");
 
   const getValue = useCallback((record: T, key: string): any => {
     if (!record || !key) return "";
@@ -350,7 +354,7 @@ export function DataTable<T extends Record<string, any>>({
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder={searchPlaceholder}
+                placeholder={searchPlaceholderText}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-8 w-64"
@@ -374,7 +378,7 @@ export function DataTable<T extends Record<string, any>>({
             variant="outline"
             size="icon"
             onClick={clearFilters}
-            title={t("resetFilters")}
+            title="필터 초기화"
           >
             <RotateCcw className="h-4 w-4" />
           </Button>
@@ -424,7 +428,7 @@ export function DataTable<T extends Record<string, any>>({
           {onAdd && (
             <Button onClick={onAdd}>
               <Plus className="h-4 w-4 mr-2" />
-              {addButtonText}
+              {addButtonTextText}
             </Button>
           )}
         </div>
@@ -454,10 +458,10 @@ export function DataTable<T extends Record<string, any>>({
                         }
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder={t("all")} />
+                          <SelectValue placeholder="전체" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="all">{t("all")}</SelectItem>
+                          <SelectItem value="all">전체</SelectItem>
                           {column.filterOptions.map((option) => (
                             <SelectItem key={option.value} value={option.value}>
                               {option.label}
@@ -467,7 +471,7 @@ export function DataTable<T extends Record<string, any>>({
                       </Select>
                     ) : (
                       <Input
-                        placeholder={`${column.title} ${t("filter")}`}
+                        placeholder={`${column.title} 필터`}
                         value={columnFilters[String(columnKey)] || ""}
                         onChange={(e) =>
                           handleColumnFilter(String(columnKey), e.target.value)
@@ -486,14 +490,14 @@ export function DataTable<T extends Record<string, any>>({
         <div className="bg-blue-50 dark:bg-blue-950 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
-              {selectedRows.length} {t("itemsSelected")}
+              {selectedRows.length}개 항목이 선택됨
             </span>
             <Button
               variant="outline"
               size="sm"
               onClick={() => onSelectedRowsChange?.([])}
             >
-              {t("deselect")}
+              선택 해제
             </Button>
           </div>
         </div>
@@ -569,7 +573,7 @@ export function DataTable<T extends Record<string, any>>({
                   </TableHead>
                 ))}
                 {actions.length > 0 && (
-                  <TableHead className="w-[100px]">{t("actions")}</TableHead>
+                  <TableHead className="w-[100px]">작업</TableHead>
                 )}
               </TableRow>
             </TableHeader>
@@ -586,7 +590,7 @@ export function DataTable<T extends Record<string, any>>({
                   >
                     <div className="flex items-center justify-center">
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                      <span className="ml-2">{t("loading")}</span>
+                      <span className="ml-2">로딩 중...</span>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -600,7 +604,7 @@ export function DataTable<T extends Record<string, any>>({
                     }
                     className="text-center py-8 text-muted-foreground"
                   >
-                    {emptyMessage}
+                    {emptyMessageText}
                   </TableCell>
                 </TableRow>
               ) : (
@@ -684,14 +688,14 @@ export function DataTable<T extends Record<string, any>>({
       {pagination && (
         <div className="flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
-            {t("total")} {pagination.total} {t("items")} {t("of")}{" "}
+            총 {pagination.total}개 항목 중{" "}
             {(pagination.page - 1) * pagination.pageSize + 1}-
             {Math.min(pagination.page * pagination.pageSize, pagination.total)}
-            {t("itemsDisplayed")}
+            개 표시
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-2">
-              <span className="text-sm">{t("itemsPerPage")}:</span>
+              <span className="text-sm">페이지당 항목:</span>
               <Select
                 value={pagination.pageSize.toString()}
                 onValueChange={(value) =>
@@ -716,7 +720,7 @@ export function DataTable<T extends Record<string, any>>({
                 onClick={() => pagination.onPageChange(1)}
                 disabled={pagination.page === 1}
               >
-                {t("first")}
+                처음
               </Button>
               <Button
                 variant="outline"
@@ -724,7 +728,7 @@ export function DataTable<T extends Record<string, any>>({
                 onClick={() => pagination.onPageChange(pagination.page - 1)}
                 disabled={pagination.page === 1}
               >
-                {t("prev")}
+                이전
               </Button>
               <span className="px-3 py-1 text-sm">
                 {pagination.page} /{" "}
@@ -739,7 +743,7 @@ export function DataTable<T extends Record<string, any>>({
                   Math.ceil(pagination.total / pagination.pageSize)
                 }
               >
-                {t("next")}
+                다음
               </Button>
               <Button
                 variant="outline"
@@ -754,7 +758,7 @@ export function DataTable<T extends Record<string, any>>({
                   Math.ceil(pagination.total / pagination.pageSize)
                 }
               >
-                {t("last")}
+                마지막
               </Button>
             </div>
           </div>
@@ -765,16 +769,10 @@ export function DataTable<T extends Record<string, any>>({
       <div className="flex items-center justify-between text-sm text-muted-foreground">
         <div>
           {searchTerm || Object.keys(columnFilters).length > 0
-            ? `${t("filtered")} ${sortedData.length} {t("items")} (${t(
-                "total"
-              )} ${data.length})`
-            : `${t("total")} ${data.length} {t("items")}`}
+            ? `필터링된 ${sortedData.length}개 항목 (전체 ${data.length}개)`
+            : `총 ${data.length}개 항목`}
         </div>
-        {selectedRows.length > 0 && (
-          <div>
-            {selectedRows.length} {t("itemsSelected")}
-          </div>
-        )}
+        {selectedRows.length > 0 && <div>{selectedRows.length}개 선택됨</div>}
       </div>
     </div>
   );
