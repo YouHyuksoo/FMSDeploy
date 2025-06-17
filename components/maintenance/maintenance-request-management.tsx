@@ -1,11 +1,15 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { DataTable, type Column, type DataTableAction } from "@/components/common/data-table"
-import { MaintenanceForm } from "./maintenance-form"
-import { MaintenancePlanForm } from "./maintenance-plan-form"
-import { ImportExportDialog } from "@/components/common/import-export-dialog"
-import { Badge } from "@/components/ui/badge"
+import { useState, useEffect } from "react";
+import {
+  DataTable,
+  type Column,
+  type DataTableAction,
+} from "@/components/common/data-table";
+import { MaintenanceForm } from "./maintenance-form";
+import { MaintenancePlanForm } from "./maintenance-plan-form";
+import { ImportExportDialog } from "@/components/common/import-export-dialog";
+import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,70 +19,90 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { useToast } from "@/hooks/use-toast"
-import type { MaintenanceRequest, MaintenanceFormData, MaintenancePlanFormData } from "@/types/maintenance"
-import { mockMaintenanceRequests } from "@/lib/mock-data/maintenance"
-import type { ExportColumn, ImportColumn } from "@/lib/utils/export-utils"
-import { Edit, Trash2, Eye, CheckCircle, XCircle, Clock, Settings, Calendar, User } from "lucide-react"
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+import type { MaintenanceRequest } from "@/types/maintenance";
+import { mockMaintenanceRequests } from "@/lib/mock-data/maintenance";
+import type { ExportColumn } from "@/lib/utils/export-utils";
+import {
+  Edit,
+  Trash2,
+  Eye,
+  CheckCircle,
+  XCircle,
+  Clock,
+  Settings,
+  Calendar,
+  User,
+} from "lucide-react";
+import { useTranslation } from "@/lib/language-context";
 
 export function MaintenanceRequestManagement() {
-  const [requests, setRequests] = useState<MaintenanceRequest[]>([])
-  const [loading, setLoading] = useState(true)
-  const [formOpen, setFormOpen] = useState(false)
-  const [formMode, setFormMode] = useState<"create" | "edit" | "view">("create")
-  const [selectedRequest, setSelectedRequest] = useState<MaintenanceRequest | undefined>()
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [requestToDelete, setRequestToDelete] = useState<MaintenanceRequest | undefined>()
-  const [importExportOpen, setImportExportOpen] = useState(false)
-  const [selectedRows, setSelectedRows] = useState<MaintenanceRequest[]>([])
-  const { toast } = useToast()
+  const { t } = useTranslation("maintenance");
+  const [requests, setRequests] = useState<MaintenanceRequest[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [formOpen, setFormOpen] = useState(false);
+  const [formMode, setFormMode] = useState<"create" | "edit" | "view">(
+    "create"
+  );
+  const [selectedRequest, setSelectedRequest] = useState<
+    MaintenanceRequest | undefined
+  >();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [requestToDelete, setRequestToDelete] = useState<
+    MaintenanceRequest | undefined
+  >();
+  const [importExportOpen, setImportExportOpen] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<MaintenanceRequest[]>([]);
+  const { toast } = useToast();
 
-  const [planFormOpen, setPlanFormOpen] = useState(false)
-  const [requestToPlan, setRequestToPlan] = useState<MaintenanceRequest | undefined>()
+  const [planFormOpen, setPlanFormOpen] = useState(false);
+  const [requestToPlan, setRequestToPlan] = useState<
+    MaintenanceRequest | undefined
+  >();
 
   useEffect(() => {
-    loadRequests()
-  }, [])
+    loadRequests();
+  }, []);
 
   const loadRequests = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      setRequests(mockMaintenanceRequests)
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setRequests(mockMaintenanceRequests);
     } catch (error) {
       toast({
         title: "오류",
         description: "작업 요청 목록을 불러오는데 실패했습니다.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleAdd = () => {
-    setSelectedRequest(undefined)
-    setFormMode("create")
-    setFormOpen(true)
-  }
+    setSelectedRequest(undefined);
+    setFormMode("create");
+    setFormOpen(true);
+  };
 
   const handleEdit = (request: MaintenanceRequest) => {
-    setSelectedRequest(request)
-    setFormMode("edit")
-    setFormOpen(true)
-  }
+    setSelectedRequest(request);
+    setFormMode("edit");
+    setFormOpen(true);
+  };
 
   const handleView = (request: MaintenanceRequest) => {
-    setSelectedRequest(request)
-    setFormMode("view")
-    setFormOpen(true)
-  }
+    setSelectedRequest(request);
+    setFormMode("view");
+    setFormOpen(true);
+  };
 
   const handleDelete = (request: MaintenanceRequest) => {
-    setRequestToDelete(request)
-    setDeleteDialogOpen(true)
-  }
+    setRequestToDelete(request);
+    setDeleteDialogOpen(true);
+  };
 
   const handleApprove = (request: MaintenanceRequest) => {
     setRequests((prev) =>
@@ -92,14 +116,14 @@ export function MaintenanceRequestManagement() {
               approvalDate: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
             }
-          : req,
-      ),
-    )
+          : req
+      )
+    );
     toast({
       title: "승인 완료",
       description: `"${request.title}" 요청이 승인되었습니다.`,
-    })
-  }
+    });
+  };
 
   const handleReject = (request: MaintenanceRequest) => {
     setRequests((prev) =>
@@ -110,25 +134,25 @@ export function MaintenanceRequestManagement() {
               status: "rejected",
               updatedAt: new Date().toISOString(),
             }
-          : req,
-      ),
-    )
+          : req
+      )
+    );
     toast({
       title: "반려 완료",
       description: `"${request.title}" 요청이 반려되었습니다.`,
-    })
-  }
+    });
+  };
 
   const handleCreatePlan = (request: MaintenanceRequest) => {
-    setRequestToPlan(request)
-    setPlanFormOpen(true)
-  }
+    setRequestToPlan(request);
+    setPlanFormOpen(true);
+  };
 
-  const handlePlanFormSubmit = async (data: MaintenancePlanFormData) => {
-    if (!requestToPlan) return
+  const handlePlanFormSubmit = async (data: any) => {
+    if (!requestToPlan) return;
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const newPlan = {
         ...data,
@@ -142,9 +166,9 @@ export function MaintenanceRequestManagement() {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         createdBy: "current-user",
-      }
+      };
 
-      console.log("신규 작업 계획 생성 (요청 기반):", newPlan)
+      console.log("신규 작업 계획 생성 (요청 기반):", newPlan);
 
       setRequests((prev) =>
         prev.map((req) =>
@@ -154,56 +178,66 @@ export function MaintenanceRequestManagement() {
                 status: "planned",
                 updatedAt: new Date().toISOString(),
               }
-            : req,
-        ),
-      )
+            : req
+        )
+      );
 
       toast({
         title: "계획 수립 완료",
         description: `"${data.title}" 작업 계획이 생성되었습니다. '작업계획 배정' 메뉴에서 확인하세요.`,
         duration: 5000,
-      })
+      });
     } catch (error) {
       toast({
         title: "오류",
         description: "작업 계획 수립에 실패했습니다.",
         variant: "destructive",
-      })
-      throw error
+      });
+      throw error;
     }
-  }
+  };
 
   const confirmDelete = async () => {
-    if (!requestToDelete) return
+    if (!requestToDelete) return;
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500))
-      setRequests((prev) => prev.filter((req) => req.id !== requestToDelete.id))
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      setRequests((prev) =>
+        prev.filter((req) => req.id !== requestToDelete.id)
+      );
       toast({
         title: "삭제 완료",
         description: "작업 요청이 삭제되었습니다.",
-      })
+      });
     } catch (error) {
       toast({
         title: "오류",
         description: "작업 요청 삭제에 실패했습니다.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setDeleteDialogOpen(false)
-      setRequestToDelete(undefined)
+      setDeleteDialogOpen(false);
+      setRequestToDelete(undefined);
     }
-  }
+  };
 
-  const handleFormSubmit = async (data: MaintenanceFormData) => {
+  const handleFormSubmit = async (data: any) => {
     try {
       if (formMode === "create") {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         const newRequest: MaintenanceRequest = {
           id: Date.now().toString(),
-          requestNo: `REQ-${new Date().getFullYear()}-${String(requests.length + 1).padStart(3, "0")}`,
-          ...data,
+          requestNo: `REQ-${new Date().getFullYear()}-${String(
+            requests.length + 1
+          ).padStart(3, "0")}`,
+          title: data.title ?? "제목 없음",
+          description: data.description ?? "설명 없음",
+          equipmentId: data.equipmentId ?? "EQ-UNKNOWN",
+          requestType: data.requestType ?? "breakdown",
+          priority: data.priority ?? "normal",
+          estimatedDuration: data.estimatedDuration ?? 0,
+          estimatedCost: data.estimatedCost ?? 0,
           equipmentCode: "EQ-SAMPLE-001",
           equipmentName: "샘플 설비",
           status: "requested",
@@ -217,15 +251,15 @@ export function MaintenanceRequestManagement() {
           updatedAt: new Date().toISOString(),
           createdBy: "current-user",
           updatedBy: "current-user",
-        }
+        };
 
-        setRequests((prev) => [...prev, newRequest])
+        setRequests((prev) => [...prev, newRequest]);
         toast({
           title: "등록 완료",
           description: "보전작업 요청이 등록되었습니다.",
-        })
+        });
       } else if (formMode === "edit") {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setRequests((prev) =>
           prev.map((req) =>
@@ -236,61 +270,63 @@ export function MaintenanceRequestManagement() {
                   updatedAt: new Date().toISOString(),
                   updatedBy: "current-user",
                 }
-              : req,
-          ),
-        )
+              : req
+          )
+        );
 
         toast({
           title: "수정 완료",
           description: "작업 요청이 수정되었습니다.",
-        })
+        });
       }
     } catch (error) {
       toast({
         title: "오류",
-        description: `작업 요청 ${formMode === "create" ? "등록" : "수정"}에 실패했습니다.`,
+        description: `작업 요청 ${
+          formMode === "create" ? "등록" : "수정"
+        }에 실패했습니다.`,
         variant: "destructive",
-      })
-      throw error
+      });
+      throw error;
     }
-  }
+  };
 
   const handleImportComplete = async (importedData: MaintenanceRequest[]) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      setRequests((prev) => [...prev, ...importedData])
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setRequests((prev) => [...prev, ...importedData]);
       toast({
         title: "가져오기 완료",
         description: `${importedData.length}개의 작업 요청이 가져오기 되었습니다.`,
-      })
+      });
     } catch (error) {
       toast({
         title: "오류",
         description: "데이터 가져오기에 실패했습니다.",
         variant: "destructive",
-      })
-      throw error
+      });
+      throw error;
     }
-  }
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "requested":
-        return <Clock className="h-4 w-4" />
+        return <Clock className="h-4 w-4" />;
       case "approved":
-        return <CheckCircle className="h-4 w-4" />
+        return <CheckCircle className="h-4 w-4" />;
       case "rejected":
-        return <XCircle className="h-4 w-4" />
+        return <XCircle className="h-4 w-4" />;
       case "planned":
-        return <Calendar className="h-4 w-4" />
+        return <Calendar className="h-4 w-4" />;
       case "in_progress":
-        return <Settings className="h-4 w-4" />
+        return <Settings className="h-4 w-4" />;
       case "completed":
-        return <CheckCircle className="h-4 w-4" />
+        return <CheckCircle className="h-4 w-4" />;
       default:
-        return <Clock className="h-4 w-4" />
+        return <Clock className="h-4 w-4" />;
     }
-  }
+  };
 
   const getStatusLabel = (status: string) => {
     const labels: Record<string, string> = {
@@ -302,28 +338,28 @@ export function MaintenanceRequestManagement() {
       in_progress: "진행중",
       completed: "완료됨",
       cancelled: "취소됨",
-    }
-    return labels[status] || status
-  }
+    };
+    return labels[status] || status;
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "requested":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
       case "approved":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
       case "rejected":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
       case "planned":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
       case "in_progress":
-        return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
+        return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
       case "completed":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
     }
-  }
+  };
 
   const getPriorityLabel = (priority: string) => {
     const labels: Record<string, string> = {
@@ -331,24 +367,24 @@ export function MaintenanceRequestManagement() {
       high: "높음",
       normal: "보통",
       low: "낮음",
-    }
-    return labels[priority] || priority
-  }
+    };
+    return labels[priority] || priority;
+  };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "critical":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
       case "high":
-        return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
+        return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
       case "normal":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
       case "low":
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
     }
-  }
+  };
 
   const getRequestTypeLabel = (type: string) => {
     const labels: Record<string, string> = {
@@ -356,14 +392,14 @@ export function MaintenanceRequestManagement() {
       preventive: "예방정비",
       improvement: "개선작업",
       emergency: "비상수리",
-    }
-    return labels[type] || type
-  }
+    };
+    return labels[type] || type;
+  };
 
   const columns: Column<MaintenanceRequest>[] = [
     {
       key: "requestNo",
-      title: "요청번호",
+      title: t("requestNo"),
       width: "w-32",
       sortable: true,
       searchable: true,
@@ -376,49 +412,51 @@ export function MaintenanceRequestManagement() {
     },
     {
       key: "title",
-      title: "작업 제목",
+      title: t("workTitle"),
       sortable: true,
       searchable: true,
       render: (value, record) => (
         <div>
           <div className="font-medium">{value}</div>
-          <div className="text-sm text-muted-foreground">{record.equipmentName}</div>
+          <div className="text-sm text-muted-foreground">
+            {record.equipmentName}
+          </div>
         </div>
       ),
     },
     {
       key: "requestType",
-      title: "요청 유형",
+      title: t("requestType"),
       width: "w-24",
       sortable: true,
       filterable: true,
       filterOptions: [
-        { label: "고장수리", value: "breakdown" },
-        { label: "예방정비", value: "preventive" },
-        { label: "개선작업", value: "improvement" },
-        { label: "비상수리", value: "emergency" },
+        { label: t("breakdown"), value: "breakdown" },
+        { label: t("preventive"), value: "preventive" },
+        { label: t("improvement"), value: "improvement" },
+        { label: t("emergency"), value: "emergency" },
       ],
-      render: (value) => <Badge variant="outline">{getRequestTypeLabel(value)}</Badge>,
+      render: (value) => <Badge variant="outline">{t(value)}</Badge>,
     },
     {
       key: "status",
-      title: "상태",
+      title: t("status"),
       width: "w-24",
       sortable: true,
       filterable: true,
       filterOptions: [
-        { label: "요청됨", value: "requested" },
-        { label: "승인됨", value: "approved" },
-        { label: "반려됨", value: "rejected" },
-        { label: "계획됨", value: "planned" },
-        { label: "진행중", value: "in_progress" },
-        { label: "완료됨", value: "completed" },
+        { label: t("requested"), value: "requested" },
+        { label: t("approved"), value: "approved" },
+        { label: t("rejected"), value: "rejected" },
+        { label: t("planned"), value: "planned" },
+        { label: t("in_progress"), value: "in_progress" },
+        { label: t("completed"), value: "completed" },
       ],
       render: (value) => (
         <Badge variant="secondary" className={getStatusColor(value)}>
           <div className="flex items-center gap-1">
             {getStatusIcon(value)}
-            {getStatusLabel(value)}
+            {t(value)}
           </div>
         </Badge>
       ),
@@ -473,7 +511,7 @@ export function MaintenanceRequestManagement() {
       align: "center",
       render: (value) => (value ? `${value}시간` : "-"),
     },
-  ]
+  ];
 
   const actions: DataTableAction<MaintenanceRequest>[] = [
     {
@@ -519,15 +557,30 @@ export function MaintenanceRequestManagement() {
       variant: "destructive",
       hidden: (record) => !["requested", "rejected"].includes(record.status),
     },
-  ]
+  ];
 
   const exportColumns: ExportColumn[] = [
     { key: "requestNo", title: "요청번호", width: 15 },
     { key: "title", title: "작업 제목", width: 30 },
     { key: "equipmentName", title: "설비명", width: 20 },
-    { key: "requestType", title: "요청 유형", width: 15, format: (value) => getRequestTypeLabel(value) },
-    { key: "status", title: "상태", width: 15, format: (value) => getStatusLabel(value) },
-    { key: "priority", title: "우선순위", width: 10, format: (value) => getPriorityLabel(value) },
+    {
+      key: "requestType",
+      title: "요청 유형",
+      width: 15,
+      format: (value) => getRequestTypeLabel(value),
+    },
+    {
+      key: "status",
+      title: "상태",
+      width: 15,
+      format: (value) => getStatusLabel(value),
+    },
+    {
+      key: "priority",
+      title: "우선순위",
+      width: 10,
+      format: (value) => getPriorityLabel(value),
+    },
     { key: "requestedByName", title: "요청자", width: 15 },
     {
       key: "requestDate",
@@ -542,29 +595,54 @@ export function MaintenanceRequestManagement() {
       format: (value) => (value ? `${Number(value).toLocaleString()}원` : ""),
     },
     { key: "description", title: "설명", width: 40 },
-  ]
+  ];
 
-  const importColumns: ImportColumn[] = [
-    { key: "title", title: "작업 제목", required: true, type: "string" },
-    { key: "description", title: "작업 내용", required: true, type: "string" },
-    { key: "equipmentId", title: "설비 ID", required: true, type: "string" },
-    { key: "requestType", title: "요청 유형", required: true, type: "string" },
-    { key: "priority", title: "우선순위", required: true, type: "string" },
-    { key: "estimatedDuration", title: "예상 시간", type: "number" },
-    { key: "estimatedCost", title: "예상 비용", type: "number" },
-  ]
+  const importColumns = [
+    {
+      key: "title",
+      title: "작업 제목",
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "description",
+      title: "작업 내용",
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "equipmentId",
+      title: "설비 ID",
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "requestType",
+      title: "요청 유형",
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "priority",
+      title: "우선순위",
+      required: true,
+      type: "string" as const,
+    },
+    { key: "estimatedDuration", title: "예상 시간", type: "number" as const },
+    { key: "estimatedCost", title: "예상 비용", type: "number" as const },
+  ];
 
-  const sampleData = [
+  const sampleData: Partial<MaintenanceRequest>[] = [
     {
       title: "샘플 보전작업",
       description: "샘플 작업 내용",
       equipmentId: "1",
-      requestType: "breakdown",
+      requestType: "breakdown" as "breakdown",
       priority: "normal",
       estimatedDuration: 2,
       estimatedCost: 100000,
     },
-  ]
+  ];
 
   return (
     <div className="space-y-6">
@@ -572,7 +650,8 @@ export function MaintenanceRequestManagement() {
         <div>
           <h2 className="text-2xl font-bold tracking-tight">보전작업 요청</h2>
           <p className="text-muted-foreground">
-            보전작업 요청을 등록하고, 승인된 요청을 바탕으로 작업 계획을 수립합니다.
+            보전작업 요청을 등록하고, 승인된 요청을 바탕으로 작업 계획을
+            수립합니다.
           </p>
         </div>
       </div>
@@ -628,7 +707,10 @@ export function MaintenanceRequestManagement() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>취소</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-red-600 hover:bg-red-700"
+            >
               삭제
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -645,5 +727,5 @@ export function MaintenanceRequestManagement() {
         onCancel={() => setPlanFormOpen(false)}
       />
     </div>
-  )
+  );
 }
