@@ -568,6 +568,17 @@
       "health": "설비 건강지수"
     }
   },
+  "dataTable": {
+    "reset_filters": "필터 초기화",
+    "pagination_summary": "총 {total}개 항목 중 {start}-{end}개 표시",
+    "items_per_page": "페이지당 항목:",
+    "first": "처음",
+    "last": "마지막",
+    "selected_count": "{count}개 선택됨",
+    "filtered_summary": "필터링된 {filtered}개 항목 (전체 {total}개)",
+    "total_summary": "총 {count}개 항목",
+    "deselect": "선택 해제"
+  },
   "import": {
     "empty_file": "파일이 비어있습니다.",
     "missing_header": "필수 헤더가 없습니다: {header}"

@@ -146,5 +146,16 @@
       "boolean": "Y或N",
       "default": "文本输入"
     }
+  },
+  "dataTable": {
+    "reset_filters": "重置过滤器",
+    "pagination_summary": "共{total}项，显示{start}-{end}项",
+    "items_per_page": "每页条目数:",
+    "first": "首页",
+    "last": "末页",
+    "selected_count": "已选择{count}项",
+    "filtered_summary": "已筛选{filtered}项 (共{total}项)",
+    "total_summary": "共 {count} 项",
+    "deselect": "取消选择"
   }
 }
