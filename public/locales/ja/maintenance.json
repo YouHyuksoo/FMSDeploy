@@ -1,0 +1,11 @@
+{
+  "title": "保全管理",
+  "work_order": "作業指示管理",
+  "plan": "保全計画管理",
+  "execution": "保全実行管理",
+  "completion": "保全完了管理",
+  "approval": "保全承認管理",
+  "history": "保全履歴管理",
+  "analysis": "保全分析管理",
+  "report": "保全レポート管理"
+}

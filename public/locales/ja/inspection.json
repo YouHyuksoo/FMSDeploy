@@ -1,0 +1,10 @@
+{
+  "title": "点検管理",
+  "plan": "点検計画管理",
+  "execution": "点検実行管理",
+  "completion": "点検完了管理",
+  "approval": "点検承認管理",
+  "history": "点検履歴管理",
+  "analysis": "点検分析管理",
+  "report": "点検レポート管理"
+}

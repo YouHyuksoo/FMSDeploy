@@ -1,0 +1,12 @@
+{
+  "title": "탄소관리",
+  "tracking": "탄소 배출 현황",
+  "emission_factors": "배출계수 관리",
+  "reduction_targets": "감축 목표 관리",
+  "esg_report": "ESG 보고서",
+  "ai_prediction": "AI 탄소배출예측",
+  "sources": "배출원 관리",
+  "reduction_activities": "감축 활동 관리",
+  "scope3": "밸류체인(Scope 3) 관리",
+  "data_import": "데이터 업로드/연동"
+}

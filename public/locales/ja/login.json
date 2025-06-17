@@ -1,0 +1,18 @@
+{
+  "title": "FMS ログイン",
+  "description": "設備管理システムにログインしてください",
+  "company_select": "会社選択",
+  "company_placeholder": "会社を選択してください",
+  "username": "ユーザーID",
+  "username_placeholder": "ユーザーIDを入力してください",
+  "password": "パスワード",
+  "password_placeholder": "パスワードを入力してください",
+  "login_button": "ログイン",
+  "login_loading": "ログイン中...",
+  "fill_all_fields": "すべての項目を入力してください。",
+  "error_message": "ログイン情報が正しくありません。",
+  "test_accounts": "テストアカウント:",
+  "admin": "管理者:",
+  "user": "ユーザー:",
+  "manager": "マネージャー:"
+}

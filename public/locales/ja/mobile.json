@@ -1,0 +1,9 @@
+{
+  "title": "モバイル管理",
+  "work_order": "作業指示管理",
+  "maintenance": "保全管理",
+  "inspection": "点検管理",
+  "failure": "故障管理",
+  "material": "資材管理",
+  "report": "レポート管理"
+}

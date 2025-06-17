@@ -1,0 +1,9 @@
+{
+  "title": "설비정보관리",
+  "overview": "설비통합조회",
+  "master_management": "설비마스터관리",
+  "registration_management": "설비등록관리",
+  "bom_management": "설비BOM관리",
+  "spec": "설비사양관리",
+  "docs": "설비자료관리"
+}

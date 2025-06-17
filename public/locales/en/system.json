@@ -1,0 +1,18 @@
+{
+  "title": "System Management",
+  "user": "User Management",
+  "role": "Role Management",
+  "code": "Code Management",
+  "menu": "Menu Management",
+  "log": "Log Management",
+  "backup": "Backup Management",
+  "setting": "System Settings",
+  "organization_management": "Organization Management",
+  "users_management": "User Management",
+  "permissions_management": "Permission Management",
+  "roles_management": "Role Management",
+  "codes_management": "Basic Code Management",
+  "config_management": "Environment Settings",
+  "language_management": "Language Management",
+  "theme_management": "Theme Settings"
+}
