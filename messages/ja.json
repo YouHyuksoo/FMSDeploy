@@ -1,0 +1,23 @@
+{
+  "itemsSelected": "項目が選択されました",
+  "itemsDisplayed": "項目が表示されています",
+  "itemsPerPage": "ページあたりの項目数",
+  "first": "最初",
+  "prev": "前へ",
+  "next": "次へ",
+  "last": "最後",
+  "filtered": "フィルター済み",
+  "total": "合計",
+  "items": "項目",
+  "add": "追加",
+  "all": "すべて",
+  "deselect": "選択解除",
+  "resetFilters": "フィルターをリセット",
+  "search": "検索...",
+  "filter": "フィルター",
+  "actions": "操作",
+  "data": "データ",
+  "columns": "カラム",
+  "displayed": "表示",
+  "of": "中"
+}

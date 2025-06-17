@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { DataTable } from "@/components/common/data-table";
+import dynamic from "next/dynamic";
 import { useToast } from "@/hooks/use-toast";
 import {
   Plus,
@@ -23,11 +23,20 @@ import {
   RadioTower,
   Wifi,
   HardDrive,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { type Sensor } from "@/types/sensor";
 import { mockSensors } from "@/lib/mock-data/sensor";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+
+const DataTable = dynamic(
+  () => import("@/components/common/data-table").then((mod) => mod.DataTable),
+  {
+    ssr: false,
+  }
+);
 
 // 센서 유형에 따른 아이콘 컴포넌트
 const SensorTypeIcon = ({ type }: { type: string }) => {
@@ -69,15 +78,17 @@ const getStatusBadge = (status: string) => {
 const columns = [
   {
     key: "id",
-    label: "센서 ID",
+    title: "센서 ID",
+    sortable: true,
   },
   {
     key: "name",
-    label: "센서명",
+    title: "센서명",
+    sortable: true,
   },
   {
     key: "type",
-    label: "센서 유형",
+    title: "센서 유형",
     render: (value: string) => {
       const typeMap: Record<string, string> = {
         temperature: "온도",
@@ -87,18 +98,21 @@ const columns = [
       };
       return typeMap[value] || value;
     },
+    sortable: true,
   },
   {
     key: "group",
-    label: "그룹",
+    title: "그룹",
+    sortable: true,
   },
   {
     key: "location",
-    label: "위치",
+    title: "위치",
+    sortable: true,
   },
   {
     key: "status",
-    label: "상태",
+    title: "상태",
     render: (value: string) => {
       const statusMap: Record<
         string,
@@ -115,15 +129,18 @@ const columns = [
       const status = statusMap[value] || { label: value, variant: "outline" };
       return <Badge variant={status.variant}>{status.label}</Badge>;
     },
+    sortable: true,
   },
   {
     key: "lastValue",
-    label: "최근 측정값",
-    render: (value: number, row: Sensor) => `${value} ${row.unit}`,
+    title: "최근 측정값",
+    render: (value: number, record: Record<string, any>) =>
+      `${value} ${record.unit}`,
+    sortable: true,
   },
   {
     key: "lastUpdate",
-    label: "최근 업데이트",
+    title: "최근 업데이트",
     render: (value: string) => {
       const date = new Date(value);
       return date.toLocaleString("ko-KR", {
@@ -137,29 +154,45 @@ const columns = [
         timeZone: "UTC",
       });
     },
+    sortable: true,
   },
 ];
 
 const actions = [
   {
-    icon: "Pencil",
+    key: "edit",
+    icon: Pencil,
     label: "수정",
-    onClick: (row: Sensor) => {
-      console.log("수정", row);
+    onClick: (record: Record<string, any>) => {
+      console.log("수정", record);
     },
   },
   {
-    icon: "Trash2",
+    key: "delete",
+    icon: Trash2,
     label: "삭제",
-    onClick: (row: Sensor) => {
-      console.log("삭제", row);
+    onClick: (record: Record<string, any>) => {
+      console.log("삭제", record);
     },
   },
 ];
 
 export default function SensorOverviewPage() {
   const { toast } = useToast();
-  const [sensors, setSensors] = useState<Sensor[]>(mockSensors);
+  const [sensors, setSensors] = useState<Sensor[]>([]);
+  const [searchName, setSearchName] = useState("");
+  const [searchGroup, setSearchGroup] = useState("");
+
+  const handleSearch = () => {
+    const filtered = mockSensors.filter((sensor) => {
+      const nameMatch = searchName ? sensor.name.includes(searchName) : true;
+      const groupMatch = searchGroup
+        ? sensor.group.includes(searchGroup)
+        : true;
+      return nameMatch && groupMatch;
+    });
+    setSensors(filtered);
+  };
 
   return (
     <div className="p-8">
@@ -168,15 +201,30 @@ export default function SensorOverviewPage() {
           <CardTitle>센서 현황</CardTitle>
         </CardHeader>
         <CardContent>
+          <div className="flex gap-4 mb-4">
+            <Input
+              placeholder="센서명"
+              value={searchName}
+              onChange={(e) => setSearchName(e.target.value)}
+              className="w-48"
+            />
+            <Input
+              placeholder="그룹"
+              value={searchGroup}
+              onChange={(e) => setSearchGroup(e.target.value)}
+              className="w-48"
+            />
+            <Button onClick={handleSearch}>조회</Button>
+          </div>
           <DataTable
-            data={mockSensors}
+            data={sensors}
             columns={columns}
             actions={actions}
-            searchable
-            sortable
-            filterable
+            showSearch
+            showFilter
             showExport
             showImport
+            showColumnSettings={true}
           />
         </CardContent>
       </Card>

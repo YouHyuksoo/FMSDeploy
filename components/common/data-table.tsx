@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -39,6 +39,7 @@ import {
   RotateCcw,
   Settings,
 } from "lucide-react";
+import { useTranslation } from "@/lib/language-context";
 
 export interface Column<T> {
   key: keyof T | string;
@@ -96,23 +97,36 @@ export interface DataTableProps<T> {
   maxHeight?: string;
 }
 
-const formatValue = (value: any): string => {
+// 날짜 셀 클라이언트 전용 렌더링 컴포넌트
+function DateCell({ value }: { value: any }) {
+  const [dateStr, setDateStr] = useState("");
+  useEffect(() => {
+    if (value) {
+      const date = new Date(value);
+      setDateStr(
+        date.toLocaleString("ko-KR", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+          timeZone: "UTC",
+        })
+      );
+    }
+  }, [value]);
+  return <>{dateStr}</>;
+}
+
+const formatValue = (value: any): React.ReactNode => {
   if (value == null) return "";
   if (
     value instanceof Date ||
     (typeof value === "string" && !isNaN(Date.parse(value)))
   ) {
-    const date = new Date(value);
-    return date.toLocaleString("ko-KR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-      timeZone: "UTC",
-    });
+    return <DateCell value={value} />;
   }
   if (typeof value === "boolean") return value ? "Y" : "N";
   return String(value);
@@ -124,10 +138,10 @@ export function DataTable<T extends Record<string, any>>({
   actions = [],
   onAdd,
   loading = false,
-  searchPlaceholder = "검색...",
+  searchPlaceholder,
   title,
   subtitle,
-  addButtonText = "추가",
+  addButtonText,
   showSearch = true,
   showFilter = true,
   showExport = false,
@@ -139,10 +153,11 @@ export function DataTable<T extends Record<string, any>>({
   pagination,
   onExport,
   onImport,
-  emptyMessage = "데이터가 없습니다.",
+  emptyMessage,
   stickyHeader = false,
   maxHeight = "calc(100vh - 200px)",
 }: DataTableProps<T>) {
+  const { t } = useTranslation("common");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState<string>("");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
@@ -359,7 +374,7 @@ export function DataTable<T extends Record<string, any>>({
             variant="outline"
             size="icon"
             onClick={clearFilters}
-            title="필터 초기화"
+            title={t("resetFilters")}
           >
             <RotateCcw className="h-4 w-4" />
           </Button>
@@ -439,10 +454,10 @@ export function DataTable<T extends Record<string, any>>({
                         }
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="전체" />
+                          <SelectValue placeholder={t("all")} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="all">전체</SelectItem>
+                          <SelectItem value="all">{t("all")}</SelectItem>
                           {column.filterOptions.map((option) => (
                             <SelectItem key={option.value} value={option.value}>
                               {option.label}
@@ -452,7 +467,7 @@ export function DataTable<T extends Record<string, any>>({
                       </Select>
                     ) : (
                       <Input
-                        placeholder={`${column.title} 필터`}
+                        placeholder={`${column.title} ${t("filter")}`}
                         value={columnFilters[String(columnKey)] || ""}
                         onChange={(e) =>
                           handleColumnFilter(String(columnKey), e.target.value)
@@ -471,14 +486,14 @@ export function DataTable<T extends Record<string, any>>({
         <div className="bg-blue-50 dark:bg-blue-950 p-3 rounded-lg border border-blue-200 dark:border-blue-800">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
-              {selectedRows.length}개 항목이 선택됨
+              {selectedRows.length} {t("itemsSelected")}
             </span>
             <Button
               variant="outline"
               size="sm"
               onClick={() => onSelectedRowsChange?.([])}
             >
-              선택 해제
+              {t("deselect")}
             </Button>
           </div>
         </div>
@@ -489,8 +504,9 @@ export function DataTable<T extends Record<string, any>>({
         {/* 디버깅 정보 - 개발 모드에서만 표시 */}
         {process.env.NODE_ENV === "development" && (
           <div className="p-2 bg-gray-50 text-xs text-gray-600 border-b">
-            데이터: {data.length}개 | 컬럼: {visibleColumns.length}개 | 표시:{" "}
-            {paginatedData.length}개
+            {t("data")}: {data.length} {t("items")} | {t("columns")}:{" "}
+            {visibleColumns.length} {t("items")} | {t("displayed")}:{" "}
+            {paginatedData.length} {t("items")}
           </div>
         )}
         <div
@@ -506,9 +522,7 @@ export function DataTable<T extends Record<string, any>>({
                   <TableHead className="w-12">
                     <Checkbox
                       checked={isAllSelected}
-                      ref={(ref) => {
-                        if (ref) ref.indeterminate = isIndeterminate;
-                      }}
+                      indeterminate={isIndeterminate}
                       onCheckedChange={handleSelectAll}
                     />
                   </TableHead>
@@ -555,7 +569,7 @@ export function DataTable<T extends Record<string, any>>({
                   </TableHead>
                 ))}
                 {actions.length > 0 && (
-                  <TableHead className="w-[100px]">작업</TableHead>
+                  <TableHead className="w-[100px]">{t("actions")}</TableHead>
                 )}
               </TableRow>
             </TableHeader>
@@ -572,7 +586,7 @@ export function DataTable<T extends Record<string, any>>({
                   >
                     <div className="flex items-center justify-center">
                       <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                      <span className="ml-2">로딩 중...</span>
+                      <span className="ml-2">{t("loading")}</span>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -670,14 +684,14 @@ export function DataTable<T extends Record<string, any>>({
       {pagination && (
         <div className="flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
-            총 {pagination.total}개 항목 중{" "}
+            {t("total")} {pagination.total} {t("items")} {t("of")}{" "}
             {(pagination.page - 1) * pagination.pageSize + 1}-
             {Math.min(pagination.page * pagination.pageSize, pagination.total)}
-            개 표시
+            {t("itemsDisplayed")}
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-2">
-              <span className="text-sm">페이지당 항목:</span>
+              <span className="text-sm">{t("itemsPerPage")}:</span>
               <Select
                 value={pagination.pageSize.toString()}
                 onValueChange={(value) =>
@@ -702,7 +716,7 @@ export function DataTable<T extends Record<string, any>>({
                 onClick={() => pagination.onPageChange(1)}
                 disabled={pagination.page === 1}
               >
-                처음
+                {t("first")}
               </Button>
               <Button
                 variant="outline"
@@ -710,7 +724,7 @@ export function DataTable<T extends Record<string, any>>({
                 onClick={() => pagination.onPageChange(pagination.page - 1)}
                 disabled={pagination.page === 1}
               >
-                이전
+                {t("prev")}
               </Button>
               <span className="px-3 py-1 text-sm">
                 {pagination.page} /{" "}
@@ -725,7 +739,7 @@ export function DataTable<T extends Record<string, any>>({
                   Math.ceil(pagination.total / pagination.pageSize)
                 }
               >
-                다음
+                {t("next")}
               </Button>
               <Button
                 variant="outline"
@@ -740,7 +754,7 @@ export function DataTable<T extends Record<string, any>>({
                   Math.ceil(pagination.total / pagination.pageSize)
                 }
               >
-                마지막
+                {t("last")}
               </Button>
             </div>
           </div>
@@ -751,10 +765,16 @@ export function DataTable<T extends Record<string, any>>({
       <div className="flex items-center justify-between text-sm text-muted-foreground">
         <div>
           {searchTerm || Object.keys(columnFilters).length > 0
-            ? `필터링된 ${sortedData.length}개 항목 (전체 ${data.length}개)`
-            : `총 ${data.length}개 항목`}
+            ? `${t("filtered")} ${sortedData.length} {t("items")} (${t(
+                "total"
+              )} ${data.length})`
+            : `${t("total")} ${data.length} {t("items")}`}
         </div>
-        {selectedRows.length > 0 && <div>{selectedRows.length}개 선택됨</div>}
+        {selectedRows.length > 0 && (
+          <div>
+            {selectedRows.length} {t("itemsSelected")}
+          </div>
+        )}
       </div>
     </div>
   );
