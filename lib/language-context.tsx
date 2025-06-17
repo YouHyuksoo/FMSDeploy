@@ -19,7 +19,7 @@ export const supportedLanguages = [
 interface LanguageContextType {
   currentLanguage: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string, namespace?: string) => string;
+  t: (key: string, params?: Record<string, any>, namespace?: string) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(
@@ -70,7 +70,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const t = (key: string, namespace: string = "common") => {
+  const t = (
+    key: string,
+    params?: Record<string, any>,
+    namespace: string = "common"
+  ) => {
     if (isLoading) {
       return key;
     }
@@ -90,7 +94,13 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         return key;
       }
     }
-    return typeof value === "string" ? value : key;
+    if (typeof value === "string") {
+      if (params) {
+        return value.replace(/\{(\w+)\}/g, (_, k) => params[k] ?? "");
+      }
+      return value;
+    }
+    return key;
   };
 
   useEffect(() => {
@@ -125,7 +135,8 @@ export function useTranslation(namespace: string = "common") {
   }
 
   return {
-    t: (key: string) => context.t(key, namespace),
+    t: (key: string, params?: Record<string, any>) =>
+      context.t(key, params, namespace),
   };
 }
 

@@ -76,7 +76,7 @@ export function EquipmentManagement() {
     } catch (error) {
       toast({
         title: tCommon("error"),
-        description: "설비 목록을 불러오는데 실패했습니다.",
+        description: t("load_equipment_failed"),
         variant: "destructive",
       });
     } finally {
@@ -115,42 +115,40 @@ export function EquipmentManagement() {
   const handleBatchQRPrint = () => {
     if (selectedRows.length === 0) {
       toast({
-        title: "알림",
-        description: "QR 코드를 출력할 설비를 선택해주세요.",
+        title: tCommon("alert"),
+        description: t("select_equipment_for_qr"),
         variant: "destructive",
       });
       return;
     }
 
-    // 임시로 토스트 메시지로 대체
     toast({
-      title: "QR 일괄출력",
-      description: `${
-        selectedRows.length
-      }개 설비의 QR 라벨을 출력합니다.\n선택된 설비: ${selectedRows
-        .map((eq) => eq.name)
-        .join(", ")}`,
+      title: t("batch_qr_print"),
+      description: t("batch_qr_print_desc", {
+        count: selectedRows.length,
+        names: selectedRows.map((eq) => eq.name).join(", "),
+      }),
     });
   };
 
   const handleMaintenanceHistory = (equipment: Equipment) => {
     toast({
-      title: "정비이력",
-      description: `${equipment.name}의 정비이력을 조회합니다.`,
+      title: t("maintenance_history"),
+      description: t("view_maintenance_history", { name: equipment.name }),
     });
   };
 
   const handleScheduleMaintenance = (equipment: Equipment) => {
     toast({
-      title: "정비예약",
-      description: `${equipment.name}의 정비를 예약합니다.`,
+      title: t("schedule_maintenance"),
+      description: t("reserve_maintenance", { name: equipment.name }),
     });
   };
 
   const handleUpdateStatus = (equipment: Equipment) => {
     toast({
-      title: "상태변경",
-      description: `${equipment.name}의 상태를 변경합니다.`,
+      title: t("update_status"),
+      description: t("change_status", { name: equipment.name }),
     });
   };
 
@@ -169,7 +167,7 @@ export function EquipmentManagement() {
     } catch (error) {
       toast({
         title: tCommon("error"),
-        description: "설비 삭제에 실패했습니다.",
+        description: t("delete_equipment_failed"),
         variant: "destructive",
       });
     } finally {
@@ -187,8 +185,8 @@ export function EquipmentManagement() {
           id: Date.now().toString(),
           ...data,
           type: getTypeLabel(data.typeCode),
-          location: "A동 1층", // 실제로는 locationId로 조회
-          department: "생산1팀", // 실제로는 departmentId로 조회
+          location: t("sample_location"), // 실제로는 locationId로 조회
+          department: t("sample_department"), // 실제로는 departmentId로 조회
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
           createdBy: "current-user",
@@ -225,9 +223,9 @@ export function EquipmentManagement() {
     } catch (error) {
       toast({
         title: tCommon("error"),
-        description: `설비 ${
-          formMode === "create" ? "추가" : "수정"
-        }에 실패했습니다.`,
+        description: t("equipment_save_failed", {
+          mode: formMode === "create" ? t("add") : t("edit"),
+        }),
         variant: "destructive",
       });
       throw error;
@@ -241,12 +239,12 @@ export function EquipmentManagement() {
       setEquipment((prev) => [...prev, ...importedData]);
       toast({
         title: tCommon("success"),
-        description: `${importedData.length}개의 설비가 가져오기 되었습니다.`,
+        description: t("equipment_imported", { count: importedData.length }),
       });
     } catch (error) {
       toast({
         title: tCommon("error"),
-        description: "데이터 가져오기에 실패했습니다.",
+        description: t("import_failed"),
         variant: "destructive",
       });
       throw error;
