@@ -146,5 +146,16 @@
       "boolean": "Y or N",
       "default": "Text input"
     }
+  },
+  "dataTable": {
+    "reset_filters": "Reset Filters",
+    "pagination_summary": "Showing {start}-{end} of {total} items",
+    "items_per_page": "Items per page:",
+    "first": "First",
+    "last": "Last",
+    "selected_count": "{count} selected",
+    "filtered_summary": "{filtered} items filtered (total {total})",
+    "total_summary": "Total {count} items",
+    "deselect": "Deselect"
   }
 }

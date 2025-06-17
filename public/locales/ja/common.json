@@ -146,5 +146,16 @@
       "boolean": "YまたはN",
       "default": "テキスト入力"
     }
+  },
+  "dataTable": {
+    "reset_filters": "フィルターをリセット",
+    "pagination_summary": "全{total}件中{start}-{end}件表示",
+    "items_per_page": "ページあたり件数:",
+    "first": "最初",
+    "last": "最後",
+    "selected_count": "{count}件選択済み",
+    "filtered_summary": "{total}件中{filtered}件を表示",
+    "total_summary": "合計 {count} 件",
+    "deselect": "選択解除"
   }
 }
