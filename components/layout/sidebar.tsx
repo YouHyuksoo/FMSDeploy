@@ -782,3 +782,5 @@ export function MobileSidebar() {
     </Sheet>
   );
 }
+
+export { Sidebar };

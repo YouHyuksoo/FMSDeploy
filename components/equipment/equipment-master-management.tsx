@@ -57,6 +57,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DataTable } from "@/components/common/data-table";
+import { useTranslation } from "@/lib/language-context";
 
 const initialEquipmentMaster: EquipmentMaster = {
   id: "",
@@ -105,6 +106,7 @@ const initialEquipmentProperty: EquipmentProperty = {
 
 function EquipmentTypeManagementTab() {
   const { toast } = useToast();
+  const { t } = useTranslation("equipment");
   const [types, setTypes] = useState<EquipmentType[]>([]);
   const [isTypeFormOpen, setIsTypeFormOpen] = useState(false);
   const [currentType, setCurrentType] = useState<EquipmentType | null>(null);
@@ -217,30 +219,30 @@ function EquipmentTypeManagementTab() {
   };
 
   const columns = [
-    { key: "code", title: "코드", searchable: true },
-    { key: "name", title: "이름", searchable: true },
+    { key: "code", title: t("type_code"), searchable: true },
+    { key: "name", title: t("type_name"), searchable: true },
     {
       key: "properties",
-      title: "속성 수",
+      title: t("type_property_count"),
       render: (properties: EquipmentProperty[]) => properties?.length || 0,
     },
     {
       key: "isActive",
-      title: "활성",
-      render: (isActive: boolean) => (isActive ? "예" : "아니오"),
+      title: t("active"),
+      render: (isActive: boolean) => (isActive ? t("yes") : t("no")),
     },
   ];
 
   const actions = [
     {
       key: "edit",
-      label: "수정",
+      label: t("edit"),
       icon: Edit,
       onClick: (record: EquipmentType) => handleEditType(record),
     },
     {
       key: "delete",
-      label: "삭제",
+      label: t("delete"),
       icon: Trash2,
       onClick: (record: EquipmentType) => handleDeleteType(record.id),
       variant: "destructive" as const,
@@ -250,17 +252,17 @@ function EquipmentTypeManagementTab() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium">설비 유형 목록</h3>
+        <h3 className="text-lg font-medium">{t("type_list")}</h3>
         <Button onClick={openNewTypeForm}>
-          <PlusCircle className="mr-2 h-4 w-4" /> 새 유형 추가
+          <PlusCircle className="mr-2 h-4 w-4" /> {t("add_type")}
         </Button>
       </div>
       <DataTable
         data={types}
         columns={columns}
         actions={actions}
-        title="설비 유형"
-        searchPlaceholder="코드, 이름으로 검색..."
+        title={t("type_title")}
+        searchPlaceholder={t("type_search_placeholder")}
         showExport={true}
         showImport={true}
       />
@@ -275,13 +277,13 @@ function EquipmentTypeManagementTab() {
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>
-              {currentType ? "설비 유형 수정" : "새 설비 유형 추가"}
+              {currentType ? t("edit_type") : t("add_type_dialog")}
             </DialogTitle>
           </DialogHeader>
           <form onSubmit={handleTypeFormSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="code">코드</Label>
+                <Label htmlFor="code">{t("type_code")}</Label>
                 <Input
                   id="code"
                   name="code"
@@ -291,7 +293,7 @@ function EquipmentTypeManagementTab() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="name">이름</Label>
+                <Label htmlFor="name">{t("type_name")}</Label>
                 <Input
                   id="name"
                   name="name"
@@ -302,7 +304,7 @@ function EquipmentTypeManagementTab() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">설명</Label>
+              <Label htmlFor="description">{t("description")}</Label>
               <Textarea
                 id="description"
                 name="description"
@@ -318,13 +320,13 @@ function EquipmentTypeManagementTab() {
                   handleTypeCheckboxChange("isActive", checked as boolean)
                 }
               />
-              <Label htmlFor="isActive">활성</Label>
+              <Label htmlFor="isActive">{t("active")}</Label>
             </div>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <h4 className="font-medium">속성</h4>
+                <h4 className="font-medium">{t("type_properties")}</h4>
                 <Button type="button" onClick={addProperty} variant="outline">
-                  속성 추가
+                  {t("add_property")}
                 </Button>
               </div>
               {typeFormData.properties?.map((property, index) => (
@@ -333,7 +335,7 @@ function EquipmentTypeManagementTab() {
                   className="grid grid-cols-4 gap-4 p-4 border rounded-lg"
                 >
                   <div className="space-y-2">
-                    <Label>코드</Label>
+                    <Label>{t("property_code")}</Label>
                     <Input
                       value={property.code}
                       onChange={(e) =>
@@ -342,7 +344,7 @@ function EquipmentTypeManagementTab() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>이름</Label>
+                    <Label>{t("property_name")}</Label>
                     <Input
                       value={property.name}
                       onChange={(e) =>
@@ -351,7 +353,7 @@ function EquipmentTypeManagementTab() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>데이터 타입</Label>
+                    <Label>{t("property_data_type")}</Label>
                     <Select
                       value={property.dataType}
                       onValueChange={(value) =>
@@ -362,10 +364,18 @@ function EquipmentTypeManagementTab() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="string">문자열</SelectItem>
-                        <SelectItem value="number">숫자</SelectItem>
-                        <SelectItem value="boolean">불리언</SelectItem>
-                        <SelectItem value="date">날짜</SelectItem>
+                        <SelectItem value="string">
+                          {t("data_type_string")}
+                        </SelectItem>
+                        <SelectItem value="number">
+                          {t("data_type_number")}
+                        </SelectItem>
+                        <SelectItem value="boolean">
+                          {t("data_type_boolean")}
+                        </SelectItem>
+                        <SelectItem value="date">
+                          {t("data_type_date")}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -381,7 +391,7 @@ function EquipmentTypeManagementTab() {
                           )
                         }
                       />
-                      <Label>필수</Label>
+                      <Label>{t("required")}</Label>
                     </div>
                     <Button
                       type="button"
@@ -396,7 +406,9 @@ function EquipmentTypeManagementTab() {
               ))}
             </div>
             <DialogFooter>
-              <Button type="submit">{currentType ? "수정" : "추가"}</Button>
+              <Button type="submit">
+                {currentType ? t("edit") : t("add")}
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>
@@ -419,10 +431,9 @@ function EquipmentCategoryManagementTab() {
     name: "",
     description: "",
     level: 1,
-    parentId: null,
+    parentId: undefined,
     isActive: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    path: "",
   });
 
   useEffect(() => {
@@ -439,10 +450,9 @@ function EquipmentCategoryManagementTab() {
         name: "",
         description: "",
         level: 1,
-        parentId: null,
+        parentId: undefined,
         isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        path: "",
       });
     }
   }, [currentCategory]);
@@ -501,10 +511,9 @@ function EquipmentCategoryManagementTab() {
       name: "",
       description: "",
       level: 1,
-      parentId: null,
+      parentId: undefined,
       isActive: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      path: "",
     });
     setIsCategoryFormOpen(true);
   };
@@ -622,7 +631,7 @@ function EquipmentCategoryManagementTab() {
                   onValueChange={(value) =>
                     setCategoryFormData((prev) => ({
                       ...prev,
-                      parentId: value || null,
+                      parentId: value || undefined,
                     }))
                   }
                 >
@@ -692,9 +701,13 @@ function EquipmentCodeRuleManagementTab() {
   const [ruleFormData, setRuleFormData] = useState<EquipmentCodeRule>({
     id: "",
     name: "",
-    description: "",
+    prefix: "",
+    separator: "-",
     segments: [],
+    example: "",
     isActive: true,
+    appliedTo: [],
+    description: "",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   });
@@ -710,9 +723,13 @@ function EquipmentCodeRuleManagementTab() {
       setRuleFormData({
         id: "",
         name: "",
-        description: "",
+        prefix: "",
+        separator: "-",
         segments: [],
+        example: "",
         isActive: true,
+        appliedTo: [],
+        description: "",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       });
@@ -770,9 +787,13 @@ function EquipmentCodeRuleManagementTab() {
     setRuleFormData({
       id: "",
       name: "",
-      description: "",
+      prefix: "",
+      separator: "-",
       segments: [],
+      example: "",
       isActive: true,
+      appliedTo: [],
+      description: "",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });

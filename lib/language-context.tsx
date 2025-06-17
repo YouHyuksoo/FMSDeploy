@@ -27,7 +27,15 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 );
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [currentLanguage, setCurrentLanguage] = useState<Language>("ko");
+  const getInitialLanguage = (): Language => {
+    if (typeof window !== "undefined") {
+      return (localStorage.getItem("language") as Language) || "ko";
+    }
+    return "ko";
+  };
+  const [currentLanguage, setCurrentLanguage] = useState<Language>(
+    getInitialLanguage()
+  );
   const [translations, setTranslations] = useState<Record<string, any>>({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -41,6 +49,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const setLanguage = (lang: Language) => {
     setCurrentLanguage(lang);
     localStorage.setItem("language", lang);
+    setTranslations({}); // 번역 캐시 초기화
   };
 
   const loadTranslations = async (namespace: string) => {

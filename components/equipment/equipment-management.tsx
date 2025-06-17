@@ -1,12 +1,16 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { DataTable, type Column, type DataTableAction } from "@/components/common/data-table"
-import { EquipmentForm } from "./equipment-form"
-import { EquipmentQRCodeDialog } from "./equipment-qr-code-dialog"
-import { ImportExportDialog } from "@/components/common/import-export-dialog"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react";
+import {
+  DataTable,
+  type Column,
+  type DataTableAction,
+} from "@/components/common/data-table";
+import { EquipmentForm } from "./equipment-form";
+import { EquipmentQRCodeDialog } from "./equipment-qr-code-dialog";
+import { ImportExportDialog } from "@/components/common/import-export-dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,11 +20,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { useToast } from "@/hooks/use-toast"
-import type { Equipment, EquipmentFormData } from "@/types/equipment"
-import { mockEquipment } from "@/lib/mock-data/equipment"
-import type { ExportColumn, ImportColumn } from "@/lib/utils/export-utils"
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+import type { Equipment, EquipmentFormData } from "@/types/equipment";
+import { mockEquipment } from "@/lib/mock-data/equipment";
+import type { ExportColumn } from "@/lib/utils/export-utils";
 import {
   Settings,
   Edit,
@@ -35,72 +39,78 @@ import {
   Square,
   QrCode,
   Printer,
-} from "lucide-react"
-import { useTranslation } from "@/lib/language-context"
+} from "lucide-react";
+import { useTranslation } from "@/lib/language-context";
 
 export function EquipmentManagement() {
-  const [equipment, setEquipment] = useState<Equipment[]>([])
-  const [loading, setLoading] = useState(true)
-  const [formOpen, setFormOpen] = useState(false)
-  const [formMode, setFormMode] = useState<"create" | "edit" | "view">("create")
-  const [selectedEquipment, setSelectedEquipment] = useState<Equipment | undefined>()
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [equipmentToDelete, setEquipmentToDelete] = useState<Equipment | undefined>()
-  const [importExportOpen, setImportExportOpen] = useState(false)
-  const [selectedRows, setSelectedRows] = useState<Equipment[]>([])
-  const [qrDialogOpen, setQrDialogOpen] = useState(false)
-  const [qrEquipment, setQrEquipment] = useState<Equipment | null>(null)
-  const { toast } = useToast()
-  const { t } = useTranslation("equipment")
-  const { t: tCommon } = useTranslation("common")
+  const [equipment, setEquipment] = useState<Equipment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [formOpen, setFormOpen] = useState(false);
+  const [formMode, setFormMode] = useState<"create" | "edit" | "view">(
+    "create"
+  );
+  const [selectedEquipment, setSelectedEquipment] = useState<
+    Equipment | undefined
+  >();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [equipmentToDelete, setEquipmentToDelete] = useState<
+    Equipment | undefined
+  >();
+  const [importExportOpen, setImportExportOpen] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<Equipment[]>([]);
+  const [qrDialogOpen, setQrDialogOpen] = useState(false);
+  const [qrEquipment, setQrEquipment] = useState<Equipment | null>(null);
+  const { toast } = useToast();
+  const { t } = useTranslation("equipment");
+  const { t: tCommon } = useTranslation("common");
 
   useEffect(() => {
-    loadEquipment()
-  }, [])
+    loadEquipment();
+  }, []);
 
   const loadEquipment = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      setEquipment(mockEquipment)
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setEquipment(mockEquipment);
     } catch (error) {
       toast({
         title: tCommon("error"),
         description: "설비 목록을 불러오는데 실패했습니다.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleAdd = () => {
-    setSelectedEquipment(undefined)
-    setFormMode("create")
-    setFormOpen(true)
-  }
+    setSelectedEquipment(undefined);
+    setFormMode("create");
+    setFormOpen(true);
+  };
 
   const handleEdit = (equipment: Equipment) => {
-    setSelectedEquipment(equipment)
-    setFormMode("edit")
-    setFormOpen(true)
-  }
+    setSelectedEquipment(equipment);
+    setFormMode("edit");
+    setFormOpen(true);
+  };
 
   const handleView = (equipment: Equipment) => {
-    setSelectedEquipment(equipment)
-    setFormMode("view")
-    setFormOpen(true)
-  }
+    setSelectedEquipment(equipment);
+    setFormMode("view");
+    setFormOpen(true);
+  };
 
   const handleDelete = (equipment: Equipment) => {
-    setEquipmentToDelete(equipment)
-    setDeleteDialogOpen(true)
-  }
+    setEquipmentToDelete(equipment);
+    setDeleteDialogOpen(true);
+  };
 
   const handleQRCode = (equipment: Equipment) => {
-    setQrEquipment(equipment)
-    setQrDialogOpen(true)
-  }
+    setQrEquipment(equipment);
+    setQrDialogOpen(true);
+  };
 
   const handleBatchQRPrint = () => {
     if (selectedRows.length === 0) {
@@ -108,64 +118,70 @@ export function EquipmentManagement() {
         title: "알림",
         description: "QR 코드를 출력할 설비를 선택해주세요.",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     // 임시로 토스트 메시지로 대체
     toast({
       title: "QR 일괄출력",
-      description: `${selectedRows.length}개 설비의 QR 라벨을 출력합니다.\n선택된 설비: ${selectedRows.map((eq) => eq.name).join(", ")}`,
-    })
-  }
+      description: `${
+        selectedRows.length
+      }개 설비의 QR 라벨을 출력합니다.\n선택된 설비: ${selectedRows
+        .map((eq) => eq.name)
+        .join(", ")}`,
+    });
+  };
 
   const handleMaintenanceHistory = (equipment: Equipment) => {
     toast({
       title: "정비이력",
       description: `${equipment.name}의 정비이력을 조회합니다.`,
-    })
-  }
+    });
+  };
 
   const handleScheduleMaintenance = (equipment: Equipment) => {
     toast({
       title: "정비예약",
       description: `${equipment.name}의 정비를 예약합니다.`,
-    })
-  }
+    });
+  };
 
   const handleUpdateStatus = (equipment: Equipment) => {
     toast({
       title: "상태변경",
       description: `${equipment.name}의 상태를 변경합니다.`,
-    })
-  }
+    });
+  };
 
   const confirmDelete = async () => {
-    if (!equipmentToDelete) return
+    if (!equipmentToDelete) return;
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500))
-      setEquipment((prev) => prev.filter((eq) => eq.id !== equipmentToDelete.id))
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      setEquipment((prev) =>
+        prev.filter((eq) => eq.id !== equipmentToDelete.id)
+      );
       toast({
         title: tCommon("success"),
         description: t("equipment_deleted"),
-      })
+      });
     } catch (error) {
       toast({
         title: tCommon("error"),
         description: "설비 삭제에 실패했습니다.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setDeleteDialogOpen(false)
-      setEquipmentToDelete(undefined)
+      setDeleteDialogOpen(false);
+      setEquipmentToDelete(undefined);
     }
-  }
+  };
 
   const handleFormSubmit = async (data: EquipmentFormData) => {
     try {
       if (formMode === "create") {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         const newEquipment: Equipment = {
           id: Date.now().toString(),
@@ -177,15 +193,15 @@ export function EquipmentManagement() {
           updatedAt: new Date().toISOString(),
           createdBy: "current-user",
           updatedBy: "current-user",
-        }
+        };
 
-        setEquipment((prev) => [...prev, newEquipment])
+        setEquipment((prev) => [...prev, newEquipment]);
         toast({
           title: tCommon("success"),
           description: t("equipment_added"),
-        })
+        });
       } else if (formMode === "edit") {
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setEquipment((prev) =>
           prev.map((eq) =>
@@ -197,100 +213,102 @@ export function EquipmentManagement() {
                   updatedAt: new Date().toISOString(),
                   updatedBy: "current-user",
                 }
-              : eq,
-          ),
-        )
+              : eq
+          )
+        );
 
         toast({
           title: tCommon("success"),
           description: t("equipment_updated"),
-        })
+        });
       }
     } catch (error) {
       toast({
         title: tCommon("error"),
-        description: `설비 ${formMode === "create" ? "추가" : "수정"}에 실패했습니다.`,
+        description: `설비 ${
+          formMode === "create" ? "추가" : "수정"
+        }에 실패했습니다.`,
         variant: "destructive",
-      })
-      throw error
+      });
+      throw error;
     }
-  }
+  };
 
   const handleImportComplete = async (importedData: Equipment[]) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      setEquipment((prev) => [...prev, ...importedData])
+      setEquipment((prev) => [...prev, ...importedData]);
       toast({
         title: tCommon("success"),
         description: `${importedData.length}개의 설비가 가져오기 되었습니다.`,
-      })
+      });
     } catch (error) {
       toast({
         title: tCommon("error"),
         description: "데이터 가져오기에 실패했습니다.",
         variant: "destructive",
-      })
-      throw error
+      });
+      throw error;
     }
-  }
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "running":
-        return <CheckCircle className="h-4 w-4" />
+        return <CheckCircle className="h-4 w-4" />;
       case "stopped":
-        return <Square className="h-4 w-4" />
+        return <Square className="h-4 w-4" />;
       case "maintenance":
-        return <Wrench className="h-4 w-4" />
+        return <Wrench className="h-4 w-4" />;
       case "failure":
-        return <AlertTriangle className="h-4 w-4" />
+        return <AlertTriangle className="h-4 w-4" />;
       default:
-        return <Clock className="h-4 w-4" />
+        return <Clock className="h-4 w-4" />;
     }
-  }
+  };
 
   const getStatusLabel = (status: string) => {
-    return t(`status_${status}`)
-  }
+    return t(`status_${status}`);
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "running":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
       case "stopped":
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
       case "maintenance":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
       case "failure":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
     }
-  }
+  };
 
   const getPriorityLabel = (priority: string) => {
-    return t(`priority_${priority}`)
-  }
+    return t(`priority_${priority}`);
+  };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "critical":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
       case "high":
-        return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
+        return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200";
       case "normal":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
       case "low":
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
     }
-  }
+  };
 
   const getTypeLabel = (typeCode: string) => {
-    return t(`type_${typeCode.toLowerCase()}`)
-  }
+    return t(`type_${typeCode.toLowerCase()}`);
+  };
 
   const columns: Column<Equipment>[] = [
     {
@@ -380,7 +398,9 @@ export function EquipmentManagement() {
       render: (value, record) => (
         <div>
           <div className="font-medium">{value}</div>
-          <div className="text-sm text-muted-foreground">{record.department}</div>
+          <div className="text-sm text-muted-foreground">
+            {record.department}
+          </div>
         </div>
       ),
     },
@@ -391,7 +411,9 @@ export function EquipmentManagement() {
       render: (value, record) => (
         <div>
           <div className="font-medium">{value}</div>
-          <div className="text-sm text-muted-foreground">{record.serialNumber}</div>
+          <div className="text-sm text-muted-foreground">
+            {record.serialNumber}
+          </div>
         </div>
       ),
     },
@@ -401,13 +423,17 @@ export function EquipmentManagement() {
       width: "w-32",
       sortable: true,
       render: (value) => {
-        if (!value) return "-"
-        const date = new Date(value)
-        const isOverdue = date < new Date()
-        return <span className={isOverdue ? "text-red-600 font-medium" : ""}>{date.toLocaleDateString("ko-KR")}</span>
+        if (!value) return "-";
+        const date = new Date(value);
+        const isOverdue = date < new Date();
+        return (
+          <span className={isOverdue ? "text-red-600 font-medium" : ""}>
+            {date.toLocaleDateString("ko-KR")}
+          </span>
+        );
       },
     },
-  ]
+  ];
 
   const actions: DataTableAction<Equipment>[] = [
     {
@@ -453,7 +479,7 @@ export function EquipmentManagement() {
       onClick: handleDelete,
       variant: "destructive",
     },
-  ]
+  ];
 
   // Export/Import 설정
   const exportColumns: ExportColumn[] = [
@@ -465,8 +491,18 @@ export function EquipmentManagement() {
     { key: "serialNumber", title: t("serial_number"), width: 20 },
     { key: "location", title: t("location"), width: 15 },
     { key: "department", title: t("department"), width: 15 },
-    { key: "status", title: tCommon("status"), width: 10, format: (value) => getStatusLabel(value) },
-    { key: "priority", title: t("priority"), width: 10, format: (value) => getPriorityLabel(value) },
+    {
+      key: "status",
+      title: tCommon("status"),
+      width: 10,
+      format: (value) => getStatusLabel(value),
+    },
+    {
+      key: "priority",
+      title: t("priority"),
+      width: 10,
+      format: (value) => getPriorityLabel(value),
+    },
     {
       key: "installDate",
       title: t("install_date"),
@@ -477,26 +513,86 @@ export function EquipmentManagement() {
       key: "nextMaintenanceDate",
       title: t("next_maintenance"),
       width: 15,
-      format: (value) => (value ? new Date(value).toLocaleDateString("ko-KR") : ""),
+      format: (value) =>
+        value ? new Date(value).toLocaleDateString("ko-KR") : "",
     },
-  ]
+  ];
 
-  const importColumns: ImportColumn[] = [
-    { key: "code", title: t("equipment_code"), required: true, type: "string" },
-    { key: "name", title: t("equipment_name"), required: true, type: "string" },
-    { key: "typeCode", title: t("equipment_type"), required: true, type: "string" },
-    { key: "model", title: t("model"), required: true, type: "string" },
-    { key: "manufacturer", title: t("manufacturer"), required: true, type: "string" },
-    { key: "serialNumber", title: t("serial_number"), required: true, type: "string" },
-    { key: "locationId", title: t("location"), required: true, type: "string" },
-    { key: "departmentId", title: t("department"), required: true, type: "string" },
-    { key: "status", title: tCommon("status"), required: true, type: "string" },
-    { key: "priority", title: t("priority"), required: true, type: "string" },
-    { key: "installDate", title: t("install_date"), required: true, type: "date" },
-    { key: "description", title: tCommon("description"), type: "string" },
-  ]
+  const importColumns = [
+    {
+      key: "code",
+      title: t("equipment_code"),
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "name",
+      title: t("equipment_name"),
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "typeCode",
+      title: t("equipment_type"),
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "model",
+      title: t("model"),
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "manufacturer",
+      title: t("manufacturer"),
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "serialNumber",
+      title: t("serial_number"),
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "locationId",
+      title: t("location"),
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "departmentId",
+      title: t("department"),
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "status",
+      title: tCommon("status"),
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "priority",
+      title: t("priority"),
+      required: true,
+      type: "string" as const,
+    },
+    {
+      key: "installDate",
+      title: t("install_date"),
+      required: true,
+      type: "date" as const,
+    },
+    {
+      key: "description",
+      title: tCommon("description"),
+      type: "string" as const,
+    },
+  ];
 
-  const sampleData = [
+  const sampleData: Partial<Equipment>[] = [
     {
       code: "EQ-SAMPLE-001",
       name: "샘플 설비",
@@ -506,12 +602,12 @@ export function EquipmentManagement() {
       serialNumber: "SM2024001",
       locationId: "LOC-A1",
       departmentId: "3",
-      status: "running",
+      status: "running" as "running",
       priority: "normal",
       installDate: "2024-01-01",
       description: "샘플 설비입니다",
     },
-  ]
+  ];
 
   return (
     <div className="space-y-6">
@@ -559,7 +655,11 @@ export function EquipmentManagement() {
         mode={formMode}
       />
 
-      <EquipmentQRCodeDialog open={qrDialogOpen} onOpenChange={setQrDialogOpen} equipment={qrEquipment} />
+      <EquipmentQRCodeDialog
+        open={qrDialogOpen}
+        onOpenChange={setQrDialogOpen}
+        equipment={qrEquipment}
+      />
 
       <ImportExportDialog
         open={importExportOpen}
@@ -586,12 +686,15 @@ export function EquipmentManagement() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{tCommon("cancel")}</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-red-600 hover:bg-red-700"
+            >
               {tCommon("delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </div>
-  )
+  );
 }
