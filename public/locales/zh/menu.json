@@ -30,7 +30,13 @@
     "status_report": "设备状态报告",
     "performance_report": "设备性能报告",
     "maintenance_report": "设备维护报告",
-    "cost_report": "设备成本报告"
+    "cost_report": "设备成本报告",
+    "overview": "设备概览",
+    "master_management": "设备主数据管理",
+    "registration_management": "设备注册管理",
+    "bom_management": "设备BOM管理",
+    "spec": "设备规格管理",
+    "docs": "设备资料管理"
   },
   "sensor": {
     "title": "传感器管理",
@@ -53,7 +59,12 @@
     "status_report": "传感器状态报告",
     "performance_report": "传感器性能报告",
     "calibration_report": "传感器校准报告",
-    "data_report": "传感器数据报告"
+    "data_report": "传感器数据报告",
+    "overview": "传感器概览",
+    "dashboard": "传感器仪表板",
+    "registration_management": "传感器注册",
+    "groups": "传感器分组管理",
+    "types": "传感器类型管理"
   },
   "materials": {
     "title": "维护材料管理",
@@ -73,7 +84,10 @@
     "approval": "维护审批管理",
     "history": "维护历史管理",
     "analysis": "维护分析管理",
-    "report": "维护报告管理"
+    "report": "维护报告管理",
+    "request_management": "作业请求登记",
+    "plan_management": "作业计划分配",
+    "complete_management": "作业完成处理"
   },
   "inspection": {
     "title": "检查管理",
@@ -83,7 +97,10 @@
     "approval": "检查审批管理",
     "history": "检查历史管理",
     "analysis": "检查分析管理",
-    "report": "检查报告管理"
+    "report": "检查报告管理",
+    "schedule": "检查计划设置",
+    "result": "检查结果录入",
+    "calendar": "检查管理日历"
   },
   "failure": {
     "title": "故障管理",
@@ -108,7 +125,9 @@
     "cost": "能源成本管理",
     "saving": "能源节约管理",
     "target": "能源目标管理",
-    "performance": "能源绩效管理"
+    "performance": "能源绩效管理",
+    "dashboard": "能源仪表板",
+    "usage_analysis": "能源使用分析"
   },
   "carbon": {
     "title": "碳管理",
@@ -118,7 +137,16 @@
     "monitoring": "碳监控",
     "analysis": "碳分析",
     "target": "碳目标管理",
-    "performance": "碳绩效管理"
+    "performance": "碳绩效管理",
+    "tracking": "碳排放现状",
+    "emission_factors": "排放系数管理",
+    "reduction_targets": "减排目标管理",
+    "esg_report": "ESG报告",
+    "ai_prediction": "AI碳排放预测",
+    "sources": "排放源管理",
+    "reduction_activities": "减排活动管理",
+    "scope3": "价值链（Scope 3）管理",
+    "data_import": "数据上传/集成"
   },
   "kpi": {
     "title": "KPI管理",
@@ -127,14 +155,18 @@
     "target": "KPI目标管理",
     "performance": "KPI绩效管理",
     "analysis": "KPI分析管理",
-    "report": "KPI报告管理"
+    "report": "KPI报告管理",
+    "mtbf": "MTBF分析",
+    "health": "设备健康指数"
   },
   "integration": {
     "title": "集成管理",
     "dashboard": "集成仪表板",
     "monitoring": "集成监控",
     "analysis": "集成分析",
-    "report": "集成报告"
+    "report": "集成报告",
+    "erp_management": "ERP集成",
+    "plc_management": "PLC集成"
   },
   "mobile": {
     "title": "移动管理",
@@ -143,7 +175,10 @@
     "inspection": "检查管理",
     "failure": "故障管理",
     "material": "材料管理",
-    "report": "报告管理"
+    "report": "报告管理",
+    "qr_management": "QR扫描检查",
+    "result_management": "移动结果查询",
+    "failure_register": "故障登记(QR)"
   },
   "location": {
     "title": "位置管理",
@@ -154,7 +189,9 @@
     "hierarchy": "位置层级管理",
     "map": "位置地图管理",
     "history": "位置历史管理",
-    "report": "位置报告管理"
+    "report": "位置报告管理",
+    "layout_management": "设备布局图",
+    "monitor_management": "实时监控"
   },
   "maintenanceTemplate": {
     "title": "维护模板",
@@ -169,7 +206,10 @@
     "approval": "预防性维护审批",
     "history": "预防性维护历史",
     "analysis": "预防性维护分析",
-    "report": "预防性维护报告"
+    "report": "预防性维护报告",
+    "master": "预防性维护主数据",
+    "order": "维护订单生成",
+    "calendar": "预防性维护日历"
   },
   "metering": {
     "title": "计量/校准",
@@ -186,7 +226,9 @@
     "approval": "TPM审批管理",
     "history": "TPM历史管理",
     "analysis": "TPM分析管理",
-    "report": "TPM报告管理"
+    "report": "TPM报告管理",
+    "registration": "TPM活动登记",
+    "team": "小组管理"
   },
   "system": {
     "title": "系统管理",
@@ -196,7 +238,15 @@
     "menu": "菜单管理",
     "log": "日志管理",
     "backup": "备份管理",
-    "setting": "系统设置"
+    "setting": "系统设置",
+    "organization_management": "组织管理",
+    "users_management": "用户管理",
+    "permissions_management": "权限管理",
+    "roles_management": "角色管理",
+    "codes_management": "基础代码管理",
+    "config_management": "环境设置",
+    "language_management": "多语言管理",
+    "theme_management": "主题设置"
   },
   "budget_management": {
     "title": "预算管理",
