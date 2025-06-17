@@ -192,29 +192,22 @@ export function EquipmentForm({
     // 설비 유형 선택
     {
       name: "typeId",
-      label: "설비 유형",
+      label: t("equipment_type"),
       type: "select",
       required: true,
       options: typeOptions,
       group: "basic",
       gridColumn: "md:col-span-1",
-      onChange: (value: string) => {
-        setSelectedTypeId(value);
-        setCustomProperties({}); // 유형 변경 시 커스텀 속성 초기화
-      },
     },
     // 설비 분류 선택
     {
       name: "categoryId",
-      label: "설비 분류",
+      label: t("category"),
       type: "select",
       required: true,
       options: categoryOptions,
       group: "basic",
       gridColumn: "md:col-span-1",
-      onChange: (value: string) => {
-        setSelectedCategoryId(value);
-      },
     },
     // 설비 코드 (자동 생성)
     {
@@ -223,23 +216,9 @@ export function EquipmentForm({
       type: "text",
       required: true,
       disabled: mode === "edit",
-      value: generatedCode,
       group: "basic",
       gridColumn: "md:col-span-1",
-      suffix:
-        mode === "create" ? (
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={handleRegenerateCode}
-            disabled={!selectedTypeId || !selectedCategoryId}
-          >
-            <RefreshCw className="h-4 w-4" />
-          </Button>
-        ) : undefined,
-      description:
-        mode === "create" ? "유형과 분류 선택 후 자동 생성됩니다" : undefined,
+      description: mode === "create" ? t("code_auto_generate_desc") : undefined,
     },
     // 설비명
     {
@@ -248,8 +227,8 @@ export function EquipmentForm({
       type: "text",
       required: true,
       placeholder: selectedType
-        ? `${selectedType.name} #1`
-        : "설비명을 입력하세요",
+        ? t("equipment_name_placeholder", { type: selectedType.name })
+        : t("equipment_name_placeholder_default"),
       group: "basic",
       gridColumn: "md:col-span-1",
     },
@@ -259,7 +238,7 @@ export function EquipmentForm({
       label: t("model"),
       type: "text",
       required: true,
-      placeholder: "AC-500",
+      placeholder: t("model_placeholder"),
       group: "technical",
       gridColumn: "md:col-span-1",
     },
@@ -268,7 +247,7 @@ export function EquipmentForm({
       label: t("manufacturer"),
       type: "text",
       required: true,
-      placeholder: "삼성전기",
+      placeholder: t("manufacturer_placeholder"),
       group: "technical",
       gridColumn: "md:col-span-1",
     },
@@ -277,7 +256,7 @@ export function EquipmentForm({
       label: t("serial_number"),
       type: "text",
       required: true,
-      placeholder: "SC2024001",
+      placeholder: t("serial_number_placeholder"),
       group: "technical",
       gridColumn: "md:col-span-1",
     },
@@ -338,7 +317,7 @@ export function EquipmentForm({
       name: "description",
       label: tCommon("description"),
       type: "textarea",
-      placeholder: "설비에 대한 설명을 입력하세요",
+      placeholder: t("description_placeholder"),
       group: "additional",
       gridColumn: "md:col-span-2",
     },
@@ -347,7 +326,7 @@ export function EquipmentForm({
       label: tCommon("active"),
       type: "switch",
       defaultValue: true,
-      description: "비활성화 시 시스템에서 사용할 수 없습니다",
+      description: t("inactive_desc"),
       group: "additional",
       gridColumn: "md:col-span-2",
     },
@@ -380,23 +359,7 @@ export function EquipmentForm({
           description: prop.description,
           group: "properties",
           gridColumn: "md:col-span-1",
-          value: customProperties[prop.code],
-          onChange: (value: any) => {
-            setCustomProperties((prev) => ({
-              ...prev,
-              [prop.code]: value,
-            }));
-          },
         };
-
-        // 타입별 추가 설정
-        if (prop.dataType === "number") {
-          field.min = prop.min;
-          field.max = prop.max;
-          field.suffix = prop.unit ? (
-            <span className="text-sm text-muted-foreground">{prop.unit}</span>
-          ) : undefined;
-        }
 
         if (prop.dataType === "select" || prop.dataType === "multiselect") {
           field.options = prop.options || [];
@@ -404,10 +367,7 @@ export function EquipmentForm({
 
         if (prop.dataType === "string" && prop.regex) {
           field.validation = {
-            pattern: {
-              value: new RegExp(prop.regex),
-              message: `${prop.name} 형식이 올바르지 않습니다`,
-            },
+            pattern: new RegExp(prop.regex),
           };
         }
 
@@ -422,35 +382,32 @@ export function EquipmentForm({
   const formGroups: FormGroup[] = [
     {
       name: "basic",
-      title: t("equipment.basic_info"),
-      description: t("equipment.basic_info_description"),
+      title: t("basic_info"),
+      description: t("basic_info_description"),
     },
     {
       name: "technical",
-      title: t("equipment.technical_info"),
-      description: t("equipment.technical_info_description"),
+      title: t("technical_info"),
+      description: t("technical_info_description"),
     },
     {
       name: "properties",
       title: selectedType
-        ? t("equipment.type_specific_properties", { type: selectedType.name })
-        : t("equipment.properties"),
+        ? t("type_specific_properties", { type: selectedType.name })
+        : t("properties"),
       description: selectedType
-        ? t("equipment.type_specific_properties_description", {
-            type: selectedType.name,
-          })
-        : t("equipment.properties_description"),
-      hidden: !selectedType || customPropertyFields.length === 0,
+        ? t("type_specific_properties_description", { type: selectedType.name })
+        : t("properties_description"),
     },
     {
       name: "status",
-      title: t("equipment.status_info"),
-      description: t("equipment.status_info_description"),
+      title: t("status_info"),
+      description: t("status_info_description"),
     },
     {
       name: "additional",
-      title: t("equipment.additional_info"),
-      description: t("equipment.additional_info_description"),
+      title: t("additional_info"),
+      description: t("additional_info_description"),
     },
   ];
 
@@ -518,23 +475,23 @@ export function EquipmentForm({
       mode={mode}
       title={
         mode === "create"
-          ? "설비 등록"
+          ? t("register_equipment")
           : mode === "edit"
-          ? "설비 수정"
-          : "설비 정보"
+          ? t("edit_equipment")
+          : t("view_equipment")
       }
       description={
         mode === "create"
-          ? "마스터 템플릿을 기반으로 새로운 설비를 등록합니다."
+          ? t("register_equipment_desc")
           : mode === "edit"
-          ? "설비 정보를 수정합니다."
-          : "설비 정보를 확인합니다."
+          ? t("edit_equipment_desc")
+          : t("view_equipment_desc")
       }
       submitText={
         mode === "create"
-          ? "설비 등록"
+          ? t("register_equipment")
           : mode === "edit"
-          ? "수정 완료"
+          ? t("edit_complete")
           : tCommon("confirm")
       }
       open={open}
