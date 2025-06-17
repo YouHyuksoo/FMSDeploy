@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -164,7 +164,6 @@ export function DataTable<T extends Record<string, any>>({
   const [columnFilters, setColumnFilters] = useState<Record<string, any>>({});
   const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(new Set());
   const [showFilters, setShowFilters] = useState(false);
-  const { t } = useTranslation("common");
   const searchPlaceholderText = searchPlaceholder ?? `${t("common.search")}...`;
   const addButtonTextText = addButtonText ?? t("common.add");
   const emptyMessageText = emptyMessage ?? t("common.noData");
