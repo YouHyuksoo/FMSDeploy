@@ -1,0 +1,9 @@
+{
+  "title": "센서 관리",
+  "overview": "센서 현황",
+  "dashboard": "센서 대시보드",
+  "registration_management": "센서 등록",
+  "groups": "센서 그룹 관리",
+  "types": "센서 유형 관리",
+  "analysis": "센서 데이터 분석"
+}

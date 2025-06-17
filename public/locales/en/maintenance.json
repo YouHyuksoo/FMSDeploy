@@ -1,0 +1,14 @@
+{
+  "title": "Maintenance Management",
+  "work_order": "Work Order Management",
+  "plan": "Maintenance Plan Management",
+  "execution": "Maintenance Execution Management",
+  "completion": "Maintenance Completion Management",
+  "approval": "Maintenance Approval Management",
+  "history": "Maintenance History Management",
+  "analysis": "Maintenance Analysis Management",
+  "report": "Maintenance Report Management",
+  "request_management": "Work Request Registration",
+  "plan_management": "Work Plan Assignment",
+  "complete_management": "Work Completion Processing"
+}

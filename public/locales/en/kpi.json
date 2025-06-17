@@ -1,0 +1,11 @@
+{
+  "title": "KPI Management",
+  "dashboard": "KPI Dashboard",
+  "management": "KPI Management",
+  "target": "KPI Target Management",
+  "performance": "KPI Performance Management",
+  "analysis": "KPI Analysis Management",
+  "report": "KPI Report Management",
+  "mtbf": "MTBF Analysis",
+  "health": "Equipment Health Index"
+}

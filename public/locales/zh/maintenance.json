@@ -1,0 +1,11 @@
+{
+  "title": "维护管理",
+  "work_order": "工作指令管理",
+  "plan": "维护计划管理",
+  "execution": "维护执行管理",
+  "completion": "维护完成管理",
+  "approval": "维护审批管理",
+  "history": "维护历史管理",
+  "analysis": "维护分析管理",
+  "report": "维护报告管理"
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Integration Management",
+  "dashboard": "Integration Dashboard",
+  "monitoring": "Integration Monitoring",
+  "analysis": "Integration Analysis",
+  "report": "Integration Report",
+  "erp_management": "ERP Integration",
+  "plc_management": "PLC Integration"
+}

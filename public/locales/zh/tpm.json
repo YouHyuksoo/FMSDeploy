@@ -1,0 +1,10 @@
+{
+  "title": "TPM管理",
+  "plan": "TPM计划管理",
+  "execution": "TPM执行管理",
+  "completion": "TPM完成管理",
+  "approval": "TPM审批管理",
+  "history": "TPM历史管理",
+  "analysis": "TPM分析管理",
+  "report": "TPM报告管理"
+}

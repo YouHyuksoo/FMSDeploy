@@ -1,0 +1,23 @@
+{
+  "title": "传感器管理",
+  "management": "传感器管理",
+  "registration": "传感器注册管理",
+  "master": "传感器主数据管理",
+  "type": "传感器类型管理",
+  "location": "传感器位置管理",
+  "calibration": "传感器校准管理",
+  "data": "传感器数据管理",
+  "real_time": "实时数据管理",
+  "history": "历史数据管理",
+  "analysis": "数据分析管理",
+  "monitoring": "传感器监控",
+  "status": "传感器状态监控",
+  "performance": "传感器性能监控",
+  "alarm": "传感器报警监控",
+  "trend": "传感器趋势监控",
+  "report": "传感器报告",
+  "status_report": "传感器状态报告",
+  "performance_report": "传感器性能报告",
+  "calibration_report": "传感器校准报告",
+  "data_report": "传感器数据报告"
+}

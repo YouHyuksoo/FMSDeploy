@@ -1,0 +1,11 @@
+{
+  "title": "位置管理",
+  "management": "位置管理",
+  "registration": "位置登録管理",
+  "master": "位置マスター管理",
+  "type": "位置タイプ管理",
+  "hierarchy": "位置階層管理",
+  "map": "位置地図管理",
+  "history": "位置履歴管理",
+  "report": "位置レポート管理"
+}

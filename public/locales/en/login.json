@@ -1,0 +1,18 @@
+{
+  "title": "FMS Login",
+  "description": "Log in to the Facility Management System",
+  "company_select": "Select Company",
+  "company_placeholder": "Please select a company",
+  "username": "User ID",
+  "username_placeholder": "Enter your user ID",
+  "password": "Password",
+  "password_placeholder": "Enter your password",
+  "login_button": "Login",
+  "login_loading": "Logging in...",
+  "fill_all_fields": "Please fill in all fields.",
+  "error_message": "Invalid login credentials.",
+  "test_accounts": "Test Accounts:",
+  "admin": "Admin:",
+  "user": "User:",
+  "manager": "Manager:"
+}

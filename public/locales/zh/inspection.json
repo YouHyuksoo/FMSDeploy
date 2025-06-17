@@ -1,0 +1,10 @@
+{
+  "title": "检查管理",
+  "plan": "检查计划管理",
+  "execution": "检查执行管理",
+  "completion": "检查完成管理",
+  "approval": "检查审批管理",
+  "history": "检查历史管理",
+  "analysis": "检查分析管理",
+  "report": "检查报告管理"
+}
