@@ -1,10 +1,6 @@
 {
-  "title": "点検管理",
-  "plan": "点検計画管理",
-  "execution": "点検実行管理",
-  "completion": "点検完了管理",
-  "approval": "点検承認管理",
-  "history": "点検履歴管理",
-  "analysis": "点検分析管理",
-  "report": "点検レポート管理"
+  "schedule": "点検スケジュール設定",
+  "result": "点検結果入力",
+  "calendar": "点検管理カレンダー",
+  "master": "点検マスター管理"
 }

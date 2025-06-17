@@ -1,6 +1,5 @@
 {
-  "title": "에너지관리",
   "dashboard": "에너지 대시보드",
   "monitoring": "에너지 모니터링",
-  "usage_analysis": "에너지 사용 분석"
+  "analysis": "에너지 사용 분석"
 }

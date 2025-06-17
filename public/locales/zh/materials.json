@@ -1,9 +1,8 @@
 {
-  "title": "维护材料管理",
-  "registration_management": "材料注册管理",
-  "master_management": "材料主数据管理",
-  "inventory_management": "库存主数据管理",
-  "inbound": "材料入库管理",
-  "outbound": "材料出库管理",
-  "issuance_request": "材料出库申请"
+  "inbound": "物料入库管理",
+  "outbound": "物料出库管理",
+  "stock": "库存主数据管理",
+  "register": "物料注册管理",
+  "master": "物料主数据管理",
+  "issuance_request": "物料出库申请"
 }

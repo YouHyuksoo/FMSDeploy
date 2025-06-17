@@ -1,6 +1,6 @@
 {
-  "title": "보전작업관리",
-  "request_management": "작업요청등록",
-  "plan_management": "작업계획배정",
-  "complete_management": "작업완료처리"
+  "complete": "작업완료처리",
+  "plan": "작업계획배정",
+  "request": "작업요청등록",
+  "master": "보전마스터관리"
 }

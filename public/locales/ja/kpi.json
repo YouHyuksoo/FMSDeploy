@@ -1,9 +1,5 @@
 {
-  "title": "KPI管理",
   "dashboard": "KPIダッシュボード",
-  "management": "KPI管理",
-  "target": "KPI目標管理",
-  "performance": "KPI実績管理",
-  "analysis": "KPI分析管理",
-  "report": "KPIレポート管理"
+  "mtbf": "MTBF分析",
+  "health": "設備健康指数"
 }

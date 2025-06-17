@@ -1,13 +1,5 @@
 {
-  "title": "能源管理",
+  "dashboard": "能源仪表盘",
   "monitoring": "能源监控",
-  "analysis": "能源分析",
-  "report": "能源报告",
-  "optimization": "能源优化",
-  "efficiency": "能源效率管理",
-  "consumption": "能源消耗管理",
-  "cost": "能源成本管理",
-  "saving": "能源节约管理",
-  "target": "能源目标管理",
-  "performance": "能源绩效管理"
+  "analysis": "能源使用分析"
 }

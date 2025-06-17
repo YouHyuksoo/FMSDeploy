@@ -1,13 +1,6 @@
 {
-  "title": "Inspection Management",
-  "plan": "Inspection Plan Management",
-  "execution": "Inspection Execution Management",
-  "completion": "Inspection Completion Management",
-  "approval": "Inspection Approval Management",
-  "history": "Inspection History Management",
-  "analysis": "Inspection Analysis Management",
-  "report": "Inspection Report Management",
   "schedule": "Inspection Schedule Setting",
   "result": "Inspection Result Input",
-  "calendar": "Inspection Calendar Management"
+  "calendar": "Inspection Management Calendar",
+  "master": "Inspection Master Management"
 }

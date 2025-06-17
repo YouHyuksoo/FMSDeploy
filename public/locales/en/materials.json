@@ -1,9 +1,8 @@
 {
-  "title": "Maintenance Materials Management",
-  "registration_management": "Material Registration Management",
-  "master_management": "Material Master Management",
-  "inventory_management": "Inventory Master Management",
   "inbound": "Material Inbound Management",
   "outbound": "Material Outbound Management",
+  "stock": "Material Stock Management",
+  "register": "Material Registration Management",
+  "master": "Material Master Management",
   "issuance_request": "Material Issuance Request"
 }

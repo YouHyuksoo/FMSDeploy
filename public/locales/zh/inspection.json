@@ -1,10 +1,6 @@
 {
-  "title": "检查管理",
-  "plan": "检查计划管理",
-  "execution": "检查执行管理",
-  "completion": "检查完成管理",
-  "approval": "检查审批管理",
-  "history": "检查历史管理",
-  "analysis": "检查分析管理",
-  "report": "检查报告管理"
+  "schedule": "点检计划设置",
+  "result": "点检结果录入",
+  "calendar": "点检管理日历",
+  "master": "点检主数据管理"
 }

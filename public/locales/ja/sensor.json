@@ -1,23 +1,24 @@
 {
-  "title": "センサー管理",
-  "management": "センサー管理",
-  "registration": "センサー登録管理",
-  "master": "センサーマスター管理",
-  "type": "センサータイプ管理",
-  "location": "センサー位置管理",
-  "calibration": "センサー校正管理",
-  "data": "センサーデータ管理",
-  "real_time": "リアルタイムデータ管理",
-  "history": "履歴データ管理",
-  "analysis": "データ分析管理",
-  "monitoring": "センサーモニタリング",
-  "status": "センサー状態モニタリング",
-  "performance": "センサー性能モニタリング",
-  "alarm": "センサーアラームモニタリング",
-  "trend": "センサートレンドモニタリング",
-  "report": "センサーレポート",
-  "status_report": "センサー状態レポート",
-  "performance_report": "センサー性能レポート",
-  "calibration_report": "センサー校正レポート",
-  "data_report": "センサーデータレポート"
+  "sensorId": "センサーID",
+  "sensorName": "センサー名",
+  "sensorType": "センサータイプ",
+  "type": {
+    "temperature": "温度",
+    "humidity": "湿度",
+    "vibration": "振動",
+    "power": "電力"
+  },
+  "group": "グループ",
+  "location": "位置",
+  "status": {
+    "active": "正常",
+    "warning": "警告",
+    "error": "エラー",
+    "inactive": "非活性"
+  },
+  "lastValue": "最新測定値",
+  "lastUpdate": "最終更新",
+  "sensorOverview": "センサー概要",
+  "searchSensorName": "センサー名",
+  "searchGroup": "グループ"
 }

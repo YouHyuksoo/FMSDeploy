@@ -1,9 +1,8 @@
 {
-  "title": "保全資材管理",
-  "registration_management": "資材登録管理",
-  "master_management": "資材マスター管理",
-  "inventory_management": "在庫マスター管理",
   "inbound": "資材入庫管理",
   "outbound": "資材出庫管理",
-  "issuance_request": "資材出庫要求"
+  "stock": "在庫マスター管理",
+  "register": "資材登録管理",
+  "master": "資材マスター管理",
+  "issuance_request": "資材出庫依頼"
 }

@@ -157,5 +157,35 @@
     "filtered_summary": "{filtered} items filtered (total {total})",
     "total_summary": "Total {count} items",
     "deselect": "Deselect"
-  }
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "energy": "Energy",
+    "materials": "Materials",
+    "equipment": "Equipment",
+    "sensor": "Sensor",
+    "carbon": "Carbon",
+    "kpi": "KPI"
+  },
+  "itemsSelected": "items selected",
+  "itemsDisplayed": "items displayed",
+  "itemsPerPage": "Items per page",
+  "first": "First",
+  "prev": "Previous",
+  "next": "Next",
+  "last": "Last",
+  "filtered": "Filtered",
+  "total": "Total",
+  "items": "items",
+  "add": "Add",
+  "all": "All",
+  "deselect": "Deselect",
+  "resetFilters": "Reset Filters",
+  "search": "Search...",
+  "filter": "Filter",
+  "actions": "Actions",
+  "data": "Data",
+  "columns": "Columns",
+  "displayed": "Displayed",
+  "of": "of"
 }

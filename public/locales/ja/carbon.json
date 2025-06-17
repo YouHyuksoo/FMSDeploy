@@ -1,10 +1,11 @@
 {
-  "title": "カーボン管理",
-  "emission": "カーボン排出管理",
-  "reduction": "カーボン削減管理",
-  "report": "カーボンレポート",
-  "monitoring": "カーボンモニタリング",
-  "analysis": "カーボン分析",
-  "target": "カーボン目標管理",
-  "performance": "カーボン実績管理"
+  "status": "カーボン排出状況",
+  "factor": "排出係数管理",
+  "target": "削減目標管理",
+  "report": "ESGレポート",
+  "prediction": "AIカーボン排出予測",
+  "source": "排出源管理",
+  "reduction": "削減活動管理",
+  "value_chain": "バリューチェーン(Scope 3)管理",
+  "data": "データアップロード/連携"
 }

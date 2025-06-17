@@ -1,19 +1,11 @@
 {
-  "title": "Carbon Management",
-  "emission": "Carbon Emission Management",
-  "reduction": "Carbon Reduction Management",
-  "report": "Carbon Report",
-  "monitoring": "Carbon Monitoring",
-  "analysis": "Carbon Analysis",
-  "target": "Carbon Target Management",
-  "performance": "Carbon Performance Management",
-  "tracking": "Carbon Emission Status",
-  "emission_factors": "Emission Factor Management",
-  "reduction_targets": "Reduction Target Management",
-  "esg_report": "ESG Report",
-  "ai_prediction": "AI Carbon Emission Prediction",
-  "sources": "Emission Source Management",
-  "reduction_activities": "Reduction Activity Management",
-  "scope3": "Value Chain (Scope 3) Management",
-  "data_import": "Data Upload/Integration"
+  "status": "Carbon Emission Status",
+  "factor": "Emission Factor Management",
+  "target": "Reduction Target Management",
+  "report": "ESG Report",
+  "prediction": "AI Carbon Emission Prediction",
+  "source": "Emission Source Management",
+  "reduction": "Reduction Activity Management",
+  "value_chain": "Value Chain (Scope 3) Management",
+  "data": "Data Upload/Integration"
 }

@@ -30,6 +30,7 @@ import { type Sensor } from "@/types/sensor";
 import { mockSensors } from "@/lib/mock-data/sensor";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import { useTranslation } from "@/lib/language-context";
 
 const DataTable = dynamic(
   () => import("@/components/common/data-table").then((mod) => mod.DataTable),
@@ -182,6 +183,7 @@ export default function SensorOverviewPage() {
   const [sensors, setSensors] = useState<Sensor[]>([]);
   const [searchName, setSearchName] = useState("");
   const [searchGroup, setSearchGroup] = useState("");
+  const { t } = useTranslation("sensor");
 
   const handleSearch = () => {
     const filtered = mockSensors.filter((sensor) => {
@@ -198,23 +200,23 @@ export default function SensorOverviewPage() {
     <div className="p-8">
       <Card>
         <CardHeader>
-          <CardTitle>센서 현황</CardTitle>
+          <CardTitle>{t("sensorOverview")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex gap-4 mb-4">
             <Input
-              placeholder="센서명"
+              placeholder={t("searchSensorName")}
               value={searchName}
               onChange={(e) => setSearchName(e.target.value)}
               className="w-48"
             />
             <Input
-              placeholder="그룹"
+              placeholder={t("searchGroup")}
               value={searchGroup}
               onChange={(e) => setSearchGroup(e.target.value)}
               className="w-48"
             />
-            <Button onClick={handleSearch}>조회</Button>
+            <Button onClick={handleSearch}>{t("search")}</Button>
           </div>
           <DataTable
             data={sensors}

@@ -80,538 +80,11 @@ function addExplicitTitleKeys(items: any[], parentKey = "menu"): any[] {
   });
 }
 
-const menuItems = addExplicitTitleKeys([
-  {
-    titleKey: "equipment.title",
-    title: "설비정보관리",
-    icon: Settings,
-    href: "/equipment",
-    children: [
-      {
-        titleKey: "equipment.overview",
-        title: "설비통합조회",
-        href: "/equipment/overview",
-      },
-      {
-        titleKey: "equipment.master_management",
-        title: "설비마스터관리",
-        href: "/equipment/master",
-      },
-      {
-        titleKey: "equipment.registration_management",
-        title: "설비등록관리",
-        href: "/equipment/register",
-      },
-      {
-        titleKey: "equipment.bom_management",
-        title: "설비BOM관리",
-        href: "/equipment/bom",
-      },
-      {
-        titleKey: "equipment.spec",
-        title: "설비사양관리",
-        href: "/equipment/spec",
-      },
-      {
-        titleKey: "equipment.docs",
-        title: "설비자료관리",
-        href: "/equipment/docs",
-      },
-    ],
-  },
-  {
-    titleKey: "sensor.title",
-    title: "센서 관리",
-    icon: Gauge,
-    href: "/sensor",
-    children: [
-      {
-        titleKey: "sensor.overview",
-        title: "센서 현황",
-        href: "/sensor/overview",
-      },
-      {
-        titleKey: "sensor.dashboard",
-        title: "센서 대시보드",
-        href: "/sensor/dashboard",
-      },
-      {
-        titleKey: "sensor.registration_management",
-        title: "센서 등록",
-        href: "/sensor/register",
-      },
-      {
-        titleKey: "sensor.groups",
-        title: "센서 그룹 관리",
-        href: "/sensor/groups",
-      },
-      {
-        titleKey: "sensor.types",
-        title: "센서 유형 관리",
-        href: "/sensor/types",
-      },
-      {
-        titleKey: "sensor.analysis",
-        title: "센서 데이터 분석",
-        icon: BarChart3,
-        href: "/sensor/analysis",
-      },
-    ],
-  },
-  {
-    titleKey: "materials.title",
-    title: "보전자재관리",
-    icon: Package,
-    href: "/materials",
-    children: [
-      {
-        titleKey: "materials.registration_management",
-        title: "자재등록관리",
-        href: "/materials/register",
-      },
-      {
-        titleKey: "materials.master_management",
-        title: "자재마스터관리",
-        href: "/materials/master",
-      },
-      {
-        titleKey: "materials.inventory_management",
-        title: "재고마스터관리",
-        href: "/materials/stock",
-      },
-      {
-        titleKey: "materials.inbound",
-        title: "자재입고관리",
-        href: "/materials/inbound",
-      },
-      {
-        titleKey: "materials.outbound",
-        title: "자재출고관리",
-        href: "/materials/outbound",
-      },
-      {
-        titleKey: "materials.issuance_request",
-        title: "자재출고요청",
-        href: "/materials/issuance-request",
-      },
-    ],
-  },
-  {
-    titleKey: "maintenanceTemplate.title",
-    title: "보전템플릿",
-    icon: FileText,
-    href: "/maintenance-template",
-    children: [
-      {
-        titleKey: "maintenanceTemplate.master",
-        title: "템플릿 마스터 관리",
-        href: "/maintenance-template/master",
-      },
-      {
-        titleKey: "maintenanceTemplate.standard",
-        title: "템플릿 항목 관리",
-        href: "/maintenance-template/standard",
-      },
-    ],
-  },
-  {
-    titleKey: "inspection.title",
-    title: "점검관리",
-    icon: ClipboardCheck,
-    href: "/inspection",
-    children: [
-      {
-        titleKey: "inspection.schedule",
-        title: "점검스케줄설정",
-        href: "/inspection/schedule",
-      },
-      {
-        titleKey: "inspection.result",
-        title: "점검결과입력",
-        href: "/inspection/result",
-      },
-      {
-        titleKey: "inspection.calendar",
-        title: "점검관리카렌더",
-        href: "/inspection/calendar",
-      },
-    ],
-  },
-  {
-    titleKey: "maintenance.title",
-    title: "보전작업관리",
-    icon: Wrench,
-    href: "/maintenance",
-    children: [
-      {
-        titleKey: "maintenance.request_management",
-        title: "작업요청등록",
-        href: "/maintenance/request",
-      },
-      {
-        titleKey: "maintenance.plan_management",
-        title: "작업계획배정",
-        href: "/maintenance/plan",
-      },
-      {
-        titleKey: "maintenance.complete_management",
-        title: "작업완료처리",
-        href: "/maintenance/complete",
-      },
-    ],
-  },
-  {
-    titleKey: "energy.title",
-    title: "에너지관리",
-    icon: Bolt,
-    href: "/energy",
-    children: [
-      {
-        titleKey: "energy.dashboard",
-        title: "에너지 대시보드",
-        href: "/energy/dashboard",
-      },
-      {
-        titleKey: "energy.monitoring",
-        title: "에너지 모니터링",
-        href: "/energy/monitoring",
-      },
-      {
-        titleKey: "energy.usage_analysis",
-        title: "에너지 사용 분석",
-        href: "/energy/analysis",
-      },
-    ],
-  },
-  {
-    titleKey: "carbon.title",
-    title: "탄소관리",
-    icon: Leaf,
-    href: "/carbon",
-    children: [
-      {
-        titleKey: "carbon.tracking",
-        title: "탄소 배출 현황",
-        href: "/carbon/tracking",
-      },
-      {
-        titleKey: "carbon.emission_factors",
-        title: "배출계수 관리",
-        href: "/carbon/emission-factors",
-      },
-      {
-        titleKey: "carbon.reduction_targets",
-        title: "감축 목표 관리",
-        href: "/carbon/targets",
-      },
-      {
-        titleKey: "carbon.esg_report",
-        title: "ESG 보고서",
-        href: "/carbon/esg-report",
-      },
-      {
-        titleKey: "carbon.ai_prediction",
-        title: "AI 탄소배출예측",
-        href: "/carbon/prediction",
-      },
-      {
-        titleKey: "carbon.sources",
-        title: "배출원 관리",
-        href: "/carbon/sources",
-      },
-      {
-        titleKey: "carbon.reduction_activities",
-        title: "감축 활동 관리",
-        href: "/carbon/reduction-activities",
-      },
-      {
-        titleKey: "carbon.scope3",
-        title: "밸류체인(Scope 3) 관리",
-        href: "/carbon/scope3",
-      },
-      {
-        titleKey: "carbon.data_import",
-        title: "데이터 업로드/연동",
-        href: "/carbon/data-import",
-      },
-    ],
-  },
-  {
-    titleKey: "failure.title",
-    title: "고장관리",
-    icon: AlertTriangle,
-    href: "/failure",
-    children: [
-      {
-        titleKey: "failure.registration",
-        title: "고장등록",
-        href: "/failure/desktop-register",
-      },
-      {
-        titleKey: "failure.history",
-        title: "고장이력조회",
-        href: "/failure/history",
-      },
-    ],
-  },
-  {
-    titleKey: "preventive.title",
-    title: "예방정비",
-    icon: Calendar,
-    href: "/preventive",
-    children: [
-      {
-        titleKey: "preventive.master",
-        title: "예방정비마스터",
-        href: "/preventive/master",
-      },
-      {
-        titleKey: "preventive.order",
-        title: "정비오더생성",
-        href: "/preventive/order",
-      },
-      {
-        titleKey: "preventive.calendar",
-        title: "예방정비카렌더",
-        href: "/preventive/calendar",
-      },
-    ],
-  },
-  {
-    titleKey: "metering.title",
-    title: "검침/검교정",
-    icon: Gauge,
-    href: "/metering",
-    children: [
-      {
-        titleKey: "metering.reading_management",
-        title: "검침관리",
-        href: "/metering/reading",
-      },
-      {
-        titleKey: "metering.calibration_management",
-        title: "계측기검교정",
-        href: "/metering/calibration",
-      },
-      {
-        titleKey: "metering.analytics_management",
-        title: "검침분석",
-        href: "/metering/analytics",
-      },
-      {
-        titleKey: "metering.calendar_management",
-        title: "교정일정캘린더",
-        href: "/metering/calendar",
-      },
-    ],
-  },
-  {
-    titleKey: "budget_management.title",
-    title: "예산 및 비용 관리",
-    icon: FileBarChart2,
-    href: "/metering/budget",
-    children: [
-      {
-        titleKey: "budget_management.cost_analysis",
-        title: "예산 비용 분석",
-        href: "/metering/cost-analysis",
-      },
-    ],
-  },
-  {
-    titleKey: "prediction.title",
-    title: "예지보전(AI)",
-    icon: Brain,
-    href: "/prediction",
-    children: [
-      {
-        titleKey: "prediction.result_management",
-        title: "예측결과조회",
-        href: "/prediction/result",
-      },
-      {
-        titleKey: "prediction.sensor_management",
-        title: "센서데이터관리",
-        href: "/prediction/sensor",
-      },
-    ],
-  },
-  {
-    titleKey: "tpm.title",
-    title: "TPM활동관리",
-    icon: Users,
-    href: "/tpm",
-    children: [
-      {
-        titleKey: "tpm.registration",
-        title: "TPM활동등록",
-        href: "/tpm/activity",
-      },
-      {
-        titleKey: "tpm.team",
-        title: "분임조관리",
-        href: "/tpm/team",
-      },
-    ],
-  },
-  {
-    titleKey: "kpi.title",
-    title: "KPI",
-    icon: BarChart3,
-    children: [
-      {
-        titleKey: "kpi.dashboard",
-        title: "KPI 대시보드",
-        href: "/kpi/dashboard",
-      },
-      {
-        titleKey: "kpi.mtbf",
-        title: "MTBF 분석",
-        href: "/kpi/mtbf",
-      },
-      {
-        titleKey: "kpi.health",
-        title: "설비 건강지수",
-        href: "/kpi/health",
-      },
-    ],
-  },
-  {
-    titleKey: "location.title",
-    title: "위치기반모니터링",
-    icon: Map,
-    href: "/location",
-    children: [
-      {
-        titleKey: "location.layout_management",
-        title: "설비배치도",
-        href: "/location/layout",
-      },
-      {
-        titleKey: "location.monitor_management",
-        title: "실시간모니터링",
-        href: "/location/monitor",
-      },
-    ],
-  },
-  {
-    titleKey: "integration.title",
-    title: "외부연동",
-    icon: LinkIcon,
-    href: "/integration",
-    children: [
-      {
-        titleKey: "integration.erp_management",
-        title: "ERP연동",
-        href: "/integration/erp",
-      },
-      {
-        titleKey: "integration.plc_management",
-        title: "PLC연동",
-        href: "/integration/plc",
-      },
-    ],
-  },
-  {
-    titleKey: "mobile.title",
-    title: "모바일QR점검",
-    icon: Smartphone,
-    href: "/mobile",
-    children: [
-      {
-        titleKey: "mobile.qr_management",
-        title: "QR스캔점검",
-        href: "/mobile/qr",
-      },
-      {
-        titleKey: "mobile.result_management",
-        title: "모바일결과조회",
-        href: "/mobile/result",
-      },
-      {
-        titleKey: "mobile.failure_register",
-        title: "고장 등록 (QR)",
-        href: "/mobile-qr/failure-register",
-      },
-    ],
-  },
-  {
-    titleKey: "system.title",
-    title: "시스템관리",
-    icon: Settings,
-    href: "/system",
-    children: [
-      {
-        titleKey: "system.organization_management",
-        title: "조직관리",
-        href: "/system/organization",
-      },
-      {
-        titleKey: "system.users_management",
-        title: "사용자관리",
-        href: "/system/users",
-      },
-      {
-        titleKey: "system.permissions_management",
-        title: "권한관리",
-        href: "/system/permissions",
-      },
-      {
-        titleKey: "system.roles_management",
-        title: "역할관리",
-        href: "/system/permissions/roles",
-      },
-      {
-        titleKey: "system.codes_management",
-        title: "기초코드관리",
-        href: "/system/codes",
-      },
-      {
-        titleKey: "system.config_management",
-        title: "환경설정",
-        href: "/system/config",
-      },
-      {
-        titleKey: "system.language_management",
-        title: "다국어관리",
-        href: "/system/language",
-      },
-      {
-        titleKey: "system.theme_management",
-        title: "테마설정",
-        href: "/system/theme",
-      },
-    ],
-  },
-]);
-
-export const dashboardConfig: DashboardConfig = {
-  mainNav: [
-    {
-      title: "Documentation",
-      href: "/docs",
-    },
-    {
-      title: "Support",
-      href: "/support",
-      disabled: true,
-    },
-  ],
-};
-
-export function Sidebar({ isOpen, onToggle }: SidebarProps) {
+const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const [isMounted, setIsMounted] = useState(false);
-  const { t: tCommon } = useTranslation("common");
-  const { t: tMenu } = useTranslation("menu");
-
-  // Helper function to get translated text with fallback
-  const getTranslatedText = (item: { titleKey?: string; title: string }) => {
-    if (!item.titleKey) return item.title;
-    const translation = tMenu(item.titleKey);
-    return translation || item.title;
-  };
+  const { t } = useTranslation("menu");
 
   const toggleExpanded = (title: string) => {
     setExpandedItems((prev) => {
@@ -657,6 +130,511 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
       );
     }
   }, [expandedItems, isMounted]);
+
+  const menuItems = addExplicitTitleKeys([
+    {
+      titleKey: "equipment.title",
+      title: t("equipment.title"),
+      icon: Settings,
+      href: "/equipment",
+      children: [
+        {
+          titleKey: "equipment.overview",
+          title: t("equipment.overview"),
+          href: "/equipment/overview",
+        },
+        {
+          titleKey: "equipment.master_management",
+          title: t("equipment.master_management"),
+          href: "/equipment/master",
+        },
+        {
+          titleKey: "equipment.registration_management",
+          title: t("equipment.registration_management"),
+          href: "/equipment/register",
+        },
+        {
+          titleKey: "equipment.bom_management",
+          title: t("equipment.bom_management"),
+          href: "/equipment/bom",
+        },
+        {
+          titleKey: "equipment.spec",
+          title: t("equipment.spec"),
+          href: "/equipment/spec",
+        },
+        {
+          titleKey: "equipment.docs",
+          title: t("equipment.docs"),
+          href: "/equipment/docs",
+        },
+      ],
+    },
+    {
+      titleKey: "sensor.title",
+      title: t("sensor.title"),
+      icon: Gauge,
+      href: "/sensor",
+      children: [
+        {
+          titleKey: "sensor.overview",
+          title: t("sensor.overview"),
+          href: "/sensor/overview",
+        },
+        {
+          titleKey: "sensor.dashboard",
+          title: t("sensor.dashboard"),
+          href: "/sensor/dashboard",
+        },
+        {
+          titleKey: "sensor.registration_management",
+          title: t("sensor.registration_management"),
+          href: "/sensor/register",
+        },
+        {
+          titleKey: "sensor.groups",
+          title: t("sensor.groups"),
+          href: "/sensor/groups",
+        },
+        {
+          titleKey: "sensor.types",
+          title: t("sensor.types"),
+          href: "/sensor/types",
+        },
+        {
+          titleKey: "sensor.analysis",
+          title: t("sensor.analysis"),
+          icon: BarChart3,
+          href: "/sensor/analysis",
+        },
+      ],
+    },
+    {
+      titleKey: "materials.title",
+      title: t("materials.title"),
+      icon: Package,
+      href: "/materials",
+      children: [
+        {
+          titleKey: "materials.registration_management",
+          title: t("materials.registration_management"),
+          href: "/materials/register",
+        },
+        {
+          titleKey: "materials.master_management",
+          title: t("materials.master_management"),
+          href: "/materials/master",
+        },
+        {
+          titleKey: "materials.inventory_management",
+          title: t("materials.inventory_management"),
+          href: "/materials/stock",
+        },
+        {
+          titleKey: "materials.inbound",
+          title: t("materials.inbound"),
+          href: "/materials/inbound",
+        },
+        {
+          titleKey: "materials.outbound",
+          title: t("materials.outbound"),
+          href: "/materials/outbound",
+        },
+        {
+          titleKey: "materials.issuance_request",
+          title: t("materials.issuance_request"),
+          href: "/materials/issuance-request",
+        },
+      ],
+    },
+    {
+      titleKey: "maintenanceTemplate.title",
+      title: t("maintenanceTemplate.title"),
+      icon: FileText,
+      href: "/maintenance-template",
+      children: [
+        {
+          titleKey: "maintenanceTemplate.master",
+          title: t("maintenanceTemplate.master"),
+          href: "/maintenance-template/master",
+        },
+        {
+          titleKey: "maintenanceTemplate.standard",
+          title: t("maintenanceTemplate.standard"),
+          href: "/maintenance-template/standard",
+        },
+      ],
+    },
+    {
+      titleKey: "inspection.title",
+      title: t("inspection.title"),
+      icon: ClipboardCheck,
+      href: "/inspection",
+      children: [
+        {
+          titleKey: "inspection.schedule",
+          title: t("inspection.schedule"),
+          href: "/inspection/schedule",
+        },
+        {
+          titleKey: "inspection.result",
+          title: t("inspection.result"),
+          href: "/inspection/result",
+        },
+        {
+          titleKey: "inspection.calendar",
+          title: t("inspection.calendar"),
+          href: "/inspection/calendar",
+        },
+      ],
+    },
+    {
+      titleKey: "maintenance.title",
+      title: t("maintenance.title"),
+      icon: Wrench,
+      href: "/maintenance",
+      children: [
+        {
+          titleKey: "maintenance.request_management",
+          title: t("maintenance.request_management"),
+          href: "/maintenance/request",
+        },
+        {
+          titleKey: "maintenance.plan_management",
+          title: t("maintenance.plan_management"),
+          href: "/maintenance/plan",
+        },
+        {
+          titleKey: "maintenance.complete_management",
+          title: t("maintenance.complete_management"),
+          href: "/maintenance/complete",
+        },
+      ],
+    },
+    {
+      titleKey: "energy.title",
+      title: t("energy.title"),
+      icon: Bolt,
+      href: "/energy",
+      children: [
+        {
+          titleKey: "energy.dashboard",
+          title: t("energy.dashboard"),
+          href: "/energy/dashboard",
+        },
+        {
+          titleKey: "energy.monitoring",
+          title: t("energy.monitoring"),
+          href: "/energy/monitoring",
+        },
+        {
+          titleKey: "energy.usage_analysis",
+          title: t("energy.usage_analysis"),
+          href: "/energy/analysis",
+        },
+      ],
+    },
+    {
+      titleKey: "carbon.title",
+      title: t("carbon.title"),
+      icon: Leaf,
+      href: "/carbon",
+      children: [
+        {
+          titleKey: "carbon.tracking",
+          title: t("carbon.tracking"),
+          href: "/carbon/tracking",
+        },
+        {
+          titleKey: "carbon.emission_factors",
+          title: t("carbon.emission_factors"),
+          href: "/carbon/emission-factors",
+        },
+        {
+          titleKey: "carbon.reduction_targets",
+          title: t("carbon.reduction_targets"),
+          href: "/carbon/targets",
+        },
+        {
+          titleKey: "carbon.esg_report",
+          title: t("carbon.esg_report"),
+          href: "/carbon/esg-report",
+        },
+        {
+          titleKey: "carbon.ai_prediction",
+          title: t("carbon.ai_prediction"),
+          href: "/carbon/prediction",
+        },
+        {
+          titleKey: "carbon.sources",
+          title: t("carbon.sources"),
+          href: "/carbon/sources",
+        },
+        {
+          titleKey: "carbon.reduction_activities",
+          title: t("carbon.reduction_activities"),
+          href: "/carbon/reduction-activities",
+        },
+        {
+          titleKey: "carbon.scope3",
+          title: t("carbon.scope3"),
+          href: "/carbon/scope3",
+        },
+        {
+          titleKey: "carbon.data_import",
+          title: t("carbon.data_import"),
+          href: "/carbon/data-import",
+        },
+      ],
+    },
+    {
+      titleKey: "failure.title",
+      title: t("failure.title"),
+      icon: AlertTriangle,
+      href: "/failure",
+      children: [
+        {
+          titleKey: "failure.registration",
+          title: t("failure.registration"),
+          href: "/failure/desktop-register",
+        },
+        {
+          titleKey: "failure.history",
+          title: t("failure.history"),
+          href: "/failure/history",
+        },
+      ],
+    },
+    {
+      titleKey: "preventive.title",
+      title: t("preventive.title"),
+      icon: Calendar,
+      href: "/preventive",
+      children: [
+        {
+          titleKey: "preventive.master",
+          title: t("preventive.master"),
+          href: "/preventive/master",
+        },
+        {
+          titleKey: "preventive.order",
+          title: t("preventive.order"),
+          href: "/preventive/order",
+        },
+        {
+          titleKey: "preventive.calendar",
+          title: t("preventive.calendar"),
+          href: "/preventive/calendar",
+        },
+      ],
+    },
+    {
+      titleKey: "metering.title",
+      title: t("metering.title"),
+      icon: Gauge,
+      href: "/metering",
+      children: [
+        {
+          titleKey: "metering.reading_management",
+          title: t("metering.reading_management"),
+          href: "/metering/reading",
+        },
+        {
+          titleKey: "metering.calibration_management",
+          title: t("metering.calibration_management"),
+          href: "/metering/calibration",
+        },
+        {
+          titleKey: "metering.analytics_management",
+          title: t("metering.analytics_management"),
+          href: "/metering/analytics",
+        },
+        {
+          titleKey: "metering.calendar_management",
+          title: t("metering.calendar_management"),
+          href: "/metering/calendar",
+        },
+      ],
+    },
+    {
+      titleKey: "budget_management.title",
+      title: t("budget_management.title"),
+      icon: FileBarChart2,
+      href: "/metering/budget",
+      children: [
+        {
+          titleKey: "budget_management.cost_analysis",
+          title: t("budget_management.cost_analysis"),
+          href: "/metering/cost-analysis",
+        },
+      ],
+    },
+    {
+      titleKey: "prediction.title",
+      title: t("prediction.title"),
+      icon: Brain,
+      href: "/prediction",
+      children: [
+        {
+          titleKey: "prediction.result_management",
+          title: t("prediction.result_management"),
+          href: "/prediction/result",
+        },
+        {
+          titleKey: "prediction.sensor_management",
+          title: t("prediction.sensor_management"),
+          href: "/prediction/sensor",
+        },
+      ],
+    },
+    {
+      titleKey: "tpm.title",
+      title: t("tpm.title"),
+      icon: Users,
+      href: "/tpm",
+      children: [
+        {
+          titleKey: "tpm.registration",
+          title: t("tpm.registration"),
+          href: "/tpm/activity",
+        },
+        {
+          titleKey: "tpm.team",
+          title: t("tpm.team"),
+          href: "/tpm/team",
+        },
+      ],
+    },
+    {
+      titleKey: "kpi.title",
+      title: t("kpi.title"),
+      icon: BarChart3,
+      children: [
+        {
+          titleKey: "kpi.dashboard",
+          title: t("kpi.dashboard"),
+          href: "/kpi/dashboard",
+        },
+        {
+          titleKey: "kpi.mtbf",
+          title: t("kpi.mtbf"),
+          href: "/kpi/mtbf",
+        },
+        {
+          titleKey: "kpi.health",
+          title: t("kpi.health"),
+          href: "/kpi/health",
+        },
+      ],
+    },
+    {
+      titleKey: "location.title",
+      title: t("location.title"),
+      icon: Map,
+      href: "/location",
+      children: [
+        {
+          titleKey: "location.layout_management",
+          title: t("location.layout_management"),
+          href: "/location/layout",
+        },
+        {
+          titleKey: "location.monitor_management",
+          title: t("location.monitor_management"),
+          href: "/location/monitor",
+        },
+      ],
+    },
+    {
+      titleKey: "integration.title",
+      title: t("integration.title"),
+      icon: LinkIcon,
+      href: "/integration",
+      children: [
+        {
+          titleKey: "integration.erp_management",
+          title: t("integration.erp_management"),
+          href: "/integration/erp",
+        },
+        {
+          titleKey: "integration.plc_management",
+          title: t("integration.plc_management"),
+          href: "/integration/plc",
+        },
+      ],
+    },
+    {
+      titleKey: "mobile.title",
+      title: t("mobile.title"),
+      icon: Smartphone,
+      href: "/mobile",
+      children: [
+        {
+          titleKey: "mobile.qr_management",
+          title: t("mobile.qr_management"),
+          href: "/mobile/qr",
+        },
+        {
+          titleKey: "mobile.result_management",
+          title: t("mobile.result_management"),
+          href: "/mobile/result",
+        },
+        {
+          titleKey: "mobile.failure_register",
+          title: t("mobile.failure_register"),
+          href: "/mobile-qr/failure-register",
+        },
+      ],
+    },
+    {
+      titleKey: "system.title",
+      title: t("system.title"),
+      icon: Settings,
+      href: "/system",
+      children: [
+        {
+          titleKey: "system.organization_management",
+          title: t("system.organization_management"),
+          href: "/system/organization",
+        },
+        {
+          titleKey: "system.users_management",
+          title: t("system.users_management"),
+          href: "/system/users",
+        },
+        {
+          titleKey: "system.permissions_management",
+          title: t("system.permissions_management"),
+          href: "/system/permissions",
+        },
+        {
+          titleKey: "system.roles_management",
+          title: t("system.roles_management"),
+          href: "/system/permissions/roles",
+        },
+        {
+          titleKey: "system.codes_management",
+          title: t("system.codes_management"),
+          href: "/system/codes",
+        },
+        {
+          titleKey: "system.config_management",
+          title: t("system.config_management"),
+          href: "/system/config",
+        },
+        {
+          titleKey: "system.language_management",
+          title: t("system.language_management"),
+          href: "/system/language",
+        },
+        {
+          titleKey: "system.theme_management",
+          title: t("system.theme_management"),
+          href: "/system/theme",
+        },
+      ],
+    },
+  ]);
 
   return (
     <div
@@ -714,9 +692,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
                 >
                   <Icon className="h-5 w-5 shrink-0" />
                   {isOpen && (
-                    <span className="ml-3 truncate">
-                      {getTranslatedText(item)}
-                    </span>
+                    <span className="ml-3 truncate">{item.title}</span>
                   )}
                 </Link>
               ) : (
@@ -732,9 +708,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
                   <Icon className="h-5 w-5 shrink-0" />
                   {isOpen && (
                     <>
-                      <span className="ml-3 truncate">
-                        {getTranslatedText(item)}
-                      </span>
+                      <span className="ml-3 truncate">{item.title}</span>
                       <div className="ml-auto">
                         {isExpanded ? (
                           <ChevronDown className="h-4 w-4" />
@@ -764,9 +738,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
                             : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                         )}
                       >
-                        <span className="truncate">
-                          {getTranslatedText(child)}
-                        </span>
+                        <span className="truncate">{child.title}</span>
                       </Link>
                     );
                   })}
@@ -778,7 +750,21 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
       </nav>
     </div>
   );
-}
+};
+
+export const dashboardConfig: DashboardConfig = {
+  mainNav: [
+    {
+      title: "Documentation",
+      href: "/docs",
+    },
+    {
+      title: "Support",
+      href: "/support",
+      disabled: true,
+    },
+  ],
+};
 
 export function MobileSidebar() {
   return (

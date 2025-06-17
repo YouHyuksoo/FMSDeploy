@@ -1,9 +1,24 @@
 {
-  "title": "센서 관리",
-  "overview": "센서 현황",
-  "dashboard": "센서 대시보드",
-  "registration_management": "센서 등록",
-  "groups": "센서 그룹 관리",
-  "types": "센서 유형 관리",
-  "analysis": "센서 데이터 분석"
+  "sensorId": "센서 ID",
+  "sensorName": "센서명",
+  "sensorType": "센서 유형",
+  "type": {
+    "temperature": "온도",
+    "humidity": "습도",
+    "vibration": "진동",
+    "power": "전력"
+  },
+  "group": "그룹",
+  "location": "위치",
+  "status": {
+    "active": "정상",
+    "warning": "경고",
+    "error": "오류",
+    "inactive": "비활성"
+  },
+  "lastValue": "최근 측정값",
+  "lastUpdate": "최근 업데이트",
+  "sensorOverview": "센서 현황",
+  "searchSensorName": "센서명",
+  "searchGroup": "그룹"
 }

@@ -1,12 +1,4 @@
 {
-  "title": "TPM Management",
-  "plan": "TPM Plan Management",
-  "execution": "TPM Execution Management",
-  "completion": "TPM Completion Management",
-  "approval": "TPM Approval Management",
-  "history": "TPM History Management",
-  "analysis": "TPM Analysis Management",
-  "report": "TPM Report Management",
-  "registration": "TPM Activity Registration",
+  "activity": "TPM Activity Registration",
   "team": "Team Management"
 }

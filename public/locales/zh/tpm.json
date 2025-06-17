@@ -6,5 +6,7 @@
   "approval": "TPM审批管理",
   "history": "TPM历史管理",
   "analysis": "TPM分析管理",
-  "report": "TPM报告管理"
+  "report": "TPM报告管理",
+  "activity": "TPM活动登记",
+  "team": "小组管理"
 }
