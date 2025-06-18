@@ -1,5 +1,20 @@
 {
   "title": "대시보드",
+  "subtitle": "설비 및 유지보수 현황에 대한 요약입니다.",
+  "total_equipment": "총 설비",
+  "failed_equipment": "고장 설비",
+  "inspection_rate": "점검 실행률",
+  "pending_work": "대기 작업",
+  "from_last_month": "지난 달 대비",
+  "recent_failures": "최근 고장 이력",
+  "recent_failures_desc": "최근에 발생한 고장 내역입니다.",
+  "todays_inspection": "금일 점검 일정",
+  "todays_inspection_desc": "오늘 예정된 점검 목록입니다.",
+  "inspection_status": {
+    "completed": "완료",
+    "in_progress": "진행중",
+    "pending": "대기"
+  },
   "overview": "개요",
   "equipment": {
     "status": "설비 상태",

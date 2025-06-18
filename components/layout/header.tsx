@@ -32,10 +32,46 @@ import {
   supportedLanguages,
 } from "@/lib/language-context";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface HeaderProps {
   onMenuToggle: () => void;
 }
+
+const Breadcrumb: React.FC = () => {
+  const pathname = usePathname();
+  const { t } = useTranslation("menu");
+
+  const pathParts = pathname.split("/").filter((p) => p);
+
+  if (pathParts.length === 0) {
+    return <div className="text-lg font-semibold">{t("dashboard.title")}</div>;
+  }
+
+  const mainCategory = pathParts[0];
+  const subCategory = pathParts[1];
+
+  const mainTitle = t(`${mainCategory}.title`);
+
+  if (!subCategory) {
+    return <div className="text-lg font-semibold">{mainTitle}</div>;
+  }
+
+  const subTitle = t(`${mainCategory}.${subCategory}`);
+
+  return (
+    <div className="text-lg flex items-center font-semibold">
+      <Link
+        href={`/${mainCategory}`}
+        className="text-muted-foreground hover:text-primary font-medium"
+      >
+        {mainTitle}
+      </Link>
+      <span className="mx-2 text-muted-foreground">/</span>
+      <span className="text-foreground">{subTitle}</span>
+    </div>
+  );
+};
 
 export function Header({ onMenuToggle }: HeaderProps) {
   const [mounted, setMounted] = React.useState(false);
@@ -81,11 +117,7 @@ export function Header({ onMenuToggle }: HeaderProps) {
           <Button variant="ghost" size="icon" onClick={onMenuToggle}>
             <Menu className="h-5 w-5" />
           </Button>
-          <Link href="/" className="hover:text-primary transition-colors">
-            <h1 className="text-xl font-semibold text-foreground">
-              {t("title")}
-            </h1>
-          </Link>
+          <Breadcrumb />
         </div>
 
         <div className="flex items-center gap-4">

@@ -1,4 +1,7 @@
 {
+  "dashboard": {
+    "title": "대시보드"
+  },
   "equipment": {
     "title": "설비정보관리",
     "overview": "설비통합조회",
@@ -124,6 +127,8 @@
     "codes_management": "기초코드관리",
     "config_management": "환경설정",
     "language_management": "다국어관리",
-    "theme_management": "테마설정"
+    "theme_management": "테마설정",
+    "code_management": "코드관리",
+    "configuration": "환경설정관리"
   }
 }

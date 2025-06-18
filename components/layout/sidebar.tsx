@@ -618,19 +618,14 @@ const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
           href: "/system/codes",
         },
         {
-          titleKey: "system.config_management",
-          title: t("system.config_management"),
-          href: "/system/config",
+          titleKey: "system.configuration",
+          title: t("system.configuration"),
+          href: "/system/configuration",
         },
         {
           titleKey: "system.language_management",
           title: t("system.language_management"),
           href: "/system/language",
-        },
-        {
-          titleKey: "system.theme_management",
-          title: t("system.theme_management"),
-          href: "/system/theme",
         },
       ],
     },
